@@ -79,6 +79,45 @@
             });
         });
 
+        // Create a material
+        var mtlLoader = new MTLLoader();
+        mtlLoader.load('polyhedron/polyhedron_green.mtl', function (materials) {
+
+            materials.preload();
+
+            // Load the object
+            var objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load('polyhedron/polyhedron_green.obj', function (object) {
+                scene.add(object);
+                ourObj2 = object;
+                object.position.z -= 370;
+                object.rotation.x = 250;
+
+            /* this.tl = new TimelineMax();
+                this.tl.from(ourObj2.scale, 2, {y: 0, x:0, z: 0, ease: Expo.easeOut})
+                this.tl.from(ourObj2.position, 2, {y: 0, z: -30,  ease: Expo.easeOut})
+                this.tl.from(ourObj.scale, 2, {x: 1.5, y: 1.5, z: 0, ease: Expo.easeOut}, '-=2')
+                this.tl.from(ourObj.position, 1, {y: -20, ease: Expo.easeOut}, '-=3')*/
+            });
+            
+        });
+
+        var render = function() {
+            requestAnimationFrame(render);
+            
+            // Rotate the objects indefinitely (every time you render a new object, it increments the roation for the other ones...FIX)
+            /*ourObj.rotation.z += .01;
+            ourObj2.rotation.z += .01;
+            ourObj3.rotation.z += .01;*/
+
+            
+            renderer.render(scene, camera);
+        }
+
+        // Call this to render the entire scene
+        render();
+
     </script>
 
 </body>
