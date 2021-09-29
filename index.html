@@ -104,13 +104,13 @@
         });
 
         // Create a material
-        var mtlLoader = new THREE.MTLLoader();
+        var mtlLoader = new MTLLoader();
         mtlLoader.load('tube/tube_blue.mtl', function (materials) {
 
             materials.preload();
 
             // Load the object
-            var objLoader = new THREE.OBJLoader();
+            var objLoader = new OBJLoader();
             objLoader.setMaterials(materials);
             objLoader.load('tube/tube_blue.obj', function (object) {
                 scene.add(object);
