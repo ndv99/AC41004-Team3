@@ -103,6 +103,24 @@
             
         });
 
+        // Create a material
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.load('tube/tube_blue.mtl', function (materials) {
+
+            materials.preload();
+
+            // Load the object
+            var objLoader = new THREE.OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load('tube/tube_blue.obj', function (object) {
+                scene.add(object);
+                ourObj3 = object;
+                object.position.z -= 370;
+                object.rotation.x = 250;
+
+            });
+        });
+
         var render = function() {
             requestAnimationFrame(render);
             
@@ -117,6 +135,41 @@
 
         // Call this to render the entire scene
         render();
+
+        //------------------------------------------------------------------------
+        //             TEST RE-RENDER OF OBJECT IN DIFFERENT COLOUR
+        //------------------------------------------------------------------------
+
+        var delayInMilliseconds = 4000; //1 second
+
+        setTimeout(function() {
+        
+        //Delete object
+        //var selectedObject = scene.getObjectByName();
+        
+        scene.remove(ourObj);
+
+        // Create a material
+        var mtlLoader = new MTLLoader();
+        mtlLoader.load('cylinder/cylinder_green.mtl', function (materials) {
+
+            materials.preload();
+
+            // Load the object
+            var objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load('cylinder/cylinder_green.obj', function (object) {
+                scene.add(object);
+                ourObj = object;
+                object.position.z -= 370;
+                object.rotation.x = 250;
+
+            });
+        });
+
+        render();
+
+        }, delayInMilliseconds);
 
     </script>
 
