@@ -1,3 +1,16 @@
+<!-- 
+    TO-DO LIST 
+·Sort out perspective (Make z axis = y axis)
+·Figure out coordinate system (https://threejs.org/docs/#api/en/objects/Group)
+    ·Render new shape in same place as other objects
+·Try find a better way of changing colour of objects (object.material.color)
+·Drag and rotate
+·Function for object creation
+·Function for mapping of CSV file data to RGB
+
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,7 +106,8 @@
                 ourObj2 = object;
                 object.position.z -= 370;
                 object.rotation.x = 250;
-
+                
+            //emerge from ground up (supposedly)
             /* this.tl = new TimelineMax();
                 this.tl.from(ourObj2.scale, 2, {y: 0, x:0, z: 0, ease: Expo.easeOut})
                 this.tl.from(ourObj2.position, 2, {y: 0, z: -30,  ease: Expo.easeOut})
@@ -136,9 +150,9 @@
         // Call this to render the entire scene
         render();
 
-        //------------------------------------------------------------------------
-        //             TEST RE-RENDER OF OBJECT IN DIFFERENT COLOUR
-        //------------------------------------------------------------------------
+        //------------------------------------------------------------------------//
+        //             TEST RE-RENDER OF OBJECT IN DIFFERENT COLOUR               //  
+        //------------------------------------------------------------------------//
 
         var delayInMilliseconds = 4000; //1 second
 
