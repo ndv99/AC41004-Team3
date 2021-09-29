@@ -22,13 +22,13 @@
 	<?php 
 		if ($_SESSION['role'] != "athlete") {
 			echo "<p>Your clients are:</p>";
-			$query = "SELECT `clientID` FROM `relationship` WHERE `staffID` = ".$_SESSION["UserID"].";";
+			$query = "SELECT `client_id` FROM `physio_athlete` WHERE `staff_id` = ".$_SESSION["UserID"].";";
 			$stmt = $pdo->prepare($query);
 	    	$stmt->execute();
 	    	$row = $stmt->fetchAll();
 	    	foreach ($row as $row2) {
 			   //echo $row2["clientID"];
-			   $clientID = $row2["clientID"];
+			   $clientID = $row2["client_id"];
 			   $query2 = "SELECT * FROM `user` WHERE `user_id` = ".$clientID.";";
 			   $stmt2 = $pdo->prepare($query2);
 	    	   $stmt2->execute();
@@ -39,6 +39,8 @@
 			}
 		}
 	?>
+
+
 
 </body>
 </html>
