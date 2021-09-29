@@ -10,9 +10,9 @@
 
 <body>
     <script type="module">
-        import { Scene, PerspectiveCamera, WebGLRenderer, PointLight } from '/js/src/Three.js';
-        import { MTLLoader } from '/js/threejs/examples/jsm/MTLLoader.js';
-        import { OBJLoader } from '/js/threejs/examples/jsm/OBJLoader.js';
+        import { Scene, PerspectiveCamera, WebGLRenderer, PointLight, Group, Mesh } from '/js/threejs/src/Three.js';
+        import { MTLLoader } from '/js/threejs/examples/jsm/loaders/MTLLoader.js';
+        import { OBJLoader } from '/js/threejs/examples/jsm/loaders/OBJLoader.js';
 
         // Create the Three.js Scene
         const scene = new Scene();
@@ -47,19 +47,37 @@
         var ourObj3;
 
         // Create parent, set its pos to 0, 5, 0
-        var parent = new THREE.Group();
+        var parent = new Group();
         scene.add(parent);
         parent.position.set(0, 5, 0);
 
         // create child, and add to parent
-        var child1 = new THREE.Mesh(geom, mat);
-        parent.add(child1);
-        child1.position.set(1, 0, 0);
+        // var child1 = new Mesh(geom, mat);
+        // parent.add(child1);
+        // child1.position.set(1, 0, 0);
 
         // create child, and add to parent
-        var child2 = new THREE.Mesh(geom, mat);
-        parent.add(child2);
-        child2.position.set(0, 1, 0);
+        // var child2 = new Mesh(geom, mat);
+        // parent.add(child2);
+        // child2.position.set(0, 1, 0);
+
+        // Create a material
+        var mtlLoader = new MTLLoader();
+        mtlLoader.load('cylinder/cylinder_red.mtl', function (materials) {
+
+            materials.preload();
+
+            // Load the object
+            var objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load('cylinder/cylinder_red.obj', function (object) {
+                scene.add(object);
+                ourObj = object;
+                object.position.z -= 370;
+                object.rotation.x = 250;
+
+            });
+        });
 
     </script>
 
