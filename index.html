@@ -1,191 +1,192 @@
 <!-- 
-    TO-DO LIST 
-·Sort out perspective (Make z axis = y axis)
-·Figure out coordinate system (https://threejs.org/docs/#api/en/objects/Group)
-    ·Render new shape in same place as other objects
-·Try find a better way of changing colour of objects (object.material.color)
-·Drag and rotate
-·Function for object creation
-·Function for mapping of CSV file data to RGB
-
+Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 -->
-
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/main.css">
-</head>
+	<head>
+		<title>three.js webgl - orbit controls</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+		<style>
+			body {
+				background-color: #ccc;
+				color: #000;
+			}
 
-<body>
-    <script type="module">
-        import { Scene, PerspectiveCamera, WebGLRenderer, PointLight, Group, Mesh } from '/js/threejs/src/Three.js';
-        import { MTLLoader } from '/js/threejs/examples/jsm/loaders/MTLLoader.js';
-        import { OBJLoader } from '/js/threejs/examples/jsm/loaders/OBJLoader.js';
+			a {
+				color: #f00;
+			}
+		</style>
+	</head>
 
-        // Create the Three.js Scene
-        const scene = new Scene();
+	<body>
 
-        // Create a new Perspective Camera
-        var camera = new PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000)
-        camera.position.z = 25;
+		<script type="module">
 
-        // Create a Full Screen WebGL Renderer
-        const renderer = new WebGLRenderer({antialias: true, alpha: true});
-        renderer.setClearColor("#DDDDDD");
-        renderer.setSize(window.innerWidth,window.innerHeight);
+			import * as THREE from '/js/threejs/build/three.module.js';
+            import { MTLLoader } from '/js/threejs/examples/jsm/loaders/MTLLoader.js';
+            import { OBJLoader } from '/js/threejs/examples/jsm/loaders/OBJLoader.js';
+			import { OrbitControls } from '/js/threejs/examples/jsm/controls/OrbitControls.js';
 
-        document.body.appendChild(renderer.domElement);
+			let camera, controls, scene, renderer;
 
-        // Make sure the project is responsive based on window resizing
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth,window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
+			init();
+			//render(); // remove when using next line for animation loop (requestAnimationFrame)
+			animate();
 
-            camera.updateProjectionMatrix();
-        })
+			function init() {
 
-        // Add a light
-        const light = new PointLight(0xFFFFFF, 1.4, 1000)
-        light.position.set(0,15,15);
-        scene.add(light);
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xcccccc );
+				// scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
-        // Defining a variable for our two models
-        var ourObj;
-        var ourObj2;
-        var ourObj3;
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
 
-        // Create parent, set its pos to 0, 5, 0
-        var parent = new Group();
-        scene.add(parent);
-        parent.position.set(0, 5, 0);
+				camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
+				camera.position.set( 400, 200, 0 );
 
-        // create child, and add to parent
-        // var child1 = new Mesh(geom, mat);
-        // parent.add(child1);
-        // child1.position.set(1, 0, 0);
+				// controls
 
-        // create child, and add to parent
-        // var child2 = new Mesh(geom, mat);
-        // parent.add(child2);
-        // child2.position.set(0, 1, 0);
+				controls = new OrbitControls( camera, renderer.domElement );
+				controls.listenToKeyEvents( window ); // optional
 
-        // Create a material
-        var mtlLoader = new MTLLoader();
-        mtlLoader.load('cylinder/cylinder_red.mtl', function (materials) {
+				//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 
-            materials.preload();
+				controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+				controls.dampingFactor = 0.05;
 
-            // Load the object
-            var objLoader = new OBJLoader();
-            objLoader.setMaterials(materials);
-            objLoader.load('cylinder/cylinder_red.obj', function (object) {
-                scene.add(object);
-                ourObj = object;
-                object.position.z -= 370;
-                object.rotation.x = 250;
+				controls.screenSpacePanning = false;
 
-            });
-        });
+				controls.minDistance = 100;
+				controls.maxDistance = 500;
 
-        // Create a material
-        var mtlLoader = new MTLLoader();
-        mtlLoader.load('polyhedron/polyhedron_green.mtl', function (materials) {
+				controls.maxPolarAngle = Math.PI / 2;
 
-            materials.preload();
+				// world
 
-            // Load the object
-            var objLoader = new OBJLoader();
-            objLoader.setMaterials(materials);
-            objLoader.load('polyhedron/polyhedron_green.obj', function (object) {
-                scene.add(object);
-                ourObj2 = object;
-                object.position.z -= 370;
-                object.rotation.x = 250;
+				// const geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
+				// const material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+
+				// for ( let i = 0; i < 500; i ++ ) {
+
+				// 	const mesh = new THREE.Mesh( geometry, material );
+				// 	mesh.position.x = Math.random() * 1600 - 800;
+				// 	mesh.position.y = 0;
+				// 	mesh.position.z = Math.random() * 1600 - 800;
+				// 	mesh.updateMatrix();
+				// 	mesh.matrixAutoUpdate = false;
+				// 	scene.add( mesh );
+
+				// }
+
+				// Our own code to load in our models
+				
+                var ourObj;
                 
-            //emerge from ground up (supposedly)
-            /* this.tl = new TimelineMax();
-                this.tl.from(ourObj2.scale, 2, {y: 0, x:0, z: 0, ease: Expo.easeOut})
-                this.tl.from(ourObj2.position, 2, {y: 0, z: -30,  ease: Expo.easeOut})
-                this.tl.from(ourObj.scale, 2, {x: 1.5, y: 1.5, z: 0, ease: Expo.easeOut}, '-=2')
-                this.tl.from(ourObj.position, 1, {y: -20, ease: Expo.easeOut}, '-=3')*/
-            });
-            
-        });
+                // Create a material
+				var mtlLoader = new MTLLoader();
+				mtlLoader.load('cylinder/cylinder_red.mtl', function (materials) {
 
-        // Create a material
-        var mtlLoader = new MTLLoader();
-        mtlLoader.load('tube/tube_blue.mtl', function (materials) {
+					materials.preload();
 
-            materials.preload();
+					// Load the object
+					var objLoader = new OBJLoader();
+					objLoader.setMaterials(materials);
+					objLoader.load('cylinder/cylinder_red.obj', function (object) {
+						scene.add(object);
+						ourObj = object;
+						object.position.z = 0;
+						object.rotation.x = 0;
 
-            // Load the object
-            var objLoader = new OBJLoader();
-            objLoader.setMaterials(materials);
-            objLoader.load('tube/tube_blue.obj', function (object) {
-                scene.add(object);
-                ourObj3 = object;
-                object.position.z -= 370;
-                object.rotation.x = 250;
+					});
+				});
 
-            });
-        });
+                // Create a material
+                var mtlLoader = new MTLLoader();
+                mtlLoader.load('polyhedron/polyhedron_green.mtl', function (materials) {
 
-        var render = function() {
-            requestAnimationFrame(render);
-            
-            // Rotate the objects indefinitely (every time you render a new object, it increments the roation for the other ones...FIX)
-            ourObj.rotation.z += .01;
-            ourObj2.rotation.z += .01;
-            ourObj3.rotation.z += .01;
+                    materials.preload();
 
-            
-            renderer.render(scene, camera);
-        }
+                    // Load the object
+                    var objLoader = new OBJLoader();
+                    objLoader.setMaterials(materials);
+                    objLoader.load('polyhedron/polyhedron_green.obj', function (object) {
+                        scene.add(object);
+                        ourObj2 = object;
+                        object.position.z -= 370;
+                        object.rotation.x = 250;
+                        
+                    });
+                    
+                });
 
-        // Call this to render the entire scene
-        render();
+                // Create a material
+                var mtlLoader = new MTLLoader();
+                mtlLoader.load('tube/tube_blue.mtl', function (materials) {
 
-        //------------------------------------------------------------------------//
-        //             TEST RE-RENDER OF OBJECT IN DIFFERENT COLOUR               //  
-        //------------------------------------------------------------------------//
+                    materials.preload();
 
-        var delayInMilliseconds = 4000; //1 second
+                    // Load the object
+                    var objLoader = new OBJLoader();
+                    objLoader.setMaterials(materials);
+                    objLoader.load('tube/tube_blue.obj', function (object) {
+                        scene.add(object);
+                        ourObj3 = object;
+                        object.position.z -= 370;
+                        object.rotation.x = 250;
 
-        setTimeout(function() {
-        
-        //Delete object
-        //var selectedObject = scene.getObjectByName();
-        
-        scene.remove(ourObj);
+                    });
+                });
+                
+				// lights
+				let light, light2, light3, light4;
+                light = new THREE.PointLight(0xc4c4c4,1);
+                light.position.set(0,300,500);
+                scene.add(light);
+                light2 = new THREE.PointLight(0xc4c4c4,1);
+                light2.position.set(500,100,0);
+                scene.add(light2);
+                light3 = new THREE.PointLight(0xc4c4c4,1);
+                light3.position.set(0,100,-500);
+                scene.add(light3);
+                light4 = new THREE.PointLight(0xc4c4c4,1);
+                light4.position.set(-500,300,500);
+                scene.add(light4);
 
-        // Create a material
-        var mtlLoader = new MTLLoader();
-        mtlLoader.load('cylinder/cylinder_green.mtl', function (materials) {
+				window.addEventListener( 'resize', onWindowResize );
 
-            materials.preload();
+			}
 
-            // Load the object
-            var objLoader = new OBJLoader();
-            objLoader.setMaterials(materials);
-            objLoader.load('cylinder/cylinder_green.obj', function (object) {
-                scene.add(object);
-                ourObj = object;
-                object.position.z -= 370;
-                object.rotation.x = 250;
+			function onWindowResize() {
 
-            });
-        });
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
 
-        render();
+				renderer.setSize( window.innerWidth, window.innerHeight );
 
-        }, delayInMilliseconds);
+			}
 
-    </script>
+			function animate() {
 
-</body>
+				requestAnimationFrame( animate );
+
+				controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
+
+				render();
+
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
 </html>
