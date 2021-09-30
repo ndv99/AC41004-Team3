@@ -3,6 +3,10 @@
 if (isset($_POST["import"])) {
   $fileName = $_FILES["csv_file"]["tmp_name"];
   $sensor_choice = filter_input(INPUT_POST, 'sensor_options', FILTER_SANITIZE_STRING);
+  
+  session_start();
+  require('../db_connect.php');
+  $sensor = $_POST['sensor'];
 
   if ($_FILES["csv_file"]["size"] > 0) {
     // to check if a sensor option was picked
@@ -95,11 +99,12 @@ if (isset($_POST["import"])) {
           // the generated hex value for the colours
           $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
 
+
           echo "$colour <br />\n";
           echo "$colour_code $colour_hex_values <br />\n";
         } else if ($value >= 257 && $value <= 512) {
           $colour_percent= (512-$value)/256;
-          $colour="yellow";
+          $colour="yellow"; 
 
           // the generated hex value for the colours
           $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
@@ -159,6 +164,8 @@ if (isset($_POST["import"])) {
 
               //$stmt = $pdo->prepare("INSERT INTO `sensor_data`(`user_id`, `date`, `time`, `value`, `sensor_no`) VALUES ('1','". $date ."','" . $time ."','". $csv_data[1] ."','PUT SENSOR ID HERE')");
               //$stmt->execute();
+               $stmt = $pdo->prepare("INSERT INTO `sensor_data`(`user_id`, `date`, `time`, `value`, `sensor_no`) VALUES ('".$_SESSION['UserID']."','". $date ."','" . $time ."','". $csv_data[1] ."','". $sensor."')");
+               $stmt->execute();
 
             }
           }
