@@ -57,7 +57,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				controls.screenSpacePanning = false;
 
-				controls.minDistance = 100;
+				controls.minDistance = 300;
 				controls.maxDistance = 500;
 
 				controls.maxPolarAngle = Math.PI / 2;
@@ -98,65 +98,34 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				// 	});
 				// });
+                function loadObject ( obj_name, obj_path, obj_color ){
+                    var material = new MeshBasicMaterial( { color: obj_color } );
+                    var loader = new OBJLoader();
+                    loader.load( obj_path,
+                        function( obj ){
+                            obj.traverse( function( child ) {
+                                if ( child instanceof Mesh ) {
+                                    child.material = material;
+                                }
+                            } );
+                            obj.name = obj_name;
+                            obj.scale.set(0.5, 0.5, 0.5);
+                            scene.add( obj );
+                        },
+                        function( xhr ){
+                            console.log( (xhr.loaded / xhr.total * 100) + "% loaded")
+                        },
+                        function( err ){
+                            console.error( "Error loading " + obj_path)
+                        }
+                    );
+                }
 
-                var material_1 = new MeshBasicMaterial( { color: 0x00FF00 } );
-                var loader = new OBJLoader();
-                loader.load( 'shapes/cylinder_green.obj',
-                    function( obj ){
-                        obj.traverse( function( child ) {
-                            if ( child instanceof Mesh ) {
-                                child.material = material_1;
-                            }
-                        } );
-                        obj.name = "ourObj";
-                        scene.add( obj );
-                    },
-                    function( xhr ){
-                        console.log( (xhr.loaded / xhr.total * 100) + "% loaded")
-                    },
-                    function( err ){
-                        console.error( "Error loading 'shapes/cylinder_green.obj'")
-                    }
-                );
+                loadObject("ourObj", "shapes/cylinder_green.obj", 0x00FF00);
+                loadObject("ourObj2", "shapes/polyhedron_red.obj", 0xFF0000);
+                loadObject("ourObj3", "shapes/tube_blue.obj", 0x0000FF);
 
                 // ourObj = scene.getObjectByName( "ourObj" );
-
-                // Create a material
-                var mtlLoader = new MTLLoader();
-                mtlLoader.load('shapes/polyhedron_red.mtl', function (materials) {
-
-                    materials.preload();
-
-                    // Load the object
-                    var objLoader = new OBJLoader();
-                    objLoader.setMaterials(materials);
-                    objLoader.load('shapes/polyhedron_red.obj', function (object) {
-                        scene.add(object);
-                        ourObj2 = object;
-                        object.position.z = 0;
-                        object.rotation.x = 0;
-                        
-                    });
-                    
-                });
-
-                // Create a material
-                var mtlLoader = new MTLLoader();
-                mtlLoader.load('shapes/tube_blue.mtl', function (materials) {
-
-                    materials.preload();
-
-                    // Load the object
-                    var objLoader = new OBJLoader();
-                    objLoader.setMaterials(materials);
-                    objLoader.load('shapes/tube_blue.obj', function (object) {
-                        scene.add(object);
-                        ourObj3 = object;
-                        object.position.z = 0;
-                        object.rotation.x = 0;
-
-                    });
-                });
                 
 				// lights
 				let light, light2, light3, light4;
