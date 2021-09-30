@@ -1,0 +1,79 @@
+html{
+  width: 100%;
+  height: 100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  margin: 0;
+  padding: 0;
+}
+.page_heading{
+  /* position: fixed; */
+  /* top: 0; */
+  width: 100%;
+  padding: 50px;
+  background-color: black;
+}
+.body_background{
+  /* position: fixed; */
+
+  top: 0;
+  left: 0;
+  background-image: url("img.jpg");
+  background-attachment: fixed;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  /* padding: 0; */
+  padding-left: 100px;
+  padding-right: 100px;
+
+}
+.content_container{
+  width: 100%;
+  /* margin-left: 100px;
+  margin-right: 100px; */
+}
+.js_form{
+  /* width: 100%; */
+  margin: 0 auto;
+}
+.canvas_container{
+
+}
+#test_canvas{
+
+}
+input, button{
+  background: none;
+  border-color: white;
+  color: white;
+}
+input{
+
+}
+h1{
+  font-family: 'Anton', sans-serif;
+  color: white;
+  font-size: 200px;
+  font-weight: 800;
+  text-align: center;
+}
+
+
+/* responsive p */
+/* For phones */
+@media only screen and (max-width: 600px) {
+/* Section and Div Box responsive styling including the styling of the bootstarp Jumbotron */
+.body_background{
+  padding-left: 0;
+  padding-right: 0;
+}
+}
