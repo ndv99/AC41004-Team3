@@ -171,17 +171,19 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			}
 
-            var delayInMilliseconds = 4000; //1 second
-
-            setTimeout(function() {
-                var temp_material = new MeshBasicMaterial( { color: 0xFF0000 } );
-                var obj = scene.getObjectByName( "ourObj" );
+			function changeObjectColour( objName, objColor ){
+                var temp_material = new MeshBasicMaterial( { color: objColor } );
+                var obj = scene.getObjectByName( objName );
                 obj.traverse( function( child ) {
                     if ( child instanceof Mesh ) {
                         child.material = temp_material;
                     }
                 } );
-            }, delayInMilliseconds);
+            }
+
+            setTimeout(function() {
+                changeObjectColour( "ourObj", 0xFF0000);
+            }, 3000);
 
 		</script>
 
