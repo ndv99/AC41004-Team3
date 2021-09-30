@@ -1,0 +1,86 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
+  }
+
+html {
+    background-image: linear-gradient(
+        to bottom,
+        rgb(37,196,218),
+        rgb(2,159,152)
+    );
+}
+
+body {
+    display: block;
+    width: 70%;
+    font-family: Roboto;
+    margin: auto;
+}
+
+h1 {
+    font-style: normal;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: white;
+
+    margin: 20px 0;
+    padding: 0;
+}
+
+input {
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent;
+    margin-bottom: 20px;
+}
+
+
+
+form {
+    display: block;
+    /* i am done */
+    width: 50%;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom: 100px; 
+
+}
+
+::placeholder {
+    color: white;
+}
+
+.logo {
+    display: block;
+    width:500px;
+    margin: 0 auto;
+    padding: 150px 0 25px 0;
+}
+
+button {
+    display: block;
+    border-radius: 5px;
+    text-transform: uppercase;
+    border: 1px solid white;
+    padding: 10px 20px;
+    margin: 0 auto;
+    color: white;
+    background: transparent;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: rgb(219,111,33);
+}
+
+p {
+    color: white;
+}
+
+a {
+    font-family: Rob;
+    text-decoration: none;
+    font-style: italic;
+    color: white;
+}
