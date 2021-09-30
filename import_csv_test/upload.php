@@ -3,9 +3,12 @@
 // $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 // $uploadOk = 1;
 // $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+session_start();
+require('../db_connect.php');
 
 if (isset($_POST["import"])) {
   $fileName = $_FILES["csv_file"]["tmp_name"];
+  $sensor = $_POST['sensor'];
 
   if ($_FILES["csv_file"]["size"] > 0) {
     $row = 1;
@@ -52,8 +55,8 @@ if (isset($_POST["import"])) {
             determine_colour($csv_data[1]);
             echo "<br />\n";
 
-            //$stmt = $pdo->prepare("INSERT INTO `sensor_data`(`user_id`, `date`, `time`, `value`, `sensor_no`) VALUES ('1','". $date ."','" . $time ."','". $csv_data[1] ."','PUT SENSOR ID HERE')");
-            //$stmt->execute();
+            $stmt = $pdo->prepare("INSERT INTO `sensor_data`(`user_id`, `date`, `time`, `value`, `sensor_no`) VALUES ('".$_SESSION['UserID']."','". $date ."','" . $time ."','". $csv_data[1] ."','". $sensor."')");
+            $stmt->execute();
 
           }
         }
