@@ -52,6 +52,9 @@ if (isset($_POST["import"])) {
             determine_colour($csv_data[1]);
             echo "<br />\n";
 
+            //$stmt = $pdo->prepare("INSERT INTO `sensor_data`(`user_id`, `date`, `time`, `value`, `sensor_no`) VALUES ('1','". $date ."','" . $time ."','". $csv_data[1] ."','PUT SENSOR ID HERE')");
+            //$stmt->execute();
+
           }
         }
         fclose($handle);
