@@ -14,7 +14,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 		<script type="module">
 
-			import * as THREE from '/js/threejs/build/three.module.js';
+			// import * as THREE from '/js/threejs/build/three.module.js';
+            import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, PointLight, Color } from '/js/threejs/build/three.module.js';
             import { MTLLoader } from '/js/threejs/examples/jsm/loaders/MTLLoader.js';
             import { OBJLoader } from '/js/threejs/examples/jsm/loaders/OBJLoader.js';
 			import { OrbitControls } from '/js/threejs/examples/jsm/controls/OrbitControls.js';
@@ -30,16 +31,16 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			function init() {
 
-				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0xcccccc );
+				scene = new Scene();
+				scene.background = new Color( 0xcccccc );
 				// scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer = new WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				document.body.appendChild( renderer.domElement );
 
-				camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
+				camera = new PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.set( 400, 200, 0 );
 				// camera.up.set(0, 0, 1);
 				camera.lookAt(0, 0, 0);
@@ -61,14 +62,14 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				controls.maxPolarAngle = Math.PI / 2;
 
-				// world
+				// spikes
 
-				const geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
-				const material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+				const geometry = new CylinderGeometry( 0, 10, 30, 4, 1 );
+				const material = new MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 
 				for ( let i = 0; i < 500; i ++ ) {
 
-					const mesh = new THREE.Mesh( geometry, material );
+					const mesh = new Mesh( geometry, material );
 					mesh.position.x = Math.random() * 1600 - 800;
 					mesh.position.y = 0;
 					mesh.position.z = Math.random() * 1600 - 800;
@@ -98,12 +99,12 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				// 	});
 				// });
 
-                var material_1 = new THREE.MeshBasicMaterial( { color: 0x00FF00 } );
+                var material_1 = new MeshBasicMaterial( { color: 0x00FF00 } );
                 var loader = new OBJLoader();
                 loader.load( 'shapes/cylinder_green.obj',
                     function( obj ){
                         obj.traverse( function( child ) {
-                            if ( child instanceof THREE.Mesh ) {
+                            if ( child instanceof Mesh ) {
                                 child.material = material_1;
                             }
                         } );
@@ -159,16 +160,16 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                 
 				// lights
 				let light, light2, light3, light4;
-                light = new THREE.PointLight(0xc4c4c4,1);
+                light = new PointLight(0xc4c4c4,1);
                 light.position.set(0,300,500);
                 scene.add(light);
-                light2 = new THREE.PointLight(0xc4c4c4,1);
+                light2 = new PointLight(0xc4c4c4,1);
                 light2.position.set(500,100,0);
                 scene.add(light2);
-                light3 = new THREE.PointLight(0xc4c4c4,1);
+                light3 = new PointLight(0xc4c4c4,1);
                 light3.position.set(0,100,-500);
                 scene.add(light3);
-                light4 = new THREE.PointLight(0xc4c4c4,1);
+                light4 = new PointLight(0xc4c4c4,1);
                 light4.position.set(-500,300,500);
                 scene.add(light4);
 
@@ -204,10 +205,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
             var delayInMilliseconds = 4000; //1 second
 
             setTimeout(function() {
-                var temp_material = new THREE.MeshBasicMaterial( { color: 0xFF0000 } );
+                var temp_material = new MeshBasicMaterial( { color: 0xFF0000 } );
                 var obj = scene.getObjectByName( "ourObj" );
                 obj.traverse( function( child ) {
-                    if ( child instanceof THREE.Mesh ) {
+                    if ( child instanceof Mesh ) {
                         child.material = temp_material;
                     }
                 } );
