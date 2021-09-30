@@ -25,6 +25,9 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
 			animate();
 
+            var ourObj2;
+            var ourObj3;
+
 			function init() {
 
 				scene = new THREE.Scene();
@@ -38,7 +41,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.set( 400, 200, 0 );
-				camera.up.set(0,0,-1);
+				// camera.up.set(0, 0, 1);
 				camera.lookAt(0, 0, 0);
 
 				// controls
@@ -60,44 +63,62 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				// world
 
-				// const geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
-				// const material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+				const geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
+				const material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 
-				// for ( let i = 0; i < 500; i ++ ) {
+				for ( let i = 0; i < 500; i ++ ) {
 
-				// 	const mesh = new THREE.Mesh( geometry, material );
-				// 	mesh.position.x = Math.random() * 1600 - 800;
-				// 	mesh.position.y = 0;
-				// 	mesh.position.z = Math.random() * 1600 - 800;
-				// 	mesh.updateMatrix();
-				// 	mesh.matrixAutoUpdate = false;
-				// 	scene.add( mesh );
+					const mesh = new THREE.Mesh( geometry, material );
+					mesh.position.x = Math.random() * 1600 - 800;
+					mesh.position.y = 0;
+					mesh.position.z = Math.random() * 1600 - 800;
+					mesh.updateMatrix();
+					mesh.matrixAutoUpdate = false;
+					scene.add( mesh );
 
-				// }
+				}
 
 				// Our own code to load in our models
-				
-                var ourObj;
-				var ourObj2;
-				var ourObj3;
                 
                 // Create a material
-				var mtlLoader = new MTLLoader();
-				mtlLoader.load('shapes/cylinder_green.mtl', function (materials) {
+				// var mtlLoader = new MTLLoader();
+				// mtlLoader.load('shapes/cylinder_green.mtl', function (materials) {
 
-					materials.preload();
+				// 	materials.preload();
 
-					// Load the object
-					var objLoader = new OBJLoader();
-					objLoader.setMaterials(materials);
-					objLoader.load('shapes/cylinder_green.obj', function (object) {
-						scene.add(object);
-						ourObj = object;
-						object.position.z = 0;
-						object.rotation.x = 0;
+				// 	// Load the object
+				// 	var objLoader = new OBJLoader();
+				// 	objLoader.setMaterials(materials);
+				// 	objLoader.load('shapes/cylinder_green.obj', function (object) {
+				// 		scene.add(object);
+				// 		ourObj = object;
+				// 		object.position.z = 0;
+				// 		object.rotation.x = 0;
 
-					});
-				});
+				// 	});
+				// });
+
+                var material_1 = new THREE.MeshBasicMaterial( { color: 0x00FF00 } );
+                var loader = new OBJLoader();
+                loader.load( 'shapes/cylinder_green.obj',
+                    function( obj ){
+                        obj.traverse( function( child ) {
+                            if ( child instanceof THREE.Mesh ) {
+                                child.material = material_1;
+                            }
+                        } );
+                        obj.name = "ourObj";
+                        scene.add( obj );
+                    },
+                    function( xhr ){
+                        console.log( (xhr.loaded / xhr.total * 100) + "% loaded")
+                    },
+                    function( err ){
+                        console.error( "Error loading 'shapes/cylinder_green.obj'")
+                    }
+                );
+
+                // ourObj = scene.getObjectByName( "ourObj" );
 
                 // Create a material
                 var mtlLoader = new MTLLoader();
@@ -179,6 +200,18 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				renderer.render( scene, camera );
 
 			}
+
+            var delayInMilliseconds = 4000; //1 second
+
+            setTimeout(function() {
+                var temp_material = new THREE.MeshBasicMaterial( { color: 0xFF0000 } );
+                var obj = scene.getObjectByName( "ourObj" );
+                obj.traverse( function( child ) {
+                    if ( child instanceof THREE.Mesh ) {
+                        child.material = temp_material;
+                    }
+                } );
+            }, delayInMilliseconds);
 
 		</script>
 
