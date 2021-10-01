@@ -1,6 +1,24 @@
+<?php
+    session_start();
+    require('db_connect.php');
+
+	// if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
+
+	// 	header("location: index.php");
+	// 	exit;
+	// }
+
+	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." and `sensor_no` = 1;";
+	$stmt = $pdo->prepare($query);
+	$stmt->execute();
+	$row = $stmt->fetch();
+	echo var_dump($row) . "<br>";
+?>
+
 <!-- 
 Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 -->
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -16,12 +34,15 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			// import * as THREE from '/js/threejs/build/three.module.js';
             import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
-					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color } from '/js/threejs/build/three.module.js';
-            import { MTLLoader } from '/js/threejs/examples/jsm/loaders/MTLLoader.js';
-            import { OBJLoader } from '/js/threejs/examples/jsm/loaders/OBJLoader.js';
-			import { OrbitControls } from '/js/threejs/examples/jsm/controls/OrbitControls.js';
+					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color } from '/AC41004-Team3/js/threejs/build/three.module.js';
+            import { MTLLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/MTLLoader.js';
+            import { OBJLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/OBJLoader.js';
+			import { OrbitControls } from '/AC41004-Team3/js/threejs/examples/jsm/controls/OrbitControls.js';
 
 			let camera, controls, scene, renderer;
+
+			var phpvar = '<?php echo $var ;?>'
+			alert(phpvar);
 
 			init();
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
