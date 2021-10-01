@@ -307,11 +307,12 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			}
 
 			function changeObjectColour( objName, objColor ){
-                var temp_material = new MeshLambertMaterial( { color: objColor, transparent : true, opacity : 1 } );
+                // var temp_material = new MeshLambertMaterial( { color: objColor, transparent : true, opacity : 1 } );
                 var obj = scene.getObjectByName( objName );
                 obj.traverse( function( child ) {
                     if ( child instanceof Mesh ) {
-                        child.material = temp_material;
+                        // child.material = temp_material;
+						child.material.color.setHex(objColor);
                     }
                 } );
             }
