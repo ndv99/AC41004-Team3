@@ -15,7 +15,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<script type="module">
 
 			// import * as THREE from '/js/threejs/build/three.module.js';
-            import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, PointLight, Color } from '/js/threejs/build/three.module.js';
+            import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
+					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color } from '/js/threejs/build/three.module.js';
             import { MTLLoader } from '/js/threejs/examples/jsm/loaders/MTLLoader.js';
             import { OBJLoader } from '/js/threejs/examples/jsm/loaders/OBJLoader.js';
 			import { OrbitControls } from '/js/threejs/examples/jsm/controls/OrbitControls.js';
@@ -62,6 +63,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				controls.maxPolarAngle = Math.PI / 2;
 
+				controls.enablePan = false;
+
 				// spikes
 
 				const geometry = new CylinderGeometry( 0, 10, 30, 4, 1 );
@@ -99,7 +102,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				// 	});
 				// });
                 function loadObject ( obj_name, obj_path, obj_color ){
-                    var material = new MeshBasicMaterial( { color: obj_color } );
+                    var material = new MeshLambertMaterial( { color: obj_color , transparent : true, opacity : 1} );
                     var loader = new OBJLoader();
                     loader.load( obj_path,
                         function( obj ){
@@ -172,7 +175,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			}
 
 			function changeObjectColour( objName, objColor ){
-                var temp_material = new MeshBasicMaterial( { color: objColor } );
+                var temp_material = new MeshLambertMaterial( { color: objColor, transparent : true, opacity : 1 } );
                 var obj = scene.getObjectByName( objName );
                 obj.traverse( function( child ) {
                     if ( child instanceof Mesh ) {
