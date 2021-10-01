@@ -188,7 +188,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				document.body.appendChild( renderer.domElement );
 
 				camera = new PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
-				camera.position.set( 400, 800, 0 );
+				camera.position.set( 400, 200, 0 );
 				// camera.up.set(0, 0, 1);
 				camera.lookAt(0, 0, 0);
 
@@ -254,8 +254,9 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                     );
                 }
 
-                loadObject("ourObj", "shapes/legs.obj", 0xB66B3E);
-                loadObject("ourObj2", "shapes/upper_torso.obj", 0xB66B3E);
+				loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
+                // loadObject("legs", "shapes/legs.obj", 0xB66B3E);
+                loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
                 
 				// lights
 				let light, light2, light3, light4;
@@ -313,7 +314,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			function do_timeout(i){
 				setTimeout(function() {	
 					console.log(hex_array1[i]);
-					changeObjectColour( "ourObj", parseInt(hex_array1[i], 16));
+					changeObjectColour( "right_quad", parseInt(hex_array1[i], 16));
+					// changeObjectColour( "torso", parseInt(hex_array2[i], 16))
 					document.getElementById("time").innerHTML = time_array[i];
 				}, i*500)
 			}
