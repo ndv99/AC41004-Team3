@@ -65,64 +65,65 @@
         }
 
         return $hex_val;
-      }
+	}
 
-      $colour;
-      // variable to contain the colour percent to aid hex colour generation
-      $colour_percent;
+	$colour;
+	// variable to contain the colour percent to aid hex colour generation
+	$colour_percent;
 
-      function determine_colour ($value) {
-        $colour_hex_values = "0x";
-        $colour_code= "Colour code: ";
+	function determine_colour ($value) {
+		$colour_hex_values = "0x";
+		$colour_code= "Colour code: ";
 
-        if ($value >=0 && $value <= 256) {
-          $colour_percent= round($value/256, 2);
-          $colour="green";
+		if ($value >=0 && $value <= 256) {
+			$colour_percent= round($value/256, 2);
+			$colour="green";
 
-          // the generated hex value for the colours
-          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+			// the generated hex value for the colours
+			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
 
 
-        //   echo "$colour <br />\n";
-        //   echo "$colour_code $colour_hex_values <br />\n";
-        } else if ($value >= 257 && $value <= 512) {
-          $colour_percent= round((512-$value)/256, 2);
-          $colour="yellow";
+		//   echo "$colour <br />\n";
+		//   echo "$colour_code $colour_hex_values <br />\n";
+		} else if ($value >= 257 && $value <= 512) {
+			$colour_percent= round((512-$value)/256, 2);
+			$colour="yellow";
 
-          // the generated hex value for the colours
-          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+			// the generated hex value for the colours
+			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
 
-        //   echo "$colour <br />\n";
-        //   echo "$colour_code $colour_hex_values <br />\n";
-        } else if ($value >= 513 && $value <= 768) {
-          $colour_percent = round((768-$value)/256, 2);
-          $colour="orange";
+		//   echo "$colour <br />\n";
+		//   echo "$colour_code $colour_hex_values <br />\n";
+		} else if ($value >= 513 && $value <= 768) {
+			$colour_percent = round((768-$value)/256, 2);
+			$colour="orange";
 
-          // the generated hex value for the colours
-          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+			// the generated hex value for the colours
+			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
 
-        //   echo "$colour <br />\n";
-        //   echo "$colour_code $colour_hex_values <br />\n";
-        } else if ($value >= 769 && $value <= 1025) {
-          $colour_percent = round((1025 - $value)/256, 2);
-          $colour="red";
+		//   echo "$colour <br />\n";
+		//   echo "$colour_code $colour_hex_values <br />\n";
+		} else if ($value >= 769 && $value <= 1025) {
+			$colour_percent = round((1025 - $value)/256, 2);
+			$colour="red";
 
-          // the generated hex value for the colours
-          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+			// the generated hex value for the colours
+			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
 
-        //   echo "$colour <br />\n";
-        //   echo "$colour_code $colour_hex_values <br />\n";
-        }
+		//   echo "$colour <br />\n";
+		//   echo "$colour_code $colour_hex_values <br />\n";
+		}
 		return $colour_hex_values;
 
-      }
+	}
 
 	$hexvals = array();
 	
 	foreach ($row as $result){
 		$value = $result["value"];
 		$time = $result["time"];
-		array_push($hexvals, $value);
+		// echo(determine_colour($value)."<br>");
+		array_push($hexvals, determine_colour($value));
 	}
 	
 ?>
@@ -315,9 +316,19 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                 } );
             }
 
-            setTimeout(function() {
-                changeObjectColour( "ourObj", 0xFF0000);
-            }, 3000);
+			function do_timeout(i){
+				setTimeout(function() {	
+					console.log(hex_array[i]);
+					changeObjectColour( "ourObj", parseInt(hex_array[i], 16));
+				}, i*1000)
+			}
+			
+			var hex_array = <?php echo json_encode($hexvals); ?>;
+			console.log(hex_array);
+
+			for(var i=0; i<hex_array.length; i++){
+				do_timeout(i);
+			}
 
 		</script>
 
