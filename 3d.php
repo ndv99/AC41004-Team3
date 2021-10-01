@@ -8,7 +8,7 @@
 	// 	exit;
 	// }
 
-	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." and `sensor_no` = 1;";
+	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"].";";
 	$stmt = $pdo->prepare($query);
 	$stmt->execute();
 	$row = $stmt->fetchAll();
@@ -117,13 +117,27 @@
 
 	}
 
-	$hexvals = array();
+	$hexvals1 = array();
+	$hexvals2 = array();
+	$hexvals3 = array();
+	$hexvals4 = array();
 	
 	foreach ($row as $result){
 		$value = $result["value"];
 		$time = $result["time"];
+		$sensor = $result["sensor_no"];
 		// echo(determine_colour($value)."<br>");
-		array_push($hexvals, determine_colour($value));
+		if ($sensor == 1) {
+			array_push($hexvals1, determine_colour($value));
+		} else if ($sensor == 2) {
+			array_push($hexvals2, determine_colour($value));
+		} else if ($sensor == 3) {
+			array_push($hexvals3, determine_colour($value));
+		} else if ($sensor == 4) {
+			array_push($hexvals4, determine_colour($value));
+		} else {
+			echo("error");
+		}
 	}
 	
 ?>
@@ -317,15 +331,17 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			function do_timeout(i){
 				setTimeout(function() {	
-					console.log(hex_array[i]);
-					changeObjectColour( "ourObj", parseInt(hex_array[i], 16));
+					console.log(hex_array1[i]);
+					changeObjectColour( "ourObj", parseInt(hex_array1[i], 16));
 				}, i*1000)
 			}
 			
-			var hex_array = <?php echo json_encode($hexvals); ?>;
-			console.log(hex_array);
+			var hex_array1 = <?php echo json_encode($hexvals1); ?>;
+			var hex_array2 = <?php echo json_encode($hexvals2); ?>;
+			var hex_array3 = <?php echo json_encode($hexvals3); ?>;
+			var hex_array4 = <?php echo json_encode($hexvals4); ?>;
 
-			for(var i=0; i<hex_array.length; i++){
+			for(var i=0; i<hex_array1.length; i++){
 				do_timeout(i);
 			}
 
