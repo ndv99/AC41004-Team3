@@ -21,10 +21,42 @@
     <div class="body_background">
       <!-- contains all the main content of the page -->
       <div class="content_container">
+
+        <!-- test form for importing csv using php -->
+        <div title="form run on php" class="php_form">
+          <form class="" enctype="multipart/form-data" action="upload.php" method="post">
+            <label for="file">Select CSV File:</label><br>
+            <input type="file" id="file_to_import" name="csv_file" accept=".csv" ><br>
+            <br>
+            <!-- sensor option to choose from -->
+            <label for="sensor_options">Choose sensor to upload imported data for:</label><br>
+            <select id="s_options" name="sensor_options">
+              <option value="">-----Choose Sensor-----</option>
+              <option value="one">Sensor 1</option>
+              <option value="two">Sensor 2</option>
+              <option value="three">Sensor 3</option>
+              <option value="four">Sensor 4</option>
+            </select>
+            <br>
+
+            <br>
+            <input class="form-control" type="submit" id="submitFile" value="Upload File" name="import">
+          </form>
+        </div>
+
+        <!-- test canvas for sample heatmap for the imported csv via php -->
+        <div class="canvas_container">
+          <canvas id="test_canvas" width="60" height="60"></canvas>
+        </div>
+
+        <!-- JS -->
         <!-- test form for importing csv using js -->
         <div title="form run on js" class="js_form">
           <!-- import button- to import csv -->
-          <button onclick="readCsvFile()" id="">Import File</button>
+          <!-- <button onclick="readCsvFile()" id="">Import File</button> -->
+          <br>
+          <!-- generate video button- to generate video from imported data -->
+          <!-- <button onclick="generateVideo()" title="to compile visualised data into a video" id="">Generate Video</button> -->
           <br>
           <div class="generated_video">
 
@@ -38,76 +70,9 @@
           <canvas id="test_canvas" width="60" height="60"></canvas>
         </div>
 
-        <!-- test form for importing csv using php -->
-        <div title="form run on php" class="php_form">
-          <form class="" enctype="multipart/form-data" action="upload.php" method="post">
-            <label for="file">Select CSV File:</label><br>
-            <input type="file" id="file_to_import" name="csv_file" accept=".csv" ><br>
-
-            <br>
-            <input class="form-control" type="submit" id="submitFile" value="Upload File" name="import">
-          </form>
-        </div>
-
-        <?php
-        // $row = 1;
-        // $field_data;
-        //
-        // function determine_colour ($value) {
-        //   if ($value>=0 && $value<=256) {
-        //     echo "green <br />\n";
-        //   } else if ($value>=257 && $value<=512) {
-        //     echo "yellow <br />\n";
-        //   } else if ($value>=513 && $value<=768) {
-        //     echo "orange <br />\n";
-        //   } else if ($value>=769 && $value<=1025) {
-        //     echo "red <br />\n";
-        //   }
-        //
-        // }
-        //
-        // if (($handle = fopen("data/sensor4.csv", "r")) !== FALSE) {
-        //     // to help skip the first line
-        //     fgetcsv($handle);
-        //     while (($csv_data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-        //       if ($csv_data[0]=="") {
-        //         break;
-        //       } else {
-        //         // handle csv date here
-        //         // $num = count($csv_data);
-        //         // echo "<p> $num fields in line $row: <br /></p>\n";
-        //         $row++;
-        //         $field_data= explode("T",$csv_data[0]);
-        //         // date and time separated
-        //         $date= $field_data[0];
-        //         $time= substr($field_data[1],0,strpos($field_data[1],"Z"));
-        //
-        //         echo "Date: $date Time: $time <br />\n";
-        //         // sensor value
-        //         echo "Sensor value: $csv_data[1] <br />\n";
-        //         // sensor value corresponding colour
-        //         determine_colour($csv_data[1]);
-        //         echo "<br />\n";
-        //         // for ($c=0; $c < $num; $c++) {
-        //         //     echo $csv_data[$c] . "<br />\n";
-        //         // }
-        //       }
-        //     }
-        //     fclose($handle);
-        // }
-        ?>
-
-        <!-- test canvas for sample heatmap for the imported csv via php -->
-        <div class="canvas_container">
-          <canvas id="test_canvas" width="60" height="60"></canvas>
-        </div>
-
       </div>
 
     </div>
-
-
-    <!-- <?php  ?> -->
 
     <script src="js/project.js" charset="utf-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
