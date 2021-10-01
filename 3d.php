@@ -255,6 +255,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                 }
 
 				loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
+				loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
                 // loadObject("legs", "shapes/legs.obj", 0xB66B3E);
                 loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
                 
@@ -314,8 +315,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			function do_timeout(i){
 				setTimeout(function() {	
 					console.log(hex_array1[i]);
-					changeObjectColour( "right_quad", parseInt(hex_array1[i], 16));
-					// changeObjectColour( "torso", parseInt(hex_array2[i], 16))
+					changeObjectColour( "right_quad", parseInt(hex_array4[i], 16));
+					changeObjectColour( "left_quad", parseInt(hex_array3[i], 16))
 					document.getElementById("time").innerHTML = time_array[i];
 				}, i*500)
 			}
