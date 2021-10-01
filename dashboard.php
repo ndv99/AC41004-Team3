@@ -73,6 +73,7 @@
           	</div>
             <input class="form-control" type="submit" id="submitFile" value="Upload File" name="import">
           </form>
+		  <button onclick="window.location.href='3d.php'">View your last session</button>
         </div>
       </div>
 

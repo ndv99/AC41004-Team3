@@ -199,20 +199,20 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				// spikes
 
-				const geometry = new CylinderGeometry( 0, 10, 30, 4, 1 );
-				const material = new MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+				// const geometry = new CylinderGeometry( 0, 10, 30, 4, 1 );
+				// const material = new MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 
-				for ( let i = 0; i < 500; i ++ ) {
+				// for ( let i = 0; i < 500; i ++ ) {
 
-					const mesh = new Mesh( geometry, material );
-					mesh.position.x = Math.random() * 1600 - 800;
-					mesh.position.y = 0;
-					mesh.position.z = Math.random() * 1600 - 800;
-					mesh.updateMatrix();
-					mesh.matrixAutoUpdate = false;
-					scene.add( mesh );
+				// 	const mesh = new Mesh( geometry, material );
+				// 	mesh.position.x = Math.random() * 1600 - 800;
+				// 	mesh.position.y = 0;
+				// 	mesh.position.z = Math.random() * 1600 - 800;
+				// 	mesh.updateMatrix();
+				// 	mesh.matrixAutoUpdate = false;
+				// 	scene.add( mesh );
 
-				}
+				// }
 
 				// Our own code to load in our models
                 
@@ -307,11 +307,9 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			}
 
 			function changeObjectColour( objName, objColor ){
-                // var temp_material = new MeshLambertMaterial( { color: objColor, transparent : true, opacity : 1 } );
                 var obj = scene.getObjectByName( objName );
                 obj.traverse( function( child ) {
                     if ( child instanceof Mesh ) {
-                        // child.material = temp_material;
 						child.material.color.setHex(objColor);
                     }
                 } );
