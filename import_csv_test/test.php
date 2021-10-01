@@ -31,6 +31,7 @@
             <!-- sensor option to choose from -->
             <label for="sensor_options">Choose sensor to upload imported data for:</label><br>
             <select id="s_options" name="sensor_options">
+              <option value="">-----Choose Sensor-----</option>
               <option value="one">Sensor 1</option>
               <option value="two">Sensor 2</option>
               <option value="three">Sensor 3</option>
