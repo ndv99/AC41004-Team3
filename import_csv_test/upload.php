@@ -3,7 +3,7 @@
 if (isset($_POST["import"])) {
   $fileName = $_FILES["csv_file"]["tmp_name"];
   $sensor_choice = filter_input(INPUT_POST, 'sensor_options', FILTER_SANITIZE_STRING);
-  
+
   session_start();
   require('../db_connect.php');
   $sensor = $_POST['sensor'];
@@ -38,7 +38,7 @@ if (isset($_POST["import"])) {
             $hex_val = "FEFB01";
           } else if ($percent>=0.21 && $percent<=0.4) {
             $hex_val = "CEFB02";
-          } else if ($percent>=0.41 && $percent<=0.4) {
+          } else if ($percent>=0.41 && $percent<=0.6) {
             $hex_val = "87FA00";
           } else if ($percent>=0.61 && $percent<=0.8) {
             $hex_val = "3AF901";
@@ -50,7 +50,7 @@ if (isset($_POST["import"])) {
             $hex_val = "FFF600";
           } else if ($percent>=0.21 && $percent<=0.4) {
             $hex_val = "FFCF07";
-          } else if ($percent>=0.41 && $percent<=0.4) {
+          } else if ($percent>=0.41 && $percent<=0.6) {
             $hex_val = "FA80F";
           } else if ($percent>=0.61 && $percent<=0.8) {
             $hex_val = "FE8116";
@@ -62,7 +62,7 @@ if (isset($_POST["import"])) {
             $hex_val = "FA6F01";
           } else if ($percent>=0.21 && $percent<=0.4) {
             $hex_val = "F55301";
-          } else if ($percent>=0.41 && $percent<=0.4) {
+          } else if ($percent>=0.41 && $percent<=0.6) {
             $hex_val = "F03801";
           } else if ($percent>=0.61 && $percent<=0.8) {
             $hex_val = "EB1C01";
@@ -104,7 +104,7 @@ if (isset($_POST["import"])) {
           echo "$colour_code $colour_hex_values <br />\n";
         } else if ($value >= 257 && $value <= 512) {
           $colour_percent= (512-$value)/256;
-          $colour="yellow"; 
+          $colour="yellow";
 
           // the generated hex value for the colours
           $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
