@@ -11,8 +11,120 @@
 	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." and `sensor_no` = 1;";
 	$stmt = $pdo->prepare($query);
 	$stmt->execute();
-	$row = $stmt->fetch();
-	echo var_dump($row) . "<br>";
+	$row = $stmt->fetchAll();
+
+	function colour_hex_val_gen ($current_colour, $percent) {
+        $hex_val;
+
+        if ($current_colour=="green") {
+          if ($percent>=0 && $percent<=0.2) {
+            $hex_val = "FEFB01";
+          } else if ($percent>=0.21 && $percent<=0.4) {
+            $hex_val = "CEFB02";
+          } else if ($percent>=0.41 && $percent<=0.6) {
+            $hex_val = "87FA00";
+          } else if ($percent>=0.61 && $percent<=0.8) {
+            $hex_val = "3AF901";
+          } else if ($percent>=0.81 && $percent<=1) {
+            $hex_val = "00ED01";
+          }
+        } else if ($current_colour=="yellow") {
+          if ($percent>=0 && $percent<=0.2) {
+            $hex_val = "FFF600";
+          } else if ($percent>=0.21 && $percent<=0.4) {
+            $hex_val = "FFCF07";
+          } else if ($percent>=0.41 && $percent<=0.6) {
+            $hex_val = "FA80F";
+          } else if ($percent>=0.61 && $percent<=0.8) {
+            $hex_val = "FE8116";
+          } else if ($percent>=0.81 && $percent<=1) {
+            $hex_val = "FE5A1D";
+          }
+        } else if ($current_colour=="orange") {
+          if ($percent>=0 && $percent<=0.2) {
+            $hex_val = "FA6F01";
+          } else if ($percent>=0.21 && $percent<=0.4) {
+            $hex_val = "F55301";
+          } else if ($percent>=0.41 && $percent<=0.6) {
+            $hex_val = "F03801";
+          } else if ($percent>=0.61 && $percent<=0.8) {
+            $hex_val = "EB1C01";
+          } else if ($percent>=0.81 && $percent<=1) {
+            $hex_val = "E60001";
+          }
+        } else if ($current_colour=="red") {
+          if ($percent>=0 && $percent<=0.25) {
+            $hex_val = "FF0000";
+          } else if ($percent>=0.26 && $percent<=0.5) {
+            $hex_val = "BF0000";
+          } else if ($percent>=0.51 && $percent<=0.75) {
+            $hex_val = "800000";
+          } else if ($percent>=0.76 && $percent<=1) {
+            $hex_val = "400000";
+          }
+        }
+
+        return $hex_val;
+      }
+
+      $colour;
+      // variable to contain the colour percent to aid hex colour generation
+      $colour_percent;
+
+      function determine_colour ($value) {
+        $colour_hex_values = "0x";
+        $colour_code= "Colour code: ";
+
+        if ($value >=0 && $value <= 256) {
+          $colour_percent= round($value/256, 2);
+          $colour="green";
+
+          // the generated hex value for the colours
+          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+
+
+        //   echo "$colour <br />\n";
+        //   echo "$colour_code $colour_hex_values <br />\n";
+        } else if ($value >= 257 && $value <= 512) {
+          $colour_percent= round((512-$value)/256, 2);
+          $colour="yellow";
+
+          // the generated hex value for the colours
+          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+
+        //   echo "$colour <br />\n";
+        //   echo "$colour_code $colour_hex_values <br />\n";
+        } else if ($value >= 513 && $value <= 768) {
+          $colour_percent = round((768-$value)/256, 2);
+          $colour="orange";
+
+          // the generated hex value for the colours
+          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+
+        //   echo "$colour <br />\n";
+        //   echo "$colour_code $colour_hex_values <br />\n";
+        } else if ($value >= 769 && $value <= 1025) {
+          $colour_percent = round((1025 - $value)/256, 2);
+          $colour="red";
+
+          // the generated hex value for the colours
+          $colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+
+        //   echo "$colour <br />\n";
+        //   echo "$colour_code $colour_hex_values <br />\n";
+        }
+		return $colour_hex_values;
+
+      }
+
+	$hexvals = array();
+	
+	foreach ($row as $result){
+		$value = $result["value"];
+		$time = $result["time"];
+		array_push($hexvals, $value);
+	}
+	
 ?>
 
 <!-- 
@@ -40,9 +152,6 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			import { OrbitControls } from '/AC41004-Team3/js/threejs/examples/jsm/controls/OrbitControls.js';
 
 			let camera, controls, scene, renderer;
-
-			var phpvar = '<?php echo $var ;?>'
-			alert(phpvar);
 
 			init();
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
