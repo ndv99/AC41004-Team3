@@ -8,7 +8,7 @@
 	// 	exit;
 	// }
 
-	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." and `sensor_no` = 1;";
+	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"].";";
 	$stmt = $pdo->prepare($query);
 	$stmt->execute();
 	$row = $stmt->fetchAll();
@@ -117,13 +117,30 @@
 
 	}
 
-	$hexvals = array();
+	$hexvals1 = array();
+	$hexvals2 = array();
+	$hexvals3 = array();
+	$hexvals4 = array();
+	$times = array();
 	
 	foreach ($row as $result){
 		$value = $result["value"];
 		$time = $result["time"];
+		$sensor = $result["sensor_no"];
+
+		array_push($times, $time);
 		// echo(determine_colour($value)."<br>");
-		array_push($hexvals, determine_colour($value));
+		if ($sensor == 1) {
+			array_push($hexvals1, determine_colour($value));
+		} else if ($sensor == 2) {
+			array_push($hexvals2, determine_colour($value));
+		} else if ($sensor == 3) {
+			array_push($hexvals3, determine_colour($value));
+		} else if ($sensor == 4) {
+			array_push($hexvals4, determine_colour($value));
+		} else {
+			echo("error");
+		}
 	}
 	
 ?>
@@ -142,6 +159,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		</head>
 
 	<body>
+		<h1 id="time">TIME</h1>
 
 		<script type="module">
 
@@ -158,13 +176,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
 			animate();
 
-            var ourObj2;
-            var ourObj3;
-
 			function init() {
 
 				scene = new Scene();
-				scene.background = new Color( 0xcccccc );
+				scene.background = new Color( 0x001133 );
 				// scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
 				renderer = new WebGLRenderer( { antialias: true } );
@@ -189,8 +204,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				controls.screenSpacePanning = false;
 
-				controls.minDistance = 300;
-				controls.maxDistance = 500;
+				controls.minDistance = 100;
+				controls.maxDistance = 300;
 
 				controls.maxPolarAngle = Math.PI / 2;
 
@@ -199,40 +214,21 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				// spikes
 
-				const geometry = new CylinderGeometry( 0, 10, 30, 4, 1 );
-				const material = new MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+				// const geometry = new CylinderGeometry( 0, 10, 30, 4, 1 );
+				// const material = new MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 
-				for ( let i = 0; i < 500; i ++ ) {
+				// for ( let i = 0; i < 500; i ++ ) {
 
-					const mesh = new Mesh( geometry, material );
-					mesh.position.x = Math.random() * 1600 - 800;
-					mesh.position.y = 0;
-					mesh.position.z = Math.random() * 1600 - 800;
-					mesh.updateMatrix();
-					mesh.matrixAutoUpdate = false;
-					scene.add( mesh );
+				// 	const mesh = new Mesh( geometry, material );
+				// 	mesh.position.x = Math.random() * 1600 - 800;
+				// 	mesh.position.y = 0;
+				// 	mesh.position.z = Math.random() * 1600 - 800;
+				// 	mesh.updateMatrix();
+				// 	mesh.matrixAutoUpdate = false;
+				// 	scene.add( mesh );
 
-				}
+				// }
 
-				// Our own code to load in our models
-                
-                // Create a material
-				// var mtlLoader = new MTLLoader();
-				// mtlLoader.load('shapes/cylinder_green.mtl', function (materials) {
-
-				// 	materials.preload();
-
-				// 	// Load the object
-				// 	var objLoader = new OBJLoader();
-				// 	objLoader.setMaterials(materials);
-				// 	objLoader.load('shapes/cylinder_green.obj', function (object) {
-				// 		scene.add(object);
-				// 		ourObj = object;
-				// 		object.position.z = 0;
-				// 		object.rotation.x = 0;
-
-				// 	});
-				// });
                 function loadObject ( obj_name, obj_path, obj_color ){
                     var material = new MeshLambertMaterial( { color: obj_color , transparent : true, opacity : 1} );
                     var loader = new OBJLoader();
@@ -244,7 +240,9 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                                 }
                             } );
                             obj.name = obj_name;
-                            obj.scale.set(0.5, 0.5, 0.5);
+                            obj.scale.set(10, 10, 10);
+							obj.position.z = 0;
+							obj.position.x = 0;
                             scene.add( obj );
                         },
                         function( xhr ){
@@ -256,11 +254,27 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                     );
                 }
 
-                loadObject("ourObj", "shapes/cylinder_green.obj", 0x00FF00);
-                loadObject("ourObj2", "shapes/polyhedron_red.obj", 0xFF0000);
-                loadObject("ourObj3", "shapes/tube_blue.obj", 0x0000FF);
+				loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
+				loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
+                // loadObject("legs", "shapes/legs.obj", 0xB66B3E);
+                loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
 
-                // ourObj = scene.getObjectByName( "ourObj" );
+				var mtlLoader = new MTLLoader();
+				mtlLoader.load('shapes/chungus.mtl', function (materials) {
+
+					materials.preload();
+
+					// Load the object
+					var objLoader = new OBJLoader();
+					objLoader.setMaterials(materials);
+					objLoader.load('shapes/chungus.obj', function (object) {
+						scene.add(object);
+						object.scale.set(10, 10, 10);
+						object.position.z = 0;
+						object.rotation.x = 0;
+
+					});
+				});
                 
 				// lights
 				let light, light2, light3, light4;
@@ -307,26 +321,31 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			}
 
 			function changeObjectColour( objName, objColor ){
-                var temp_material = new MeshLambertMaterial( { color: objColor, transparent : true, opacity : 1 } );
                 var obj = scene.getObjectByName( objName );
                 obj.traverse( function( child ) {
                     if ( child instanceof Mesh ) {
-                        child.material = temp_material;
+						child.material.color.setHex(objColor);
                     }
                 } );
             }
 
 			function do_timeout(i){
 				setTimeout(function() {	
-					console.log(hex_array[i]);
-					changeObjectColour( "ourObj", parseInt(hex_array[i], 16));
-				}, i*1000)
+					console.log(hex_array1[i]);
+					changeObjectColour( "right_quad", parseInt(hex_array4[i], 16));
+					changeObjectColour( "left_quad", parseInt(hex_array3[i], 16))
+					document.getElementById("time").innerHTML = time_array[i];
+				}, i*500)
 			}
 			
-			var hex_array = <?php echo json_encode($hexvals); ?>;
-			console.log(hex_array);
+			var hex_array1 = <?php echo json_encode($hexvals1); ?>;
+			var hex_array2 = <?php echo json_encode($hexvals2); ?>;
+			var hex_array3 = <?php echo json_encode($hexvals3); ?>;
+			var hex_array4 = <?php echo json_encode($hexvals4); ?>;
 
-			for(var i=0; i<hex_array.length; i++){
+			var time_array = <?php echo json_encode($times); ?>;
+
+			for(var i=0; i<hex_array1.length; i++){
 				do_timeout(i);
 			}
 
