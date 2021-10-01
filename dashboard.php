@@ -56,7 +56,7 @@
       <div class="content_container">
         <!-- test form for importing csv using php -->
         <div title="form run on php" class="php_form">
-          <form class="row g-3" enctype="multipart/form-data" action="import_csv_test/upload.php" method="post">
+          <form class="row g-3" enctype="multipart/form-data" action="upload.php" method="post">
           	<div class="col-md-2">
           		<label for="sensor" class="form-label">Choose a sensor:</label>
 			    <select id="sensor" name="sensor" class="form-control">
