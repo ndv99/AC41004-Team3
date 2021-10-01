@@ -23,10 +23,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body>
-	
+
 	<h1>Hello <?php echo $_SESSION['name']; ?></h1>
 
-	<?php 
+	<?php
 		if ($_SESSION['role'] != "athlete") {
 			echo "<p>Your clients are:</p>";
 			$query = "SELECT `client_id` FROM `physio_athlete` WHERE `staff_id` = ".$_SESSION["UserID"].";";
@@ -41,7 +41,7 @@
 	    	   $stmt2->execute();
 	    	   $row3 = $stmt2->fetch();
 
-	    	   echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>"; 
+	    	   echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>";
 
 			}
 		}
@@ -60,6 +60,7 @@
           	<div class="col-md-2">
           		<label for="sensor" class="form-label">Choose a sensor:</label>
 			    <select id="sensor" name="sensor" class="form-control">
+              <option value="">-----Choose Sensor-----</option>
 			        <option value="1">Sensor 1</option>
 			        <option value="2">Sensor 2</option>
 			        <option value="3">Sensor 3</option>
