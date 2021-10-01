@@ -121,11 +121,14 @@
 	$hexvals2 = array();
 	$hexvals3 = array();
 	$hexvals4 = array();
+	$times = array();
 	
 	foreach ($row as $result){
 		$value = $result["value"];
 		$time = $result["time"];
 		$sensor = $result["sensor_no"];
+
+		array_push($times, $time);
 		// echo(determine_colour($value)."<br>");
 		if ($sensor == 1) {
 			array_push($hexvals1, determine_colour($value));
@@ -156,6 +159,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		</head>
 
 	<body>
+		<h1 id="time">TIME</h1>
 
 		<script type="module">
 
@@ -172,13 +176,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
 			animate();
 
-            var ourObj2;
-            var ourObj3;
-
 			function init() {
 
 				scene = new Scene();
-				scene.background = new Color( 0xcccccc );
+				scene.background = new Color( 0x001133 );
 				// scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
 				renderer = new WebGLRenderer( { antialias: true } );
@@ -187,7 +188,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				document.body.appendChild( renderer.domElement );
 
 				camera = new PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
-				camera.position.set( 400, 200, 0 );
+				camera.position.set( 400, 800, 0 );
 				// camera.up.set(0, 0, 1);
 				camera.lookAt(0, 0, 0);
 
@@ -203,8 +204,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				controls.screenSpacePanning = false;
 
-				controls.minDistance = 300;
-				controls.maxDistance = 500;
+				controls.minDistance = 100;
+				controls.maxDistance = 300;
 
 				controls.maxPolarAngle = Math.PI / 2;
 
@@ -228,25 +229,6 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				// }
 
-				// Our own code to load in our models
-                
-                // Create a material
-				// var mtlLoader = new MTLLoader();
-				// mtlLoader.load('shapes/cylinder_green.mtl', function (materials) {
-
-				// 	materials.preload();
-
-				// 	// Load the object
-				// 	var objLoader = new OBJLoader();
-				// 	objLoader.setMaterials(materials);
-				// 	objLoader.load('shapes/cylinder_green.obj', function (object) {
-				// 		scene.add(object);
-				// 		ourObj = object;
-				// 		object.position.z = 0;
-				// 		object.rotation.x = 0;
-
-				// 	});
-				// });
                 function loadObject ( obj_name, obj_path, obj_color ){
                     var material = new MeshLambertMaterial( { color: obj_color , transparent : true, opacity : 1} );
                     var loader = new OBJLoader();
@@ -258,7 +240,9 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                                 }
                             } );
                             obj.name = obj_name;
-                            obj.scale.set(0.5, 0.5, 0.5);
+                            obj.scale.set(10, 10, 10);
+							obj.position.z = 0;
+							obj.position.x = 0;
                             scene.add( obj );
                         },
                         function( xhr ){
@@ -270,11 +254,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                     );
                 }
 
-                loadObject("ourObj", "shapes/cylinder_green.obj", 0x00FF00);
-                loadObject("ourObj2", "shapes/polyhedron_red.obj", 0xFF0000);
-                loadObject("ourObj3", "shapes/tube_blue.obj", 0x0000FF);
-
-                // ourObj = scene.getObjectByName( "ourObj" );
+                loadObject("ourObj", "shapes/legs.obj", 0xB66B3E);
+                loadObject("ourObj2", "shapes/upper_torso.obj", 0xB66B3E);
                 
 				// lights
 				let light, light2, light3, light4;
@@ -333,13 +314,16 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				setTimeout(function() {	
 					console.log(hex_array1[i]);
 					changeObjectColour( "ourObj", parseInt(hex_array1[i], 16));
-				}, i*1000)
+					document.getElementById("time").innerHTML = time_array[i];
+				}, i*500)
 			}
 			
 			var hex_array1 = <?php echo json_encode($hexvals1); ?>;
 			var hex_array2 = <?php echo json_encode($hexvals2); ?>;
 			var hex_array3 = <?php echo json_encode($hexvals3); ?>;
 			var hex_array4 = <?php echo json_encode($hexvals4); ?>;
+
+			var time_array = <?php echo json_encode($times); ?>;
 
 			for(var i=0; i<hex_array1.length; i++){
 				do_timeout(i);
