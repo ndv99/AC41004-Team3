@@ -258,6 +258,23 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
                 // loadObject("legs", "shapes/legs.obj", 0xB66B3E);
                 loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
+
+				var mtlLoader = new MTLLoader();
+				mtlLoader.load('shapes/chungus.mtl', function (materials) {
+
+					materials.preload();
+
+					// Load the object
+					var objLoader = new OBJLoader();
+					objLoader.setMaterials(materials);
+					objLoader.load('shapes/chungus.obj', function (object) {
+						scene.add(object);
+						object.scale.set(10, 10, 10);
+						object.position.z = 0;
+						object.rotation.x = 0;
+
+					});
+				});
                 
 				// lights
 				let light, light2, light3, light4;
