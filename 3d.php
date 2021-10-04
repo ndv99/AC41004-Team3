@@ -262,22 +262,22 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				loadObject("left_calf", "shapes/left_calf.obj", 0xB66B3E);
                 loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
 
-				var mtlLoader = new MTLLoader();
-				mtlLoader.load('shapes/chungus.mtl', function (materials) {
+				// var mtlLoader = new MTLLoader();
+				// mtlLoader.load('shapes/chungus.mtl', function (materials) {
 
-					materials.preload();
+				// 	materials.preload();
 
-					// Load the object
-					var objLoader = new OBJLoader();
-					objLoader.setMaterials(materials);
-					objLoader.load('shapes/chungus.obj', function (object) {
-						scene.add(object);
-						object.scale.set(10, 10, 10);
-						object.position.z = 0;
-						object.rotation.x = 0;
+				// 	// Load the object
+				// 	var objLoader = new OBJLoader();
+				// 	objLoader.setMaterials(materials);
+				// 	objLoader.load('shapes/chungus.obj', function (object) {
+				// 		scene.add(object);
+				// 		object.scale.set(10, 10, 10);
+				// 		object.position.z = 0;
+				// 		object.rotation.x = 0;
 
-					});
-				});
+				// 	});
+				// });
                 
 				// lights
 				let light, light2, light3, light4;
