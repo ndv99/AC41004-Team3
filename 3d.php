@@ -256,25 +256,28 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
 				loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
-                // loadObject("legs", "shapes/legs.obj", 0xB66B3E);
+				loadObject("right_hamstring", "shapes/right_hamstring.obj", 0xB66B3E);
+				loadObject("left_hamstring", "shapes/left_hamstring.obj", 0xB66B3E);
+				loadObject("right_calf", "shapes/right_calf.obj", 0xB66B3E);
+				loadObject("left_calf", "shapes/left_calf.obj", 0xB66B3E);
                 loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
 
-				var mtlLoader = new MTLLoader();
-				mtlLoader.load('shapes/chungus.mtl', function (materials) {
+				// var mtlLoader = new MTLLoader();
+				// mtlLoader.load('shapes/chungus.mtl', function (materials) {
 
-					materials.preload();
+				// 	materials.preload();
 
-					// Load the object
-					var objLoader = new OBJLoader();
-					objLoader.setMaterials(materials);
-					objLoader.load('shapes/chungus.obj', function (object) {
-						scene.add(object);
-						object.scale.set(10, 10, 10);
-						object.position.z = 0;
-						object.rotation.x = 0;
+				// 	// Load the object
+				// 	var objLoader = new OBJLoader();
+				// 	objLoader.setMaterials(materials);
+				// 	objLoader.load('shapes/chungus.obj', function (object) {
+				// 		scene.add(object);
+				// 		object.scale.set(10, 10, 10);
+				// 		object.position.z = 0;
+				// 		object.rotation.x = 0;
 
-					});
-				});
+				// 	});
+				// });
                 
 				// lights
 				let light, light2, light3, light4;
@@ -331,21 +334,42 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			function do_timeout(i){
 				setTimeout(function() {	
-					console.log(hex_array1[i]);
-					changeObjectColour( "right_quad", parseInt(hex_array4[i], 16));
+					changeObjectColour( "left_hamstring", parseInt(hex_array1[i], 16));
+					changeObjectColour( "right_hamstring", parseInt(hex_array2[i], 16));
 					changeObjectColour( "left_quad", parseInt(hex_array3[i], 16))
+					changeObjectColour( "right_quad", parseInt(hex_array4[i], 16));
 					document.getElementById("time").innerHTML = time_array[i];
 				}, i*500)
 			}
 			
-			var hex_array1 = <?php echo json_encode($hexvals1); ?>;
-			var hex_array2 = <?php echo json_encode($hexvals2); ?>;
-			var hex_array3 = <?php echo json_encode($hexvals3); ?>;
-			var hex_array4 = <?php echo json_encode($hexvals4); ?>;
+			const hex_array1 = <?php echo json_encode($hexvals1); ?>;
+			const hex_array2 = <?php echo json_encode($hexvals2); ?>;
+			const hex_array3 = <?php echo json_encode($hexvals3); ?>;
+			const hex_array4 = <?php echo json_encode($hexvals4); ?>;
 
-			var time_array = <?php echo json_encode($times); ?>;
+			var shortest_array = function(){
+				const length1 = hex_array1.length;
+				const length2 = hex_array2.length;
+				const length3 = hex_array3.length;
+				const length4 = hex_array4.length;
 
-			for(var i=0; i<hex_array1.length; i++){
+				const lengths = [length1, length2, length3, length4]
+				const minlength = Math.min(...lengths);
+
+				if (minlength == length1){
+					return hex_array1;
+				} else if (minlength == length2){
+					return hex_array2;
+				} else if (minlength == length3){
+					return hex_array3;
+				} else if (minlength == length4){
+					return hex_array4;
+				} 
+			}
+
+			const time_array = <?php echo json_encode($times); ?>;
+
+			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
 			}
 
