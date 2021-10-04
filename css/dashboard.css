@@ -59,3 +59,12 @@ header {
         rgb(2,159,152)
     );
 }
+
+.clientList {
+    display: block;
+    background-image: linear-gradient(
+        to bottom,
+        rgb(37,196,218),
+        rgb(2,159,152)
+    );
+}
