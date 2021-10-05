@@ -23,7 +23,6 @@ h1 {
     font-weight: normal;
     text-transform: uppercase;
     color: white;
-
     margin: 20px 0;
     padding: 0;
 }
@@ -34,8 +33,6 @@ input {
     background: transparent;
     margin-bottom: 20px;
 }
-
-
 
 form {
     display: block;
