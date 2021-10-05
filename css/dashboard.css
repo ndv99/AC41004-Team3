@@ -1,0 +1,61 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
+  }
+
+@font-face {
+    font-family: RobotoThin;
+    src: url(../Style/Fonts/Roboto/Roboto-Thin.ttf);
+}
+
+.viewLastSession {
+    padding: 20px;
+}
+
+.container {
+    display: block;
+    width: 70%;
+    font-family: Roboto;
+    margin: auto;
+    padding: 0;
+}
+
+hr {
+    padding: 0;
+    margin: 0 0 30px 0;
+    border: 0;
+    height: 3px;
+    background: #fff;
+    background-image: linear-gradient(to right, #fff, rgb(3,151,162), #fff); 
+}
+
+header {
+    padding: 30px 0;
+}
+
+.logo {
+    display: block;
+    width: 300px;
+}
+
+.helloName {
+    font-family: RobotoThin;
+    text-transform: uppercase;
+    color: rgb(3,151,162);
+    text-align: center;
+}
+
+.helloName span {
+    font-family: RobotoThin;
+    text-transform: uppercase;
+    color: #F26D1C;
+}
+
+.body_background {
+    display: block;
+    background-image: linear-gradient(
+        to bottom,
+        rgb(37,196,218),
+        rgb(2,159,152)
+    );
+}
