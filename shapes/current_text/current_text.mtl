@@ -1,3 +1,4 @@
-newmtl Simply Delicious 1_c0174ee4-f3df-4cc0-8ae2-1bb9a9e6752c
-Kd 0.800 0.800 0.800
+newmtl Green to Blue_8e505810-0933-4e0e-9930-b4921d5b148e
+Kd 1.000 1.000 1.000
 d 1.000
+map_Kd gradient54.png.jpg
