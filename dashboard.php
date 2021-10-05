@@ -52,25 +52,23 @@
 				$stmt->execute();
 				$row = $stmt->fetchAll();
 				foreach ($row as $row2) {
-				//echo $row2["clientID"];
-				$clientID = $row2["client_id"];
-				$query2 = "SELECT * FROM `user` WHERE `user_id` = ".$clientID.";";
-				$stmt2 = $pdo->prepare($query2);
-				$stmt2->execute();
-				$row3 = $stmt2->fetch();
+					//echo $row2["clientID"];
+					$clientID = $row2["client_id"];
+					$query2 = "SELECT * FROM `user` WHERE `user_id` = ".$clientID.";";
+					$stmt2 = $pdo->prepare($query2);
+					$stmt2->execute();
+					$row3 = $stmt2->fetch();
 
-				echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>";
+					echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>";
 
 				}
 			}
-		?>
-		</div>
+	?>
 
-		
-		<hr>
-		<h1 class="helloName"> Your <span>recovery</span> tracker </h1>
-		<hr>
-
+	 <div class="page_heading">
+      <h1>Your recovery tracker</h1>
+    </div>
+   
 		<!-- background for the app -->
 		<div class="body_background">
 		<!-- contains all the main content of the page -->
@@ -78,22 +76,33 @@
 			<!-- test form for importing csv using php -->
 			<div title="form run on php" class="php_form">
 			<form class="row g-3" enctype="multipart/form-data" action="upload.php" method="post">
-				<div class="col-md-2">
+				<!-- <div class="col-md-2">
 					<label for="sensor" class="form-label">Choose a sensor:</label>
 					<select id="sensor" name="sensor" class="form-control">
-				<option value="">-----Choose Sensor-----</option>
+						<option value="">-----Choose Sensor-----</option>
 						<option value="1">Sensor 1</option>
 						<option value="2">Sensor 2</option>
 						<option value="3">Sensor 3</option>
 						<option value="4">Sensor 4</option>
 					</select>
-				</div>
+				</div> -->
 				<div class="col-12">
-					<label for="file" class="form-label" >Select CSV File:</label>
-					<input type="file" class="form-control" id="file_to_import" name="csv_file" accept=".csv" required>
+					<label for="file" class="form-label" >Upload Sensor 1 File:</label>
+					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+					<br>
+					<label for="file" class="form-label" >Upload Sensor 2 File:</label>
+					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+					<br>
+					<label for="file" class="form-label" >Upload Sensor 3 File:</label>
+					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+					<br>
+					<label for="file" class="form-label" >Upload Sensor 4 File:</label>
+					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
 				</div>
 				<input class="form-control" type="submit" id="submitFile" value="Upload File" name="import">
 			</form>
+			<br>
+
 			<button class="viewLastSession" onclick="window.location.href='3d.php'">View your last session</button>
 			</div>
 		</div>
