@@ -8,10 +8,9 @@
 	// 	exit;
 	// }
 
-	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"].";";
-	$stmt = $pdo->prepare($query);
-	$stmt->execute();
-	$row = $stmt->fetchAll();
+	if (isset($_POST["single_session"])) {
+		$session_id = $_POST["single_session"];
+	}
 
 	function colour_hex_val_gen ($current_colour, $percent) {
         $hex_val;
@@ -117,30 +116,58 @@
 
 	}
 
-	$hexvals1 = array();
-	$hexvals2 = array();
-	$hexvals3 = array();
-	$hexvals4 = array();
-	$times = array();
-	
-	foreach ($row as $result){
-		$value = $result["value"];
-		$time = $result["time"];
-		$sensor = $result["sensor_no"];
+	function create_arrays($rowx){
+		$hexvals1 = array();
+		$hexvals2 = array();
+		$hexvals3 = array();
+		$hexvals4 = array();
+		$times = array();
+		
+		foreach ($rowx as $result){
+			$value = $result["value"];
+			$time = $result["time"];
+			$sensor = $result["sensor_no"];
 
-		array_push($times, $time);
-		// echo(determine_colour($value)."<br>");
-		if ($sensor == 1) {
-			array_push($hexvals1, determine_colour($value));
-		} else if ($sensor == 2) {
-			array_push($hexvals2, determine_colour($value));
-		} else if ($sensor == 3) {
-			array_push($hexvals3, determine_colour($value));
-		} else if ($sensor == 4) {
-			array_push($hexvals4, determine_colour($value));
-		} else {
-			echo("error");
+			array_push($times, $time);
+			// echo(determine_colour($value)."<br>");
+			if ($sensor == 1) {
+				array_push($hexvals1, determine_colour($value));
+			} else if ($sensor == 2) {
+				array_push($hexvals2, determine_colour($value));
+			} else if ($sensor == 3) {
+				array_push($hexvals3, determine_colour($value));
+			} else if ($sensor == 4) {
+				array_push($hexvals4, determine_colour($value));
+			} else {
+				echo("error");
+			}
 		}
+
+		$session_values = array();
+		array_push($session_values, $hexvals1);
+		array_push($session_values, $hexvals2);
+		array_push($session_values, $hexvals3);
+		array_push($session_values, $hexvals4);
+		array_push($session_values, $times);
+		return $session_values;
+	}
+
+	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+	$stmt = $pdo->prepare($query);
+	$stmt->execute();
+	$row = $stmt->fetchAll();
+
+	$session1_values = create_arrays($row);
+	// var_dump($session1_values);
+	$session2_values = array();
+
+	if ($session_id > 1){
+		$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+		$stmt = $pdo->prepare($query);
+		$stmt->execute();
+		$row2 = $stmt->fetchAll();
+
+		$session2_values = create_arrays($row2);
 	}
 	
 ?>
@@ -159,28 +186,28 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		</head>
 
 	<body>
-		<h1 id="time">TIME</h1>
+		<!-- <h1 id="time">TIME</h1> -->
 
 		<script type="module">
 
-			// import * as THREE from '/js/threejs/build/three.module.js';
             import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
-					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color } from '/AC41004-Team3/js/threejs/build/three.module.js';
+					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from '/AC41004-Team3/js/threejs/build/three.module.js';
             import { MTLLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/MTLLoader.js';
             import { OBJLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/OBJLoader.js';
 			import { OrbitControls } from '/AC41004-Team3/js/threejs/examples/jsm/controls/OrbitControls.js';
 
 			let camera, controls, scene, renderer;
+			const are_there_two_sessions = <?php echo (isset($session2_values) && $session2_values) ? json_encode($session2_values) : 'false'; ?>;
 
 			init();
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
 			animate();
+			
 
 			function init() {
 
 				scene = new Scene();
-				scene.background = new Color( 0x001133 );
-				// scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
+				scene.background = new Color( 0x777777 );
 
 				renderer = new WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -195,6 +222,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				// controls
 
 				controls = new OrbitControls( camera, renderer.domElement );
+				controls.target.set(0, 100);
 				controls.listenToKeyEvents( window ); // optional
 
 				//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
@@ -254,47 +282,101 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                     );
                 }
 
-				loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
-				loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
-				loadObject("right_hamstring", "shapes/right_hamstring.obj", 0xB66B3E);
-				loadObject("left_hamstring", "shapes/left_hamstring.obj", 0xB66B3E);
-				loadObject("right_calf", "shapes/right_calf.obj", 0xB66B3E);
-				loadObject("left_calf", "shapes/left_calf.obj", 0xB66B3E);
-                loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
+				function loadObjectWithMaterial( obj_name, obj_path, mtl_path ) {
+					var mtlLoader = new MTLLoader();
+					mtlLoader.load(mtl_path, function (materials) {
 
-				// var mtlLoader = new MTLLoader();
-				// mtlLoader.load('shapes/chungus.mtl', function (materials) {
+						materials.preload();
 
-				// 	materials.preload();
+						// Load the object
+						var objLoader = new OBJLoader();
+						objLoader.setMaterials(materials);
+						objLoader.load(obj_path, function (object) {
+							scene.add(object);
+                            object.name = obj_name;
+							object.scale.set(10, 10, 10);
+							object.position.z = 0;
+							object.rotation.x = 0;
 
-				// 	// Load the object
-				// 	var objLoader = new OBJLoader();
-				// 	objLoader.setMaterials(materials);
-				// 	objLoader.load('shapes/chungus.obj', function (object) {
-				// 		scene.add(object);
-				// 		object.scale.set(10, 10, 10);
-				// 		object.position.z = 0;
-				// 		object.rotation.x = 0;
+						});
+					});
+				}
 
-				// 	});
-				// });
+				if (are_there_two_sessions){
+					loadObject("body1_right_quad", "shapes/body1_right_quad/body1_right_quad.obj", 0xB66B3E);
+					loadObject("body1_left_quad", "shapes/body1_left_quad/body1_left_quad.obj", 0xB66B3E);
+					loadObject("body1_right_hamstring", "shapes/body1_right_hamstring/body1_right_hamstring.obj", 0xB66B3E);
+					loadObject("body1_left_hamstring", "shapes/body1_left_hamstring/body1_left_hamstring.obj", 0xB66B3E);
+					loadObject("body1", "shapes/body1/body1.obj", 0xB66B3E);
+					loadObjectWithMaterial("previous_text", "shapes/previous_text/previous_text.obj", "shapes/previous_text/previous_text.mtl");
+
+					loadObject("body2_right_quad", "shapes/body2_right_quad/body2_right_quad.obj", 0xB66B3E);
+					loadObject("body2_left_quad", "shapes/body2_left_quad/body2_left_quad.obj", 0xB66B3E);
+					loadObject("body2_right_hamstring", "shapes/body2_right_hamstring/body2_right_hamstring.obj", 0xB66B3E);
+					loadObject("body2_left_hamstring", "shapes/body2_left_hamstring/body2_left_hamstring.obj", 0xB66B3E);
+					loadObject("body2", "shapes/body2/body2.obj", 0xB66B3E);
+					loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl");
+				} else {
+					loadObject("body3_right_quad", "shapes/body3_right_quad/body3_right_quad.obj", 0xB66B3E);
+					loadObject("body3_left_quad", "shapes/body3_left_quad/body3_left_quad.obj", 0xB66B3E);
+					loadObject("body3_right_hamstring", "shapes/body3_right_hamstring/body3_right_hamstring.obj", 0xB66B3E);
+					loadObject("body3_left_hamstring", "shapes/body3_left_hamstring/body3_left_hamstring.obj", 0xB66B3E);
+					loadObject("body3", "shapes/body3/body3.obj", 0xB66B3E);
+					loadObjectWithMaterial("current_text_centered", "shapes/current_text_centered/current_text_centered.obj", "shapes/current_text_centered/current_text_centered.mtl");
+					// load object 3
+				}
+				
                 
 				// lights
-				let light, light2, light3, light4;
-                light = new PointLight(0xc4c4c4,1);
-                light.position.set(0,300,500);
-                scene.add(light);
-                light2 = new PointLight(0xc4c4c4,1);
-                light2.position.set(500,100,0);
-                scene.add(light2);
-                light3 = new PointLight(0xc4c4c4,1);
-                light3.position.set(0,100,-500);
-                scene.add(light3);
-                light4 = new PointLight(0xc4c4c4,1);
-                light4.position.set(-500,300,500);
-                scene.add(light4);
+
+				// let light, light2, light3, light4;
+                // light = new PointLight(0xc4c4c4,1);
+                // light.position.set(0,300,500);
+                // scene.add(light);
+                // light2 = new PointLight(0xc4c4c4,1);
+                // light2.position.set(500,100,0);
+                // scene.add(light2);
+                // light3 = new PointLight(0xc4c4c4,1);
+                // light3.position.set(0,100,-500);
+                // scene.add(light3);
+                // light4 = new PointLight(0xc4c4c4,1);
+                // light4.position.set(-500,300,500);
+                // scene.add(light4);
+
+				const hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+                hemiLight.color.setHSL( 0.6, 0, 1 );
+                hemiLight.groundColor.setHSL( 0.6, 0, 0.75 );
+                hemiLight.position.set( -100, 100, 0 );
+                scene.add( hemiLight );
+
+                // const hemiLightHelper = new HemisphereLightHelper( hemiLight, 10 );
+                // scene.add( hemiLightHelper );
 
 				window.addEventListener( 'resize', onWindowResize );
+
+				const dirLight = new DirectionalLight( 0xffffff, 1 );
+                dirLight.color.setHSL( 0.1, 1, 0.95 );
+                dirLight.position.set( 10, 17.5, 10 );
+                dirLight.position.multiplyScalar( 30 );
+                scene.add( dirLight );
+
+                dirLight.castShadow = true;
+
+                dirLight.shadow.mapSize.width = 2048;
+                dirLight.shadow.mapSize.height = 2048;
+
+                const d = 50;
+
+                dirLight.shadow.camera.left = - d;
+                dirLight.shadow.camera.right = d;
+                dirLight.shadow.camera.top = d;
+                dirLight.shadow.camera.bottom = - d;
+
+                dirLight.shadow.camera.far = 3500;
+                dirLight.shadow.bias = - 0.0001;
+
+                // const dirLightHelper = new DirectionalLightHelper( dirLight, 10 );
+                // scene.add( dirLightHelper );
 
 			}
 
@@ -322,6 +404,26 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				renderer.render( scene, camera );
 
 			}
+			
+			const session1_values = <?php echo json_encode($session1_values);?>;
+			const hex_array1 = session1_values[0];
+			const hex_array2 = session1_values[1];
+			const hex_array3 = session1_values[2];
+			const hex_array4 = session1_values[3];
+
+			var hex_array5 = [];
+			var hex_array6 = [];
+			var hex_array7 = [];
+			var hex_array8 = [];
+
+			if (are_there_two_sessions){
+				const session2_values = <?php echo json_encode($session2_values);?>;
+				console.log(session2_values);
+				hex_array5 = session2_values[0];
+				hex_array6 = session2_values[1];
+				hex_array7 = session2_values[2];
+				hex_array8 = session2_values[3];
+			}
 
 			function changeObjectColour( objName, objColor ){
                 var obj = scene.getObjectByName( objName );
@@ -334,24 +436,37 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			function do_timeout(i){
 				setTimeout(function() {	
-					changeObjectColour( "left_hamstring", parseInt(hex_array1[i], 16));
-					changeObjectColour( "right_hamstring", parseInt(hex_array2[i], 16));
-					changeObjectColour( "left_quad", parseInt(hex_array3[i], 16))
-					changeObjectColour( "right_quad", parseInt(hex_array4[i], 16));
-					document.getElementById("time").innerHTML = time_array[i];
+					if(are_there_two_sessions){
+						changeObjectColour( "body2_left_hamstring", parseInt(hex_array1[i], 16));
+						changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
+						changeObjectColour( "body2_left_quad", parseInt(hex_array3[i], 16))
+						changeObjectColour( "body2_right_quad", parseInt(hex_array4[i], 16));
+						// document.getElementById("time").innerHTML = time_array[i];
+						changeObjectColour( "body1_left_hamstring", parseInt(hex_array5[i], 16));
+						changeObjectColour( "body1_right_hamstring", parseInt(hex_array6[i], 16));
+						changeObjectColour( "body1_left_quad", parseInt(hex_array7[i], 16))
+						changeObjectColour( "body1_right_quad", parseInt(hex_array8[i], 16));
+					} else {
+						changeObjectColour( "body3_left_hamstring", parseInt(hex_array1[i], 16));
+						changeObjectColour( "body3_right_hamstring", parseInt(hex_array2[i], 16));
+						changeObjectColour( "body3_left_quad", parseInt(hex_array3[i], 16))
+						changeObjectColour( "body3_right_quad", parseInt(hex_array4[i], 16));
+					}
 				}, i*500)
 			}
-			
-			const hex_array1 = <?php echo json_encode($hexvals1); ?>;
-			const hex_array2 = <?php echo json_encode($hexvals2); ?>;
-			const hex_array3 = <?php echo json_encode($hexvals3); ?>;
-			const hex_array4 = <?php echo json_encode($hexvals4); ?>;
 
 			var shortest_array = function(){
 				const length1 = hex_array1.length;
 				const length2 = hex_array2.length;
 				const length3 = hex_array3.length;
 				const length4 = hex_array4.length;
+
+				if (are_there_two_sessions){
+					const length5 = hex_array5.length;
+					const length6 = hex_array6.length;
+					const length7 = hex_array7.length;
+					const length8 = hex_array8.length;
+				}
 
 				const lengths = [length1, length2, length3, length4]
 				const minlength = Math.min(...lengths);
@@ -364,14 +479,26 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					return hex_array3;
 				} else if (minlength == length4){
 					return hex_array4;
-				} 
+				} else if (are_there_two_sessions){
+
+					if (minlength == length5){
+						return hex_array5;
+					} else if (minlength == length6){
+						return hex_array6;
+					} else if (minlength == length7){
+						return hex_array7;
+					} else if (minlength == length8){
+						return hex_array8;
+					}
+				}
 			}
 
-			const time_array = <?php echo json_encode($times); ?>;
+			const time_array = session1_values[4];
 
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
 			}
+			
 
 		</script>
 

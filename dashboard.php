@@ -102,8 +102,18 @@
 				<input class="form-control" type="submit" id="submitFile" value="Upload File" name="import">
 			</form>
 			<br>
+			<?php
+				$query = "SELECT MAX(session_id) FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
+				$stmt = $pdo->prepare($query);
+				$stmt->execute();
+				$row = $stmt->fetch();
+				$result = $row["MAX(session_id)"];
 
-			<button class="viewLastSession" onclick="window.location.href='3d.php'">View your last session</button>
+				echo $result;
+			?>
+			<form method="post" action ="3d.php">
+				<button value='<?php echo $result ?>' type="submit" name="single_session" class="viewLastSession">View your last session</button>
+			</form>
 			</div>
 		</div>
 
