@@ -254,13 +254,47 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                     );
                 }
 
-				loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
-				loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
-				loadObject("right_hamstring", "shapes/right_hamstring.obj", 0xB66B3E);
-				loadObject("left_hamstring", "shapes/left_hamstring.obj", 0xB66B3E);
-				loadObject("right_calf", "shapes/right_calf.obj", 0xB66B3E);
-				loadObject("left_calf", "shapes/left_calf.obj", 0xB66B3E);
-                loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
+				function loadObjectWithMaterial( obj_name, obj_path, mtl_path ) {
+					var mtlLoader = new MTLLoader();
+					mtlLoader.load(mtl_path, function (materials) {
+
+						materials.preload();
+
+						// Load the object
+						var objLoader = new OBJLoader();
+						objLoader.setMaterials(materials);
+						objLoader.load(obj_path, function (object) {
+							scene.add(object);
+                            object.name = obj_name;
+							object.scale.set(10, 10, 10);
+							object.position.z = 0;
+							object.rotation.x = 0;
+
+						});
+					});
+				}
+
+				loadObject("current_right_quad", "shapes/current_right_quad/current_right_quad.obj", 0xB66B3E);
+				loadObject("current_left_quad", "shapes/current_left_quad/current_left_quad.obj", 0xB66B3E);
+				loadObject("current_right_hamstring", "shapes/current_right_hamstring/current_right_hamstring.obj", 0xB66B3E);
+				loadObject("current_left_hamstring", "shapes/current_left_hamstring/current_left_hamstring.obj", 0xB66B3E);
+                loadObject("current_body", "shapes/current_body/current_body.obj", 0xB66B3E);
+				loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl")
+
+				loadObject("previous_right_quad", "shapes/previous_right_quad/previous_right_quad.obj", 0xB66B3E);
+				loadObject("previous_left_quad", "shapes/previous_left_quad/previous_left_quad.obj", 0xB66B3E);
+				loadObject("previous_right_hamstring", "shapes/previous_right_hamstring/previous_right_hamstring.obj", 0xB66B3E);
+				loadObject("previous_left_hamstring", "shapes/previous_left_hamstring/previous_left_hamstring.obj", 0xB66B3E);
+                loadObject("previous_body", "shapes/previous_body/previous_body.obj", 0xB66B3E);
+				loadObjectWithMaterial("previous_text", "shapes/previous_text/previous_text.obj", "shapes/previous_text/previous_text.mtl")
+
+				// loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
+				// loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
+				// loadObject("right_hamstring", "shapes/right_hamstring.obj", 0xB66B3E);
+				// loadObject("left_hamstring", "shapes/left_hamstring.obj", 0xB66B3E);
+				// loadObject("right_calf", "shapes/right_calf.obj", 0xB66B3E);
+				// loadObject("left_calf", "shapes/left_calf.obj", 0xB66B3E);
+                // loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
 
 				// var mtlLoader = new MTLLoader();
 				// mtlLoader.load('shapes/chungus.mtl', function (materials) {
@@ -334,10 +368,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			function do_timeout(i){
 				setTimeout(function() {	
-					changeObjectColour( "left_hamstring", parseInt(hex_array1[i], 16));
-					changeObjectColour( "right_hamstring", parseInt(hex_array2[i], 16));
-					changeObjectColour( "left_quad", parseInt(hex_array3[i], 16))
-					changeObjectColour( "right_quad", parseInt(hex_array4[i], 16));
+					changeObjectColour( "current_left_hamstring", parseInt(hex_array1[i], 16));
+					changeObjectColour( "current_right_hamstring", parseInt(hex_array2[i], 16));
+					changeObjectColour( "current_left_quad", parseInt(hex_array3[i], 16))
+					changeObjectColour( "current_right_quad", parseInt(hex_array4[i], 16));
 					document.getElementById("time").innerHTML = time_array[i];
 				}, i*500)
 			}
