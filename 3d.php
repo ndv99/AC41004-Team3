@@ -159,7 +159,7 @@
 
 	$session1_values = create_arrays($row);
 	// var_dump($session1_values);
-	$session2_values;
+	$session2_values = array();
 
 	if ($session_id > 1){
 		$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
@@ -197,10 +197,12 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			import { OrbitControls } from '/AC41004-Team3/js/threejs/examples/jsm/controls/OrbitControls.js';
 
 			let camera, controls, scene, renderer;
+			const are_there_two_sessions = <?php echo (isset($session2_values) && $session2_values) ? json_encode($session2_values) : 'false'; ?>;
 
 			init();
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
 			animate();
+			
 
 			function init() {
 
@@ -300,7 +302,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					});
 				}
 
-				if (<?php echo (isset($op) && $op) ? json_encode($op) : 'null'; ?>){
+				if (are_there_two_sessions){
 					loadObject("body1_right_quad", "shapes/body1_right_quad/body1_right_quad.obj", 0xB66B3E);
 					loadObject("body1_left_quad", "shapes/body1_left_quad/body1_left_quad.obj", 0xB66B3E);
 					loadObject("body1_right_hamstring", "shapes/body1_right_hamstring/body1_right_hamstring.obj", 0xB66B3E);
@@ -308,15 +310,19 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					loadObject("body1", "shapes/body1/body1.obj", 0xB66B3E);
 					loadObjectWithMaterial("previous_text", "shapes/previous_text/previous_text.obj", "shapes/previous_text/previous_text.mtl");
 
-					
-					loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl");
-				} else {
 					loadObject("body2_right_quad", "shapes/body2_right_quad/body2_right_quad.obj", 0xB66B3E);
 					loadObject("body2_left_quad", "shapes/body2_left_quad/body2_left_quad.obj", 0xB66B3E);
 					loadObject("body2_right_hamstring", "shapes/body2_right_hamstring/body2_right_hamstring.obj", 0xB66B3E);
 					loadObject("body2_left_hamstring", "shapes/body2_left_hamstring/body2_left_hamstring.obj", 0xB66B3E);
 					loadObject("body2", "shapes/body2/body2.obj", 0xB66B3E);
 					loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl");
+				} else {
+					loadObject("body3_right_quad", "shapes/body3_right_quad/body3_right_quad.obj", 0xB66B3E);
+					loadObject("body3_left_quad", "shapes/body3_left_quad/body3_left_quad.obj", 0xB66B3E);
+					loadObject("body3_right_hamstring", "shapes/body3_right_hamstring/body3_right_hamstring.obj", 0xB66B3E);
+					loadObject("body3_left_hamstring", "shapes/body3_left_hamstring/body3_left_hamstring.obj", 0xB66B3E);
+					loadObject("body3", "shapes/body3/body3.obj", 0xB66B3E);
+					loadObjectWithMaterial("current_text_centered", "shapes/current_text_centered/current_text_centered.obj", "shapes/current_text_centered/current_text_centered.mtl");
 					// load object 3
 				}
 				
@@ -398,6 +404,26 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				renderer.render( scene, camera );
 
 			}
+			
+			const session1_values = <?php echo json_encode($session1_values);?>;
+			const hex_array1 = session1_values[0];
+			const hex_array2 = session1_values[1];
+			const hex_array3 = session1_values[2];
+			const hex_array4 = session1_values[3];
+
+			var hex_array5 = [];
+			var hex_array6 = [];
+			var hex_array7 = [];
+			var hex_array8 = [];
+
+			if (are_there_two_sessions){
+				const session2_values = <?php echo json_encode($session2_values);?>;
+				console.log(session2_values);
+				hex_array5 = session2_values[0];
+				hex_array6 = session2_values[1];
+				hex_array7 = session2_values[2];
+				hex_array8 = session2_values[3];
+			}
 
 			function changeObjectColour( objName, objColor ){
                 var obj = scene.getObjectByName( objName );
@@ -410,25 +436,37 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			function do_timeout(i){
 				setTimeout(function() {	
-					changeObjectColour( "body2_left_hamstring", parseInt(hex_array1[i], 16));
-					changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
-					changeObjectColour( "body2_left_quad", parseInt(hex_array3[i], 16))
-					changeObjectColour( "body2_right_quad", parseInt(hex_array4[i], 16));
-					// document.getElementById("time").innerHTML = time_array[i];
+					if(are_there_two_sessions){
+						changeObjectColour( "body2_left_hamstring", parseInt(hex_array1[i], 16));
+						changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
+						changeObjectColour( "body2_left_quad", parseInt(hex_array3[i], 16))
+						changeObjectColour( "body2_right_quad", parseInt(hex_array4[i], 16));
+						// document.getElementById("time").innerHTML = time_array[i];
+						changeObjectColour( "body1_left_hamstring", parseInt(hex_array5[i], 16));
+						changeObjectColour( "body1_right_hamstring", parseInt(hex_array6[i], 16));
+						changeObjectColour( "body1_left_quad", parseInt(hex_array7[i], 16))
+						changeObjectColour( "body1_right_quad", parseInt(hex_array8[i], 16));
+					} else {
+						changeObjectColour( "body3_left_hamstring", parseInt(hex_array1[i], 16));
+						changeObjectColour( "body3_right_hamstring", parseInt(hex_array2[i], 16));
+						changeObjectColour( "body3_left_quad", parseInt(hex_array3[i], 16))
+						changeObjectColour( "body3_right_quad", parseInt(hex_array4[i], 16));
+					}
 				}, i*500)
 			}
-			
-			const session1_values = <?php echo json_encode($session1_values);?>;
-			const hex_array1 = session1_values[0];
-			const hex_array2 = session1_values[1];
-			const hex_array3 = session1_values[2];
-			const hex_array4 = session1_values[3];
 
 			var shortest_array = function(){
 				const length1 = hex_array1.length;
 				const length2 = hex_array2.length;
 				const length3 = hex_array3.length;
 				const length4 = hex_array4.length;
+
+				if (are_there_two_sessions){
+					const length5 = hex_array5.length;
+					const length6 = hex_array6.length;
+					const length7 = hex_array7.length;
+					const length8 = hex_array8.length;
+				}
 
 				const lengths = [length1, length2, length3, length4]
 				const minlength = Math.min(...lengths);
@@ -441,7 +479,18 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					return hex_array3;
 				} else if (minlength == length4){
 					return hex_array4;
-				} 
+				} else if (are_there_two_sessions){
+
+					if (minlength == length5){
+						return hex_array5;
+					} else if (minlength == length6){
+						return hex_array6;
+					} else if (minlength == length7){
+						return hex_array7;
+					} else if (minlength == length8){
+						return hex_array8;
+					}
+				}
 			}
 
 			const time_array = session1_values[4];
@@ -449,6 +498,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
 			}
+			
 
 		</script>
 
