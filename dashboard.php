@@ -52,18 +52,17 @@
 				$stmt->execute();
 				$row = $stmt->fetchAll();
 				foreach ($row as $row2) {
-				//echo $row2["clientID"];
-				$clientID = $row2["client_id"];
-				$query2 = "SELECT * FROM `user` WHERE `user_id` = ".$clientID.";";
-				$stmt2 = $pdo->prepare($query2);
-				$stmt2->execute();
-				$row3 = $stmt2->fetch();
+					//echo $row2["clientID"];
+					$clientID = $row2["client_id"];
+					$query2 = "SELECT * FROM `user` WHERE `user_id` = ".$clientID.";";
+					$stmt2 = $pdo->prepare($query2);
+					$stmt2->execute();
+					$row3 = $stmt2->fetch();
 
-				echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>";
+					echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>";
 
 				}
 			}
-		}
 	?>
 
 	 <div class="page_heading">
