@@ -179,7 +179,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			function init() {
 
 				scene = new Scene();
-				scene.background = new Color( 0x001133 );
+				scene.background = new Color( 0x777777 );
 				// scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
 				renderer = new WebGLRenderer( { antialias: true } );
@@ -195,6 +195,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				// controls
 
 				controls = new OrbitControls( camera, renderer.domElement );
+				controls.target.set(0, 100);
 				controls.listenToKeyEvents( window ); // optional
 
 				//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
