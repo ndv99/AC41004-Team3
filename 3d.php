@@ -163,9 +163,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 		<script type="module">
 
-			// import * as THREE from '/js/threejs/build/three.module.js';
             import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
-					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color } from '/AC41004-Team3/js/threejs/build/three.module.js';
+					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from '/AC41004-Team3/js/threejs/build/three.module.js';
             import { MTLLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/MTLLoader.js';
             import { OBJLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/OBJLoader.js';
 			import { OrbitControls } from '/AC41004-Team3/js/threejs/examples/jsm/controls/OrbitControls.js';
@@ -180,7 +179,6 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				scene = new Scene();
 				scene.background = new Color( 0x777777 );
-				// scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
 				renderer = new WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -275,61 +273,70 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					});
 				}
 
-				loadObject("current_right_quad", "shapes/current_right_quad/current_right_quad.obj", 0xB66B3E);
-				loadObject("current_left_quad", "shapes/current_left_quad/current_left_quad.obj", 0xB66B3E);
-				loadObject("current_right_hamstring", "shapes/current_right_hamstring/current_right_hamstring.obj", 0xB66B3E);
-				loadObject("current_left_hamstring", "shapes/current_left_hamstring/current_left_hamstring.obj", 0xB66B3E);
-                loadObject("current_body", "shapes/current_body/current_body.obj", 0xB66B3E);
-				loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl")
+				loadObject("body1_right_quad", "shapes/body1_right_quad/body1_right_quad.obj", 0xB66B3E);
+				loadObject("body1_left_quad", "shapes/body1_left_quad/body1_left_quad.obj", 0xB66B3E);
+				loadObject("body1_right_hamstring", "shapes/body1_right_hamstring/body1_right_hamstring.obj", 0xB66B3E);
+				loadObject("body1_left_hamstring", "shapes/body1_left_hamstring/body1_left_hamstring.obj", 0xB66B3E);
+                loadObject("body1", "shapes/body1/body1.obj", 0xB66B3E);
+				loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl");
 
-				loadObject("previous_right_quad", "shapes/previous_right_quad/previous_right_quad.obj", 0xB66B3E);
-				loadObject("previous_left_quad", "shapes/previous_left_quad/previous_left_quad.obj", 0xB66B3E);
-				loadObject("previous_right_hamstring", "shapes/previous_right_hamstring/previous_right_hamstring.obj", 0xB66B3E);
-				loadObject("previous_left_hamstring", "shapes/previous_left_hamstring/previous_left_hamstring.obj", 0xB66B3E);
-                loadObject("previous_body", "shapes/previous_body/previous_body.obj", 0xB66B3E);
-				loadObjectWithMaterial("previous_text", "shapes/previous_text/previous_text.obj", "shapes/previous_text/previous_text.mtl")
-
-				// loadObject("right_quad", "shapes/right_quad.obj", 0xB66B3E);
-				// loadObject("left_quad", "shapes/left_quad.obj", 0xB66B3E);
-				// loadObject("right_hamstring", "shapes/right_hamstring.obj", 0xB66B3E);
-				// loadObject("left_hamstring", "shapes/left_hamstring.obj", 0xB66B3E);
-				// loadObject("right_calf", "shapes/right_calf.obj", 0xB66B3E);
-				// loadObject("left_calf", "shapes/left_calf.obj", 0xB66B3E);
-                // loadObject("torso", "shapes/upper_torso.obj", 0xB66B3E);
-
-				// var mtlLoader = new MTLLoader();
-				// mtlLoader.load('shapes/chungus.mtl', function (materials) {
-
-				// 	materials.preload();
-
-				// 	// Load the object
-				// 	var objLoader = new OBJLoader();
-				// 	objLoader.setMaterials(materials);
-				// 	objLoader.load('shapes/chungus.obj', function (object) {
-				// 		scene.add(object);
-				// 		object.scale.set(10, 10, 10);
-				// 		object.position.z = 0;
-				// 		object.rotation.x = 0;
-
-				// 	});
-				// });
+				loadObject("body2_right_quad", "shapes/body2_right_quad/body2_right_quad.obj", 0xB66B3E);
+				loadObject("body2_left_quad", "shapes/body2_left_quad/body2_left_quad.obj", 0xB66B3E);
+				loadObject("body2_right_hamstring", "shapes/body2_right_hamstring/body2_right_hamstring.obj", 0xB66B3E);
+				loadObject("body2_left_hamstring", "shapes/body2_left_hamstring/body2_left_hamstring.obj", 0xB66B3E);
+                loadObject("body2", "shapes/body2/body2.obj", 0xB66B3E);
+				loadObjectWithMaterial("previous_text", "shapes/previous_text/previous_text.obj", "shapes/previous_text/previous_text.mtl");
                 
 				// lights
-				let light, light2, light3, light4;
-                light = new PointLight(0xc4c4c4,1);
-                light.position.set(0,300,500);
-                scene.add(light);
-                light2 = new PointLight(0xc4c4c4,1);
-                light2.position.set(500,100,0);
-                scene.add(light2);
-                light3 = new PointLight(0xc4c4c4,1);
-                light3.position.set(0,100,-500);
-                scene.add(light3);
-                light4 = new PointLight(0xc4c4c4,1);
-                light4.position.set(-500,300,500);
-                scene.add(light4);
+
+				// let light, light2, light3, light4;
+                // light = new PointLight(0xc4c4c4,1);
+                // light.position.set(0,300,500);
+                // scene.add(light);
+                // light2 = new PointLight(0xc4c4c4,1);
+                // light2.position.set(500,100,0);
+                // scene.add(light2);
+                // light3 = new PointLight(0xc4c4c4,1);
+                // light3.position.set(0,100,-500);
+                // scene.add(light3);
+                // light4 = new PointLight(0xc4c4c4,1);
+                // light4.position.set(-500,300,500);
+                // scene.add(light4);
+
+				const hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+                hemiLight.color.setHSL( 0.6, 0, 1 );
+                hemiLight.groundColor.setHSL( 0.6, 0, 0.75 );
+                hemiLight.position.set( -100, 100, 0 );
+                scene.add( hemiLight );
+
+                // const hemiLightHelper = new HemisphereLightHelper( hemiLight, 10 );
+                // scene.add( hemiLightHelper );
 
 				window.addEventListener( 'resize', onWindowResize );
+
+				const dirLight = new DirectionalLight( 0xffffff, 1 );
+                dirLight.color.setHSL( 0.1, 1, 0.95 );
+                dirLight.position.set( 10, 17.5, 10 );
+                dirLight.position.multiplyScalar( 30 );
+                scene.add( dirLight );
+
+                dirLight.castShadow = true;
+
+                dirLight.shadow.mapSize.width = 2048;
+                dirLight.shadow.mapSize.height = 2048;
+
+                const d = 50;
+
+                dirLight.shadow.camera.left = - d;
+                dirLight.shadow.camera.right = d;
+                dirLight.shadow.camera.top = d;
+                dirLight.shadow.camera.bottom = - d;
+
+                dirLight.shadow.camera.far = 3500;
+                dirLight.shadow.bias = - 0.0001;
+
+                // const dirLightHelper = new DirectionalLightHelper( dirLight, 10 );
+                // scene.add( dirLightHelper );
 
 			}
 
@@ -369,10 +376,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			function do_timeout(i){
 				setTimeout(function() {	
-					changeObjectColour( "current_left_hamstring", parseInt(hex_array1[i], 16));
-					changeObjectColour( "current_right_hamstring", parseInt(hex_array2[i], 16));
-					changeObjectColour( "current_left_quad", parseInt(hex_array3[i], 16))
-					changeObjectColour( "current_right_quad", parseInt(hex_array4[i], 16));
+					changeObjectColour( "body2_left_hamstring", parseInt(hex_array1[i], 16));
+					changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
+					changeObjectColour( "body2_left_quad", parseInt(hex_array3[i], 16))
+					changeObjectColour( "body2_right_quad", parseInt(hex_array4[i], 16));
 					document.getElementById("time").innerHTML = time_array[i];
 				}, i*500)
 			}
