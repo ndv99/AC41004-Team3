@@ -8,10 +8,9 @@
 	// 	exit;
 	// }
 
-	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"].";";
-	$stmt = $pdo->prepare($query);
-	$stmt->execute();
-	$row = $stmt->fetchAll();
+	if (isset($_POST["single_session"])) {
+		$session_id = $_POST["single_session"];
+	}
 
 	function colour_hex_val_gen ($current_colour, $percent) {
         $hex_val;
@@ -117,30 +116,58 @@
 
 	}
 
-	$hexvals1 = array();
-	$hexvals2 = array();
-	$hexvals3 = array();
-	$hexvals4 = array();
-	$times = array();
-	
-	foreach ($row as $result){
-		$value = $result["value"];
-		$time = $result["time"];
-		$sensor = $result["sensor_no"];
+	function create_arrays($rowx){
+		$hexvals1 = array();
+		$hexvals2 = array();
+		$hexvals3 = array();
+		$hexvals4 = array();
+		$times = array();
+		
+		foreach ($rowx as $result){
+			$value = $result["value"];
+			$time = $result["time"];
+			$sensor = $result["sensor_no"];
 
-		array_push($times, $time);
-		// echo(determine_colour($value)."<br>");
-		if ($sensor == 1) {
-			array_push($hexvals1, determine_colour($value));
-		} else if ($sensor == 2) {
-			array_push($hexvals2, determine_colour($value));
-		} else if ($sensor == 3) {
-			array_push($hexvals3, determine_colour($value));
-		} else if ($sensor == 4) {
-			array_push($hexvals4, determine_colour($value));
-		} else {
-			echo("error");
+			array_push($times, $time);
+			// echo(determine_colour($value)."<br>");
+			if ($sensor == 1) {
+				array_push($hexvals1, determine_colour($value));
+			} else if ($sensor == 2) {
+				array_push($hexvals2, determine_colour($value));
+			} else if ($sensor == 3) {
+				array_push($hexvals3, determine_colour($value));
+			} else if ($sensor == 4) {
+				array_push($hexvals4, determine_colour($value));
+			} else {
+				echo("error");
+			}
 		}
+
+		$session_values = array();
+		array_push($session_values, $hexvals1);
+		array_push($session_values, $hexvals2);
+		array_push($session_values, $hexvals3);
+		array_push($session_values, $hexvals4);
+		array_push($session_values, $times);
+		return $session_values;
+	}
+
+	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+	$stmt = $pdo->prepare($query);
+	$stmt->execute();
+	$row = $stmt->fetchAll();
+
+	$session1_values = create_arrays($row);
+	// var_dump($session1_values);
+	$session2_values;
+
+	if ($session_id > 1){
+		$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+		$stmt = $pdo->prepare($query);
+		$stmt->execute();
+		$row2 = $stmt->fetchAll();
+
+		$session2_values = create_arrays($row2);
 	}
 	
 ?>
@@ -159,7 +186,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		</head>
 
 	<body>
-		<h1 id="time">TIME</h1>
+		<!-- <h1 id="time">TIME</h1> -->
 
 		<script type="module">
 
@@ -273,19 +300,26 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					});
 				}
 
-				loadObject("body1_right_quad", "shapes/body1_right_quad/body1_right_quad.obj", 0xB66B3E);
-				loadObject("body1_left_quad", "shapes/body1_left_quad/body1_left_quad.obj", 0xB66B3E);
-				loadObject("body1_right_hamstring", "shapes/body1_right_hamstring/body1_right_hamstring.obj", 0xB66B3E);
-				loadObject("body1_left_hamstring", "shapes/body1_left_hamstring/body1_left_hamstring.obj", 0xB66B3E);
-                loadObject("body1", "shapes/body1/body1.obj", 0xB66B3E);
-				loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl");
+				if (<?php echo (isset($op) && $op) ? json_encode($op) : 'null'; ?>){
+					loadObject("body1_right_quad", "shapes/body1_right_quad/body1_right_quad.obj", 0xB66B3E);
+					loadObject("body1_left_quad", "shapes/body1_left_quad/body1_left_quad.obj", 0xB66B3E);
+					loadObject("body1_right_hamstring", "shapes/body1_right_hamstring/body1_right_hamstring.obj", 0xB66B3E);
+					loadObject("body1_left_hamstring", "shapes/body1_left_hamstring/body1_left_hamstring.obj", 0xB66B3E);
+					loadObject("body1", "shapes/body1/body1.obj", 0xB66B3E);
+					loadObjectWithMaterial("previous_text", "shapes/previous_text/previous_text.obj", "shapes/previous_text/previous_text.mtl");
 
-				loadObject("body2_right_quad", "shapes/body2_right_quad/body2_right_quad.obj", 0xB66B3E);
-				loadObject("body2_left_quad", "shapes/body2_left_quad/body2_left_quad.obj", 0xB66B3E);
-				loadObject("body2_right_hamstring", "shapes/body2_right_hamstring/body2_right_hamstring.obj", 0xB66B3E);
-				loadObject("body2_left_hamstring", "shapes/body2_left_hamstring/body2_left_hamstring.obj", 0xB66B3E);
-                loadObject("body2", "shapes/body2/body2.obj", 0xB66B3E);
-				loadObjectWithMaterial("previous_text", "shapes/previous_text/previous_text.obj", "shapes/previous_text/previous_text.mtl");
+					
+					loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl");
+				} else {
+					loadObject("body2_right_quad", "shapes/body2_right_quad/body2_right_quad.obj", 0xB66B3E);
+					loadObject("body2_left_quad", "shapes/body2_left_quad/body2_left_quad.obj", 0xB66B3E);
+					loadObject("body2_right_hamstring", "shapes/body2_right_hamstring/body2_right_hamstring.obj", 0xB66B3E);
+					loadObject("body2_left_hamstring", "shapes/body2_left_hamstring/body2_left_hamstring.obj", 0xB66B3E);
+					loadObject("body2", "shapes/body2/body2.obj", 0xB66B3E);
+					loadObjectWithMaterial("current_text", "shapes/current_text/current_text.obj", "shapes/current_text/current_text.mtl");
+					// load object 3
+				}
+				
                 
 				// lights
 
@@ -380,14 +414,15 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
 					changeObjectColour( "body2_left_quad", parseInt(hex_array3[i], 16))
 					changeObjectColour( "body2_right_quad", parseInt(hex_array4[i], 16));
-					document.getElementById("time").innerHTML = time_array[i];
+					// document.getElementById("time").innerHTML = time_array[i];
 				}, i*500)
 			}
 			
-			const hex_array1 = <?php echo json_encode($hexvals1); ?>;
-			const hex_array2 = <?php echo json_encode($hexvals2); ?>;
-			const hex_array3 = <?php echo json_encode($hexvals3); ?>;
-			const hex_array4 = <?php echo json_encode($hexvals4); ?>;
+			const session1_values = <?php echo json_encode($session1_values);?>;
+			const hex_array1 = session1_values[0];
+			const hex_array2 = session1_values[1];
+			const hex_array3 = session1_values[2];
+			const hex_array4 = session1_values[3];
 
 			var shortest_array = function(){
 				const length1 = hex_array1.length;
@@ -409,7 +444,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				} 
 			}
 
-			const time_array = <?php echo json_encode($times); ?>;
+			const time_array = session1_values[4];
 
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
