@@ -17,9 +17,10 @@
 	<link rel="stylesheet" href="css/main.css">
 
     <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
--->
+--><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!--<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> -->
 
 	<link rel="stylesheet" type="text/css" href="./css/dashboard.css" />
@@ -75,33 +76,39 @@
 		<div class="content_container">
 			<!-- test form for importing csv using php -->
 			<div title="form run on php" class="php_form">
-			<form class="row g-3" enctype="multipart/form-data" action="upload.php" method="post">
-				<!-- <div class="col-md-2">
-					<label for="sensor" class="form-label">Choose a sensor:</label>
-					<select id="sensor" name="sensor" class="form-control">
-						<option value="">-----Choose Sensor-----</option>
-						<option value="1">Sensor 1</option>
-						<option value="2">Sensor 2</option>
-						<option value="3">Sensor 3</option>
-						<option value="4">Sensor 4</option>
-					</select>
-				</div> -->
-				<div class="col-12">
-					<label for="file" class="form-label" >Upload Sensor 1 File:</label>
-					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
-					<br>
-					<label for="file" class="form-label" >Upload Sensor 2 File:</label>
-					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
-					<br>
-					<label for="file" class="form-label" >Upload Sensor 3 File:</label>
-					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
-					<br>
-					<label for="file" class="form-label" >Upload Sensor 4 File:</label>
-					<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal" data-bs-whatever="@getbootstrap">Upload new sensor readings</button>
+
+				<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="uploadmodal" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="uploadmodal">Upload sensor data</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+						<form class="row g-3" enctype="multipart/form-data" action="upload.php" method="post">
+							<div class="col-12">
+								<label for="file" class="form-label" >Upload Sensor 1 File:</label>
+								<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+								<br>
+								<label for="file" class="form-label" >Upload Sensor 2 File:</label>
+								<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+								<br>
+								<label for="file" class="form-label" >Upload Sensor 3 File:</label>
+								<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+								<br>
+								<label for="file" class="form-label" >Upload Sensor 4 File:</label>
+								<input type="file" class="form-control" id="file_to_import" name="csv_file[]" accept=".csv" required>
+							</div>
+							<input class="form-control" type="submit" id="submitFile" value="Upload File" name="import">
+						</form>
+
+				      </div>
+				    </div>
+				  </div>
 				</div>
-				<input class="form-control" type="submit" id="submitFile" value="Upload File" name="import">
-			</form>
-			<br>
+
 			<?php
 				$query = "SELECT MAX(session_id) FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
 				$stmt = $pdo->prepare($query);
@@ -112,7 +119,7 @@
 				echo $result;
 			?>
 			<form method="post" action ="3d.php">
-				<button value='<?php echo $result ?>' type="submit" name="single_session" class="viewLastSession">View your last session</button>
+				<button value='<?php echo $result ?>' type="submit" name="single_session" class="btn btn-primary">View your last session</button>
 			</form>
 			</div>
 		</div>
