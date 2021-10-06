@@ -158,8 +158,13 @@
 	if(isset($_POST['compare_session_1'])){
 		$session_id = $_POST['compare_session_1'];
 	}
+	$userid = $_SESSION['UserID'];
 
-	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+	if (isset($_POST['clientid'])) {
+		 $userid = $_POST['clientid'];
+	}
+
+	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ". $userid ." AND `session_id` = ".$session_id.";";
 	$stmt = $pdo->prepare($query);
 	$stmt->execute();
 	$row = $stmt->fetchAll();
@@ -171,9 +176,9 @@
 	if (($session_id > 1 && !isset($_POST['custom_session'])) || isset($_POST['compare_session_2'])){
 		if(isset($_POST['compare_session_2'])){
 			$session_id = $_POST['compare_session_2'];
-			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id).";";
+			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$userid." AND `session_id` = ".($session_id).";";
 		}else{
-			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id - 1).";";
+			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$userid." AND `session_id` = ".($session_id - 1).";";
 		}
 		
 		$stmt = $pdo->prepare($query);
