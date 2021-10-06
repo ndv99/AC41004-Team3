@@ -8,18 +8,6 @@
 	// 	exit;
 	// }
 
-	if (isset($_POST["single_session"])) {
-		$session_id = $_POST["single_session"];
-	}
-
-	if (isset($_POST["custom_session"])) {
-		$session_id = $_POST["custom_session"];
-	}
-
-	if(isset($_POST['compare_session_1'])){
-		$session_id = $_POST['compare_session_1'];
-	}
-
 	function colour_hex_val_gen ($current_colour, $percent) {
 
         if ($current_colour=="green") {
@@ -159,6 +147,18 @@
 		return $session_values;
 	}
 
+	if (isset($_POST["single_session"])) {
+		$session_id = $_POST["single_session"];
+	}
+
+	if (isset($_POST["custom_session"])) {
+		$session_id = $_POST["custom_session"];
+	}
+
+	if(isset($_POST['compare_session_1'])){
+		$session_id = $_POST['compare_session_1'];
+	}
+
 	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
 	$stmt = $pdo->prepare($query);
 	$stmt->execute();
@@ -168,10 +168,10 @@
 	// var_dump($session1_values);
 	$session2_values = array();
 
-	if ($session_id > 1 && !isset($_POST['custom_session'])){
-		if($_POST['compare_session_2']){
+	if (($session_id > 1 && !isset($_POST['custom_session'])) || isset($_POST['compare_session_2'])){
+		if(isset($_POST['compare_session_2'])){
 			$session_id = $_POST['compare_session_2'];
-			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id - 1).";";
+			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id).";";
 		}else{
 			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id - 1).";";
 		}
@@ -182,8 +182,14 @@
 
 		$session2_values = create_arrays($row2);
 	}
+
+
+//
+
 	
 ?>
+
+
 
 <!-- 
 Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
