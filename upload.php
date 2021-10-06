@@ -27,6 +27,8 @@ $result = $row["MAX(session_id)"];
 
 $session = $result+1;
 
+$prev_time = 0;
+
 echo $session;
 
 if (isset($_POST["import"])) {
@@ -34,10 +36,13 @@ if (isset($_POST["import"])) {
     $fileName = $_FILES["csv_file"]["tmp_name"][$i];
     echo $fileName;
     $sensor = $i + 1;
+    $session = $result+1; 
 
     if ($_FILES["csv_file"]["size"][$i] > 0) {
       $row = 1;
       $field_data;
+
+      $fileEndPosition = filesize($fileName);
 
       if (($handle = fopen($fileName, "r")) !== FALSE) {
           // to help skip the first line
@@ -52,11 +57,24 @@ if (isset($_POST["import"])) {
               // split the date and time into an array
               $field_data= explode("T",$csv_data[0]);
 
+                         
               // date and time separated
               $date= $field_data[0];
               $time= substr($field_data[1],0,strpos($field_data[1],"Z"));
 
-              // upload content into srever here
+              $current_time = (int)substr(substr($field_data[1],0,strpos($field_data[1],"Z")),3,2);
+              echo $current_time." = curr time ";
+
+              if($row == 2){
+                $prev_time = $current_time;
+              }
+              echo $prev_time." = prev time ";
+
+              
+              //$current_time = substr(substr($field_data[1],0,strpos($field_data[1],"Z")),3,2);
+              
+
+              // upload content into server here
 
               echo "Date: $date Time: $time <br />\n";
 
@@ -66,10 +84,28 @@ if (isset($_POST["import"])) {
               // sensor value's corresponding colour
               determine_colour($csv_data[1]);
               echo "<br />\n";
+              //echo (int)$prev_time;
 
+
+
+              if((int)$current_time == 0){
+                echo "reached";
+                if(((((int)$current_time + 59) - (int)$prev_time)) >=1 ){
+                    $session++;
+                  }
+
+              }
+              else if(  ((int)$current_time - (int)$prev_time) >= 2 ){
+                  echo "reached";
+                  $session++;
+              }
+
+              
               $stmt = $pdo->prepare("INSERT INTO `sensor_data`(`user_id`, `date`, `time`, `value`, `sensor_no`, `session_id`) VALUES ('".$_SESSION['UserID']."','". $date ."','" . $time ."','". $csv_data[1] ."','". $sensor."','". $session."')");
               $stmt->execute();
-
+              //echo (int)$current_time;
+              $prev_time = $current_time;
+              
             }
           }
           fclose($handle);

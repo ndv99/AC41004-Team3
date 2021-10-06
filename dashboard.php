@@ -45,25 +45,79 @@
 
 		<div class="clientsList">
 		<?php
-			if ($_SESSION['role'] != "athlete") {
-				echo "<p>Your <span>clients</span> are:</p>";
+			if ($_SESSION['role'] != "athlete") :?>
+				<p>Your clients are:</p>
+				<hr>
+				<?php
 				$query = "SELECT `client_id` FROM `physio_athlete` WHERE `staff_id` = ".$_SESSION["UserID"].";";
 				$stmt = $pdo->prepare($query);
 				$stmt->execute();
 				$row = $stmt->fetchAll();
+				$target = 0;
 				foreach ($row as $row2) {
 					//echo $row2["clientID"];
+					$target = $target + 1;
 					$clientID = $row2["client_id"];
 					$query2 = "SELECT * FROM `user` WHERE `user_id` = ".$clientID.";";
 					$stmt2 = $pdo->prepare($query2);
 					$stmt2->execute();
 					$row3 = $stmt2->fetch();
+					?>
 
-					echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>";
+					<p> <?php echo $row3["firstName"]." ". $row3["surname"]?></p>
+					<p>Last Login: <?php echo $row3["lastLogin"] ?></p>
 
-				}
-			}
-	?>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession<?php echo $target ?>" data-bs-whatever="@getbootstrap">View Previous Readings</button>
+
+
+
+					<div class="modal fade" id="customsession<?php echo $target ?>" tabindex="-1" aria-labelledby="customsessionmodal" aria-hidden="true">
+					  <div class="modal-dialog">
+						<div class="modal-content">
+						  <div class="modal-header">
+							<h5 class="modal-title" id="customsessionmodal">View Previous Readings</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						  </div>
+						  <div class="modal-body">
+							<form class="row g-3" enctype="multipart/form-data" action="3d.php" method="post">
+								<div class="col-12">
+								<label for="file" class="form-label" >Select Session: </label>
+								<select name="custom_session">
+									<?php 
+									
+									$query = "SELECT DISTINCT session_id FROM sensor_data WHERE user_id =". $clientID. ";";
+									$stmt = $pdo->prepare($query);
+									$stmt->execute();
+									$session_no = $stmt->fetchAll();
+
+									// foreach (array_combine($courses, $sections) as $course => $section)
+									foreach($session_no as $row){
+										echo $row['session_id'];
+										$query = "SELECT DISTINCT date FROM sensor_data WHERE session_id =". $row['session_id']. ";";
+									$stmt = $pdo->prepare($query);
+									$stmt->execute();
+									$date = $stmt->fetch();
+
+									echo $date['date'] . "<br>";
+									echo "<option value='".$row['session_id']."'> Session #".$row['session_id']." Date: ".$date['date']."</option>";
+									}
+
+									?>
+									
+									</select>
+
+								</div>
+								<button class="form-control" type="submit" value="<?php echo $clientID ?>" name="clientid">Submit</button>
+							</form>
+
+						  </div>
+						</div>
+					  </div>
+					</div>
+
+
+				<?php } ?>
+			<?php else : ?>
 
 	 <div class="page_heading">
       <h1>Your recovery tracker</h1>
@@ -108,6 +162,135 @@
 				  </div>
 				</div>
 
+
+
+
+
+<!-- 
+Start of Jordan changes -->
+
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession" data-bs-whatever="@getbootstrap">View Previous Readings</button>
+
+<div class="modal fade" id="customsession" tabindex="-1" aria-labelledby="customsessionmodal" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 class="modal-title" id="customsessionmodal">View Previous Readings</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	  </div>
+	  <div class="modal-body">
+		<form class="row g-3" enctype="multipart/form-data" action="3d.php" method="post">
+			<div class="col-12">
+			<label for="file" class="form-label" >Select Session: </label>
+			<select name="custom_session">
+				<?php 
+				
+				$query = "SELECT DISTINCT session_id FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
+				$stmt = $pdo->prepare($query);
+				$stmt->execute();
+				$session_no = $stmt->fetchAll();
+
+				// foreach (array_combine($courses, $sections) as $course => $section)
+				foreach($session_no as $row){
+					echo $row['session_id'];
+					$query = "SELECT DISTINCT date FROM sensor_data WHERE session_id =". $row['session_id']. ";";
+				$stmt = $pdo->prepare($query);
+				$stmt->execute();
+				$date = $stmt->fetch();
+
+				echo $date['date'] . "<br>";
+				echo "<option value='".$row['session_id']."'> Session #".$row['session_id']." Date: ".$date['date']."</option>";
+				}
+
+				?>
+				
+				</select>
+
+			</div>
+			<input class="form-control" type="submit" value="Check Session" name="submit">
+		</form>
+
+	  </div>
+	</div>
+  </div>
+</div>
+
+
+
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comparesession" data-bs-whatever="@getbootstrap">Compare Session Readings</button>
+
+<div class="modal fade" id="comparesession" tabindex="-1" aria-labelledby="comparesessionmodal" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 class="modal-title" id="comparesessionmodal">Compare Session Readings</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	  </div>
+	  <div class="modal-body">
+		<form class="row g-3" enctype="multipart/form-data" action="3d.php" method="post">
+			<div class="col-12">
+			<label for="file" class="form-label" >Session 1: </label>
+			<select name="compare_session_1">
+				<?php 
+				
+				$query = "SELECT DISTINCT session_id FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
+				$stmt = $pdo->prepare($query);
+				$stmt->execute();
+				$session_no = $stmt->fetchAll();
+
+				// foreach (array_combine($courses, $sections) as $course => $section)
+				foreach($session_no as $row){
+					echo $row['session_id'];
+					$query = "SELECT DISTINCT date FROM sensor_data WHERE session_id =". $row['session_id']. ";";
+				$stmt = $pdo->prepare($query);
+				$stmt->execute();
+				$date = $stmt->fetch();
+
+				echo $date['date'] . "<br>";
+				echo "<option value='".$row['session_id']."'> Session #".$row['session_id']." Date: ".$date['date']."</option>";
+				}
+
+				?>
+				
+				</select>
+				<br>
+				<label for="file" class="form-label" >Session 2: </label>
+			<select name="compare_session_2">
+				<?php 
+				$query = "SELECT DISTINCT session_id FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
+				$stmt = $pdo->prepare($query);
+				$stmt->execute();
+				$session_no = $stmt->fetchAll();
+
+				// foreach (array_combine($courses, $sections) as $course => $section)
+				foreach($session_no as $row){
+					echo $row['session_id'];
+					$query = "SELECT DISTINCT date FROM sensor_data WHERE session_id =". $row['session_id']. ";";
+				$stmt = $pdo->prepare($query);
+				$stmt->execute();
+				$date = $stmt->fetch();
+
+				echo $date['date'] . "<br>";
+				echo "<option value='".$row['session_id']."'> Session #".$row['session_id']." Date: ".$date['date']."</option>";
+				}
+				
+
+				?>
+				
+				</select>
+
+			</div>
+			<input class="form-control" type="submit" value="Check Session" name="submit">
+		</form>
+
+	  </div>
+	</div>
+  </div>
+</div>
+<!-- 
+End of Jordan changes -->
+
 			<?php
 				$query = "SELECT MAX(session_id) FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
 				$stmt = $pdo->prepare($query);
@@ -125,7 +308,8 @@
 
 		</div>
 
-		<!-- <script src="js/project.js" charset="utf-8"></script> -->
+	<?php endif; ?>
+		<script src="js/project.js" charset="utf-8"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
 		</div>

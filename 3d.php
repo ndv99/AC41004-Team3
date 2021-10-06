@@ -8,12 +8,7 @@
 	// 	exit;
 	// }
 
-	if (isset($_POST["single_session"])) {
-		$session_id = $_POST["single_session"];
-	}
-
 	function colour_hex_val_gen ($current_colour, $percent) {
-        $hex_val;
 
         if ($current_colour=="green") {
           if ($percent>=0 && $percent<=0.2) {
@@ -152,7 +147,24 @@
 		return $session_values;
 	}
 
-	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+	if (isset($_POST["single_session"])) {
+		$session_id = $_POST["single_session"];
+	}
+
+	if (isset($_POST["custom_session"])) {
+		$session_id = $_POST["custom_session"];
+	}
+
+	if(isset($_POST['compare_session_1'])){
+		$session_id = $_POST['compare_session_1'];
+	}
+	$userid = $_SESSION['UserID'];
+
+	if (isset($_POST['clientid'])) {
+		 $userid = $_POST['clientid'];
+	}
+
+	$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ". $userid ." AND `session_id` = ".$session_id.";";
 	$stmt = $pdo->prepare($query);
 	$stmt->execute();
 	$row = $stmt->fetchAll();
@@ -161,16 +173,28 @@
 	// var_dump($session1_values);
 	$session2_values = array();
 
-	if ($session_id > 1){
-		$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+	if (($session_id > 1 && !isset($_POST['custom_session'])) || isset($_POST['compare_session_2'])){
+		if(isset($_POST['compare_session_2'])){
+			$session_id = $_POST['compare_session_2'];
+			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$userid." AND `session_id` = ".($session_id).";";
+		}else{
+			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$userid." AND `session_id` = ".($session_id - 1).";";
+		}
+		
 		$stmt = $pdo->prepare($query);
 		$stmt->execute();
 		$row2 = $stmt->fetchAll();
 
 		$session2_values = create_arrays($row2);
 	}
+
+
+//
+
 	
 ?>
+
+
 
 <!-- 
 Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
@@ -191,10 +215,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<script type="module">
 
             import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
-					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from '/AC41004-Team3/js/threejs/build/three.module.js';
-            import { MTLLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/MTLLoader.js';
-            import { OBJLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/OBJLoader.js';
-			import { OrbitControls } from '/AC41004-Team3/js/threejs/examples/jsm/controls/OrbitControls.js';
+					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from './js/threejs/build/three.module.js';
+            import { MTLLoader } from './js/threejs/examples/jsm/loaders/MTLLoader.js';
+            import { OBJLoader } from './js/threejs/examples/jsm/loaders/OBJLoader.js';
+			import { OrbitControls } from './js/threejs/examples/jsm/controls/OrbitControls.js';
 
 			let camera, controls, scene, renderer;
 			const are_there_two_sessions = <?php echo (isset($session2_values) && $session2_values) ? json_encode($session2_values) : 'false'; ?>;
