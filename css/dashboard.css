@@ -21,6 +21,10 @@
     padding: 0;
 }
 
+body {
+    background-color: rgb(20,17,17);
+}
+
 #bootstrap_override hr {
     opacity: 1;
     padding: 0;
@@ -28,16 +32,21 @@
     border: 0;
     height: 3px;
     background: #fff;
-    background-image: linear-gradient(to right, #fff, rgb(3,151,162), #fff); 
+    background-image: linear-gradient(to right, rgb(20,17,17), rgb(11,232,214), rgb(20,17,17)); 
 }
 
 header {
-    padding: 30px 0;
+    padding: 30px 15%;
+    overflow: hidden;
+    background-image: url(../Style/Images/test.png);
+    background-size: cover;
+    margin-bottom: 30px;
 }
 
-.logo {
+#logo {
     display: block;
     width: 300px;
+    float: right;
 }
 
 .helloName {

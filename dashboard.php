@@ -28,13 +28,15 @@
 
 <body>
 
-	<div class="container" id="bootstrap_override">
+	
 
 		<header>
-			<img class="logo" src="./Style/Images/fullLogo.png" alt="" width="" height="">
+			<img id="logo" src="./Style/Images/whiteLogo.png" alt="" width="" height="">
 		</header>
 
-		<hr>
+	<div class="container" id="bootstrap_override">
+
+		<hr style="clear: both;">
 
 		<h1 class="helloName"> Welcome back 
 			<span> <?php echo $_SESSION['name']; ?> </span>
