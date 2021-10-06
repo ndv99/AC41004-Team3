@@ -73,12 +73,16 @@ if (isset($_POST["import"])) {
             }
           }
           fclose($handle);
+
       }
     }
   }
 } else {
   echo "Import Error. Try Again.";
 }
+
+header('Location: dashboard.php');
+  exit;
 
 
 
