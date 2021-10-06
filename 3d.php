@@ -191,10 +191,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<script type="module">
 
             import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
-					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from '/js/threejs/build/three.module.js';
-            import { MTLLoader } from '/js/threejs/examples/jsm/loaders/MTLLoader.js';
-            import { OBJLoader } from '/js/threejs/examples/jsm/loaders/OBJLoader.js';
-			import { OrbitControls } from '/js/threejs/examples/jsm/controls/OrbitControls.js';
+					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from './js/threejs/build/three.module.js';
+            import { MTLLoader } from './js/threejs/examples/jsm/loaders/MTLLoader.js';
+            import { OBJLoader } from './js/threejs/examples/jsm/loaders/OBJLoader.js';
+			import { OrbitControls } from './js/threejs/examples/jsm/controls/OrbitControls.js';
 
 			let camera, controls, scene, renderer;
 			const are_there_two_sessions = <?php echo (isset($session2_values) && $session2_values) ? json_encode($session2_values) : 'false'; ?>;
