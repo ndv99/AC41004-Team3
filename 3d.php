@@ -12,8 +12,15 @@
 		$session_id = $_POST["single_session"];
 	}
 
+	if (isset($_POST["custom_session"])) {
+		$session_id = $_POST["custom_session"];
+	}
+
+	if(isset($_POST['compare_session_1'])){
+		$session_id = $_POST['compare_session_1'];
+	}
+
 	function colour_hex_val_gen ($current_colour, $percent) {
-        $hex_val;
 
         if ($current_colour=="green") {
           if ($percent>=0 && $percent<=0.2) {
@@ -161,8 +168,14 @@
 	// var_dump($session1_values);
 	$session2_values = array();
 
-	if ($session_id > 1){
-		$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id - 1).";";
+	if ($session_id > 1 && !isset($_POST['custom_session'])){
+		if($_POST['compare_session_2']){
+			$session_id = $_POST['compare_session_2'];
+			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id - 1).";";
+		}else{
+			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id - 1).";";
+		}
+		
 		$stmt = $pdo->prepare($query);
 		$stmt->execute();
 		$row2 = $stmt->fetchAll();
