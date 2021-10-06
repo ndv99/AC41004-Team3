@@ -61,6 +61,8 @@
 					$row3 = $stmt2->fetch();
 
 					echo "<p>".$row3["firstName"]." ".$row3["surname"]."</p>";
+					echo "<p>" . "Last Login: ".$row3["lastLogin"]."</p>";
+
 
 				}
 			}
