@@ -162,7 +162,7 @@
 	$session2_values = array();
 
 	if ($session_id > 1){
-		$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".$session_id.";";
+		$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$_SESSION["UserID"]." AND `session_id` = ".($session_id - 1).";";
 		$stmt = $pdo->prepare($query);
 		$stmt->execute();
 		$row2 = $stmt->fetchAll();
