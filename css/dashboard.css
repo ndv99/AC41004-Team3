@@ -78,9 +78,12 @@ header {
 
 .body_background {
     display: block;
-    background-image: linear-gradient(to bottom,#0397A2, 15%,rgb(20,17,17)); 
+    /*background-image: linear-gradient(to bottom,#0397A2, 15%,rgb(20,17,17)); */
+    background-color: transparent;
     border-radius: 5px;
-    padding: 20px 5px;
+    border: 1px solid #F26D1C;
+    border-bottom: 0cm;
+    padding: 10px;
     
     font-family: RobotoBold;
     color: white;
@@ -101,6 +104,22 @@ header {
     text-transform: uppercase;
 
     background-color: #F26D1C;
+}
+
+/* -------------------------------------------------------------- BUTTONS --------------------------------------------------------- */
+
+#bootstrap_override button {
+    font-family: Roboto;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #F26D1C;
+    color:#F26D1C;
+    display: inline-block;
+    background-color: transparent;
+    margin: 0 5px 10px 0;
+    text-align: center;
+    
+
 }
 
 /* ------------------------------------------------- CLIENTS LIST --------------------------------------------------- */
@@ -143,6 +162,8 @@ header {
     border: 1px solid black;
     margin: 0;
 }
+
+
 
 
 
