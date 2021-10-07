@@ -13,6 +13,11 @@
     src: url(../Style/Fonts/Roboto/Roboto-Bold.ttf);
 }
 
+@font-face {
+    font-family: Zapf;
+    src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
+}
+
 .container {
     display: block;
     width: 70%;
@@ -32,7 +37,7 @@ body {
     border: 0;
     height: 3px;
     background: #fff;
-    background-image: linear-gradient(to right, rgb(20,17,17), rgb(11,232,214), rgb(20,17,17)); 
+    background-image: linear-gradient(to right, rgb(20,17,17), #0397a2, rgb(20,17,17)); 
 }
 
 #body > hr {
@@ -64,8 +69,8 @@ header {
 }
 
 .helloName span {
-    font-family: RobotoThin;
-    text-transform: uppercase;
+    font-family: Zapf;
+    text-transform: capitalize;
     color: #F26D1C;
 }
 
@@ -73,11 +78,7 @@ header {
 
 .body_background {
     display: block;
-    background-image: linear-gradient(
-        to bottom,
-        rgb(37,196,218),
-        rgb(2,159,152)
-    );
+    background-image: linear-gradient(to bottom,#0397A2, 15%,rgb(20,17,17)); 
     border-radius: 5px;
     padding: 20px 5px;
     
@@ -109,6 +110,20 @@ header {
     margin-bottom: 30px;
     
 }
+
+#bootstrap_override .clientsList h1 {
+    font-family: Roboto;
+    color: white;
+    font-size: 24px;
+    text-transform: uppercase;
+    text-align: center;
+    color:#0397a2; 
+}
+
+#bootstrap_override .clientsList h1 span {
+    color:#F26D1C; 
+}
+
 
 .clientsList hr {
     margin-bottom: 10px;

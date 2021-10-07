@@ -31,7 +31,7 @@
 	
 
 		<header>
-			<img id="logo" src="./Style/Images/lightBlueLogo.png" alt="" width="" height="">
+			<img id="logo" src="./Style/Images/darkerBlueLogo.png" alt="" width="" height="">
 		</header>
 
 		<hr style="clear: both;">
@@ -124,7 +124,7 @@
 			<?php else : ?>
 
 	 <div class="page_heading">
-      <h1>Your recovery tracker</h1>
+      <h1>Your <span>recovery</span> tracker</h1>
     </div>
    
 		<!-- background for the app -->
