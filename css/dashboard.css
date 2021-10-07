@@ -18,6 +18,11 @@
     src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
 }
 
+nav a{
+    color: #f25f15 !important; 
+    margin-right: 1em;
+
+}
 .container {
     display: block;
     width: 70%;
