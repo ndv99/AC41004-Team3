@@ -122,7 +122,7 @@
 			<?php else : ?>
 
 	 <div class="page_heading">
-      <h1>Your <span>recovery<> tracker</h1>
+      <h1>Your <span>recovery</span> tracker</h1>
     </div>
    
 		<!-- background for the app -->
