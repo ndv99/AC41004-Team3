@@ -28,11 +28,23 @@
 
 <body id="body">
 
+	<nav class="navbar navbar-dark">
+	  <div class="container-fluid">
+    	<ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php" >Log Out</a>
+            </li>
+        </ul>
+	  </div>
+
+	</nav>
+
 	<header>
 		<img id="logo" src="./Style/Images/darkerBlueLogo.png" alt="" width="" height="">
 	</header>
 
 	<hr style="clear: both;">
+
 
 	<div class="container" id="bootstrap_override">
 
