@@ -88,6 +88,31 @@ header {
     font-family: RobotoBold;
     color: white;
     text-transform: uppercase;
+
+
+}
+
+.content_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ----------------------------------------------------- BUTTONS --------------------------------------------------------- */
+
+#bootstrap_override button {
+    font-family: Roboto;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #F26D1C;
+    color:#F26D1C;
+    display: inline-block;
+    background-color: transparent;
+    margin: 0 5px 10px 0;
+    text-align: center;
+    
+
 }
 
 #submitFile, .viewLastSession {
@@ -106,21 +131,6 @@ header {
     background-color: #F26D1C;
 }
 
-/* -------------------------------------------------------------- BUTTONS --------------------------------------------------------- */
-
-#bootstrap_override button {
-    font-family: Roboto;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid #F26D1C;
-    color:#F26D1C;
-    display: inline-block;
-    background-color: transparent;
-    margin: 0 5px 10px 0;
-    text-align: center;
-    
-
-}
 
 /* ------------------------------------------------- CLIENTS LIST --------------------------------------------------- */
 
