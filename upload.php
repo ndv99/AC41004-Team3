@@ -141,14 +141,11 @@ if (isset($_POST["import"])) {
 } else {
   echo "Import Error. Try Again.";
 }
-<<<<<<< Updated upstream
 
-header("Location: dashboard.php");
-
-=======
 header("location: index.php");
 exit;
->>>>>>> Stashed changes
+
+
 
 // Check if image file is a actual image or fake image
 // if(isset($_POST["submit"])) {
