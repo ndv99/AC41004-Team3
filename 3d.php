@@ -13,58 +13,36 @@
 	$stmt->execute();
 	$row = $stmt->fetchAll();
 
-	function colour_hex_val_gen ($current_colour, $percent) {
-        $hex_val;
+  function colour_hex_val_gen ($percent, $value) {
+    $hex_val;
 
-        if ($current_colour=="green") {
-          if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FEFB01";
-          } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "CEFB02";
-          } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "87FA00";
-          } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "3AF901";
-          } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "00ED01";
-          }
-        } else if ($current_colour=="yellow") {
-          if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FFF600";
-          } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "FFCF07";
-          } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "FA80F";
-          } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "FE8116";
-          } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "FE5A1D";
-          }
-        } else if ($current_colour=="orange") {
-          if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FA6F01";
-          } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "F55301";
-          } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "F03801";
-          } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "EB1C01";
-          } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "E60001";
-          }
-        } else if ($current_colour=="red") {
-          if ($percent>=0 && $percent<=0.25) {
-            $hex_val = "FF0000";
-          } else if ($percent>=0.26 && $percent<=0.5) {
-            $hex_val = "BF0000";
-          } else if ($percent>=0.51 && $percent<=0.75) {
-            $hex_val = "800000";
-          } else if ($percent>=0.76 && $percent<=1) {
-            $hex_val = "400000";
-          }
-        }
+    // this handles the green transitioning to yellow
+    if ($percent >= 0 && $percent < 0.25) {
+      $r_val = round(round($value/256,2)*255,2);
 
-        return $hex_val;
+      $hex_val = sprintf("%02x%02x%02x", $r_val, 255, 0);
+
+    // this handles the yellow transitioning to orange
+    } else if ($percent >= 0.25 && $percent < 0.5) {
+      $g_val = round(round((512-$value)/256,2)*128,2);
+
+      $hex_val = sprintf("%02x%02x%02x", 255, 255-$g_val, 0);
+
+      // this handles the orange transitioning to red
+    } else if ($percent >= 0.5 && $percent < 0.75) {
+      $g_val = round(round((768-$value)/256,2)*127,2);
+
+      $hex_val = sprintf("%02x%02x%02x", 255, 127-$g_val, 0);
+
+      // this handles the red transitioning to dark-red
+    } else if ($percent >= 0.75 && $percent <= 1.0) {
+      $r_val = round(round((1025-$value)/256,2)*125,2);
+
+      $hex_val = sprintf("%02x%02x%02x", 255-$r_val, 0, 0);
+    }
+
+
+    return $hex_val;
 	}
 
 	$colour;
@@ -72,47 +50,15 @@
 	$colour_percent;
 
 	function determine_colour ($value) {
-		$colour_hex_values = "0x";
-		$colour_code= "Colour code: ";
+    $colour_hex_values = "0x";
 
-		if ($value >=0 && $value <= 256) {
-			$colour_percent= round($value/256, 2);
-			$colour="green";
+    $min_value=0;
+    $max_value=1025;
 
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
+    $colour_percent= round($value/$max_value,2);
+    $colour_hex_values .= colour_hex_val_gen($colour_percent, $value);
 
 
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		} else if ($value >= 257 && $value <= 512) {
-			$colour_percent= round((512-$value)/256, 2);
-			$colour="yellow";
-
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
-
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		} else if ($value >= 513 && $value <= 768) {
-			$colour_percent = round((768-$value)/256, 2);
-			$colour="orange";
-
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
-
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		} else if ($value >= 769 && $value <= 1025) {
-			$colour_percent = round((1025 - $value)/256, 2);
-			$colour="red";
-
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
-
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		}
 		return $colour_hex_values;
 
 	}
@@ -122,7 +68,7 @@
 	$hexvals3 = array();
 	$hexvals4 = array();
 	$times = array();
-	
+
 	foreach ($row as $result){
 		$value = $result["value"];
 		$time = $result["time"];
@@ -142,10 +88,10 @@
 			echo("error");
 		}
 	}
-	
+
 ?>
 
-<!-- 
+<!--
 Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 -->
 
@@ -164,7 +110,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<script type="module">
 
 			// import * as THREE from '/js/threejs/build/three.module.js';
-            import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
+            import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial,
 					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color } from '/AC41004-Team3/js/threejs/build/three.module.js';
             import { MTLLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/MTLLoader.js';
             import { OBJLoader } from '/AC41004-Team3/js/threejs/examples/jsm/loaders/OBJLoader.js';
@@ -278,7 +224,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				// 	});
 				// });
-                
+
 				// lights
 				let light, light2, light3, light4;
                 light = new PointLight(0xc4c4c4,1);
@@ -333,7 +279,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
             }
 
 			function do_timeout(i){
-				setTimeout(function() {	
+				setTimeout(function() {
 					changeObjectColour( "left_hamstring", parseInt(hex_array1[i], 16));
 					changeObjectColour( "right_hamstring", parseInt(hex_array2[i], 16));
 					changeObjectColour( "left_quad", parseInt(hex_array3[i], 16))
@@ -341,7 +287,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					document.getElementById("time").innerHTML = time_array[i];
 				}, i*500)
 			}
-			
+
 			const hex_array1 = <?php echo json_encode($hexvals1); ?>;
 			const hex_array2 = <?php echo json_encode($hexvals2); ?>;
 			const hex_array3 = <?php echo json_encode($hexvals3); ?>;
@@ -364,7 +310,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					return hex_array3;
 				} else if (minlength == length4){
 					return hex_array4;
-				} 
+				}
 			}
 
 			const time_array = <?php echo json_encode($times); ?>;
