@@ -5,20 +5,46 @@
 // $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 session_start();
 require('db_connect.php');
+?>
 
-function determine_colour ($value) {
-  if ($value>=0 && $value<=256) {
-    echo "green <br />\n";
-  } else if ($value>=257 && $value<=512) {
-    echo "yellow <br />\n";
-  } else if ($value>=513 && $value<=768) {
-    echo "orange <br />\n";
-  } else if ($value>=769 && $value<=1025) {
-    echo "red <br />\n";
-  }
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Uploading files</title>
+</head>
+<body>
+  <div id="loader"></div>
+  <style type="text/css">
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 4em;
+      height: 4em;
+      margin: -76px 0 0 -76px;
+      border: 0.2em solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 0.2em solid #3498db;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
 
-}
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
 
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</body>
+
+<?php
 $query = "SELECT MAX(session_id) FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
 $stmt = $pdo->prepare($query);
 $stmt->execute();
@@ -29,12 +55,12 @@ $session = $result+1;
 
 $prev_time = 0;
 
-echo $session;
+//echo $session;
 
 if (isset($_POST["import"])) {
   for ($i=0; $i < 4; $i++) { 
     $fileName = $_FILES["csv_file"]["tmp_name"][$i];
-    echo $fileName;
+    //echo $fileName;
     $sensor = $i + 1;
     $session = $result+1; 
 
@@ -63,12 +89,12 @@ if (isset($_POST["import"])) {
               $time= substr($field_data[1],0,strpos($field_data[1],"Z"));
 
               $current_time = (int)substr(substr($field_data[1],0,strpos($field_data[1],"Z")),3,2);
-              echo $current_time." = curr time ";
+              //echo $current_time." = curr time ";
 
               if($row == 2){
                 $prev_time = $current_time;
               }
-              echo $prev_time." = prev time ";
+              //echo $prev_time." = prev time ";
 
               
               //$current_time = substr(substr($field_data[1],0,strpos($field_data[1],"Z")),3,2);
@@ -76,27 +102,27 @@ if (isset($_POST["import"])) {
 
               // upload content into server here
 
-              echo "Date: $date Time: $time <br />\n";
+             // echo "Date: $date Time: $time <br />\n";
 
               // sensor value
-              echo "Sensor value: $csv_data[1] <br />\n";
+             // echo "Sensor value: $csv_data[1] <br />\n";
 
               // sensor value's corresponding colour
-              determine_colour($csv_data[1]);
-              echo "<br />\n";
+             // determine_colour($csv_data[1]);
+              //echo "<br />\n";
               //echo (int)$prev_time;
 
 
 
               if((int)$current_time == 0){
-                echo "reached";
+                //echo "reached";
                 if(((((int)$current_time + 59) - (int)$prev_time)) >=1 ){
                     $session++;
                   }
 
               }
               else if(  ((int)$current_time - (int)$prev_time) >= 2 ){
-                  echo "reached";
+                  //echo "reached";
                   $session++;
               }
 
@@ -116,7 +142,10 @@ if (isset($_POST["import"])) {
   echo "Import Error. Try Again.";
 }
 
-echo "<script type='text/javascript'>window.top.location='https://ddns.nick-dv.com/dashboard.php';</script>"; exit;
+header("location: index.php");
+exit;
+
+
 
 // Check if image file is a actual image or fake image
 // if(isset($_POST["submit"])) {
