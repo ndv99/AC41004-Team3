@@ -116,7 +116,7 @@ if (isset($_POST["import"])) {
   echo "Import Error. Try Again.";
 }
 
-
+header("Location: dashboard.php");
 
 
 // Check if image file is a actual image or fake image
