@@ -116,8 +116,7 @@ if (isset($_POST["import"])) {
   echo "Import Error. Try Again.";
 }
 
-header("Location: dashboard.php");
-
+echo "<script type='text/javascript'>window.top.location='https://ddns.nick-dv.com/dashboard.php';</script>"; exit;
 
 // Check if image file is a actual image or fake image
 // if(isset($_POST["submit"])) {
