@@ -83,7 +83,7 @@
 					?>
 
 					<p> <?php echo $row3["firstName"]." ". $row3["surname"]?></p>
-					<p>Last Login: <?php echo $row3["lastLogin"] ?></p>
+					<p>Last Session Uploaded: <?php echo $row3["lastLogin"] ?></p>
 
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession<?php echo $target ?>" data-bs-whatever="@getbootstrap">View Previous Readings</button>
 
