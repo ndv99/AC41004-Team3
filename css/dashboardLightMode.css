@@ -79,6 +79,13 @@ header {
     color: #F26D1C;
 }
 
+/* --------------------------------------------------- NAVIGATION ----------------------------------------------*/
+
+#nav .nav-link {
+    font-family: RobotoBold;
+    text-transform: uppercase;
+}
+
 /* ------------------------------------------------ RECOVERY TRACKER ----------------------------------------------*/
 
 .body_background {
@@ -163,6 +170,15 @@ header {
 }
 
 #bootstrap_override .clientsList input {
+    border: 2px solid red;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+input#myInput:focus {
+    border: 2px solid red;
+    color: purple;
+    border-radius: 5px;
     margin-bottom: 10px;
 }
 

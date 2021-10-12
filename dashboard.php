@@ -29,7 +29,7 @@
 <body id="body">
 	<div id="content">
 
-	<nav class="navbar navbar-dark">
+	<nav id="nav" class="navbar navbar-dark">
 	  <div class="container-fluid">
     	<ul class="nav ms-auto">
             <li class="nav-item">
@@ -65,7 +65,7 @@
 		<?php
 			if ($_SESSION['role'] != "athlete") :?>
 				<p>Your clients are:</p>
-				<input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names..">
+				<input type="text" id="myInput" tabindex="1" onkeyup="searchFunction()" placeholder="Search for names..">
 				<!-- <hr> -->
 				<?php
 				$query = "SELECT `client_id` FROM `physio_athlete` WHERE `staff_id` = ".$_SESSION["UserID"].";";
