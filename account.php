@@ -93,6 +93,7 @@ if (isset($_POST['submitDetails'])) {
                 </tbody>
             </table>
         </div>
+
         <div class="row justify-content-end">
             <!-- Button trigger modal -->
             <div class="button-holder" style="justify-content:flex-end;display:flex;">
@@ -112,19 +113,24 @@ if (isset($_POST['submitDetails'])) {
                     <div class="modal-body">
                         <!-- Form Body -->
                         <form class="row g-3" style="padding-top: 0px;" method="post">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="inputoldpass" class="form-label">Old Password *</label>
                                 <input type="password" class="form-control" maxlength="20" id="inputoldpass"
                                        name="oldpassword" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="inputnewpass" class="form-label">New Password</label>
                                 <input type="password" class="form-control" maxlength="20" id="inputnewpass"
-                                       name="newpassword" required>
+                                       name="newpassword" onkeyup='check();' required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inputnewpass" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" maxlength="20" id="inputnewpass2"
+                                       name="newpassword2" onkeyup='check();' required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" name="submitDetails" method="post" class="btn btn-primary">Save
+                                <button id="submitButton" type="submit" name="submitDetails" method="post" class="btn btn-primary">Save
                                     changes
                                 </button>
                             </div>
@@ -134,6 +140,18 @@ if (isset($_POST['submitDetails'])) {
                 </div>
             </div>
         </div>
+
     </div>
+
+    <script type="text/javascript">
+    var check = function() {
+      if (document.getElementById('inputnewpass').value ==
+          document.getElementById('inputnewpass2').value) {
+          document.getElementById('submitButton').disabled = false;
+      } else {
+          document.getElementById('submitButton').disabled = true;
+      }
+  }
+    </script>
 </body>
 </html>
