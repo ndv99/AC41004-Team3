@@ -178,8 +178,45 @@ header {
     margin: 0;
 }
 
+.people{
+    margin-bottom: 1em;
+    border-bottom: 0.1em solid #0397a2;
+}
 
+.people img{
+    width: 100px;
+    height: 100px;
+}
 
+.imageDiv{
+    display: flex;
+    justify-content: center;
+}
 
+/*---Loading icon----*/
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 8px solid #0397a2;
+    border-radius: 50%;
+    border-top: 8px solid #f25b15;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    display: none;
+}
 
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 

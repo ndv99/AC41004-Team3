@@ -1,0 +1,29 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
+  }
+
+@font-face {
+    font-family: RobotoThin;
+    src: url(../Style/Fonts/Roboto/Roboto-Thin.ttf);
+}
+
+@font-face {
+    font-family: RobotoBold;
+    src: url(../Style/Fonts/Roboto/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Zapf;
+    src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
+}
+
+#bootstrap_override .nav-link{
+    color: #f25f15 !important; 
+    margin-right: 1em;
+
+}
+
+a{
+    color: #f25f15 !important; 
+}

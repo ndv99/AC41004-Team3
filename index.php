@@ -35,16 +35,6 @@ if (isset($_POST['signIn'])) {
             $_SESSION['role'] = $role;
             $_SESSION['name'] = $name;
 
-            date_default_timezone_set("Europe/London");
-            $currentTime = date_create()->format('Y-m-d H:i:s');
-
-
-            $query = "UPDATE user SET lastLogin=:currenttime WHERE user_id = :userid;";
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(":currenttime", $currentTime, PDO::PARAM_STR);
-            $stmt->bindParam(":userid", $id, PDO::PARAM_STR);
-            $stmt->execute();
-
             header("Location: dashboard.php");
         } else {
             $password_err = "Incorrect password";
