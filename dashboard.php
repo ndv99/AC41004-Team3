@@ -44,7 +44,7 @@
 	</nav>
 
 	<header>
-		<img id="logo" src="./Style/Images/darkerBlueLogo.png" alt="" width="" height="">
+		<img id="logo" src="./Style/Images/whiteLogo.png" alt="" width="" height="">
 	</header>
 
 	<hr style="clear: both;">
@@ -66,7 +66,7 @@
 			if ($_SESSION['role'] != "athlete") :?>
 				<p>Your clients are:</p>
 				<input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names..">
-				<hr>
+				<!-- <hr> -->
 				<?php
 				$query = "SELECT `client_id` FROM `physio_athlete` WHERE `staff_id` = ".$_SESSION["UserID"].";";
 				$stmt = $pdo->prepare($query);
@@ -83,7 +83,7 @@
 					$row3 = $stmt2->fetch();
 					?>
 					<div class="row people">
-						<div class="col-2 imageDiv">
+						<div class="col-lg-2 col-md-2 col-sm-12 imageDiv">
 							<?php
 								$imagepath = null; 
 								if(is_null($row3['imagePath'])){
@@ -95,13 +95,13 @@
 							?>
 							<img src="<?php echo($imagepath) ?>">
 						</div>
-						<div class="col-2">
+						<div class="col-lg-2 col-md-2 col-sm-12">
 							<p class="peoplesName"> <?php echo $row3["firstName"]." ". $row3["surname"]?></p>
 						</div>
-						<div class="col-4">
+						<div class="col-lg-4 col-md-4 col-sm-12">
 							<p>Last Session Uploaded: <?php echo $row3["lastLogin"] ?></p>
 						</div>
-						<div class="col-4">
+						<div class="col-lg-4 col-md-4 col-sm-12">
 							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession<?php echo $target ?>" data-bs-whatever="@getbootstrap">View Previous Readings</button>
 						</div>
 					</div>

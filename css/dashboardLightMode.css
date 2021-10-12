@@ -158,6 +158,20 @@ header {
     color:#F26D1C; 
 }
 
+#bootstrap_override .clientsList p {
+    display: inline;
+}
+
+#bootstrap_override .clientsList input {
+    margin-bottom: 10px;
+}
+
+#bootstrap_override .people {
+    border: 2px solid #0397a2;
+    padding: 20px 5px;
+    border-radius: 5px;
+}
+
 
 .clientsList hr {
     margin-bottom: 10px;
