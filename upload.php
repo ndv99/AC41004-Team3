@@ -7,43 +7,6 @@ session_start();
 require('db_connect.php');
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Uploading files</title>
-</head>
-<body>
-  <div id="loader"></div>
-  <style type="text/css">
-    #loader {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      z-index: 1;
-      width: 4em;
-      height: 4em;
-      margin: -76px 0 0 -76px;
-      border: 0.2em solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 0.2em solid #3498db;
-      -webkit-animation: spin 2s linear infinite;
-      animation: spin 1s linear infinite;
-      display: none;
-    }
-
-    @-webkit-keyframes spin {
-      0% { -webkit-transform: rotate(0deg); }
-      100% { -webkit-transform: rotate(360deg); }
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
-</body>
-
 <?php
 $query = "SELECT MAX(session_id) FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
 $stmt = $pdo->prepare($query);
