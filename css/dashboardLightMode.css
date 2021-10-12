@@ -1,0 +1,222 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
+  }
+
+@font-face {
+    font-family: RobotoThin;
+    src: url(../Style/Fonts/Roboto/Roboto-Thin.ttf);
+}
+
+@font-face {
+    font-family: RobotoBold;
+    src: url(../Style/Fonts/Roboto/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Zapf;
+    src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
+}
+
+nav a{
+    color: #f25f15 !important; 
+    margin-right: 1em;
+
+}
+.container {
+    display: block;
+    width: 70%;
+    font-family: Roboto;
+    margin: auto;
+    padding: 0;
+}
+
+body {
+    background-color: #fff;
+}
+
+#bootstrap_override hr, #body hr {
+    opacity: 1;
+    padding: 0;
+    margin: 0 0 30px 0;
+    border: 0;
+    height: 3px;
+    background: #fff;
+    background-image: linear-gradient(to right, #fff, #0397a2, #fff); 
+}
+
+#body > hr {
+    background: #fff;
+    background-image: linear-gradient(to right, rgb(20,17,17), #F26D1C, rgb(20,17,17)); 
+}
+
+header {
+    padding: 30px 15%;
+    overflow: hidden;
+    background-image: url(../Style/Images/test.png);
+    background-size: cover;
+    
+}
+
+#logo {
+    display: block;
+    width: 300px;
+    float: right;
+}
+
+.helloName {
+    font-weight: 600;
+    font-family: RobotoThin;
+    text-transform: uppercase;
+    color: rgb(3,151,162);
+    text-align: center;
+    margin: 0 0 30px 0;
+}
+
+.helloName span {
+    font-family: Zapf;
+    text-transform: capitalize;
+    color: #F26D1C;
+}
+
+/* ------------------------------------------------ RECOVERY TRACKER ----------------------------------------------*/
+
+.body_background {
+    display: block;
+    /*background-image: linear-gradient(to bottom,#0397A2, 15%,rgb(20,17,17)); */
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid #F26D1C;
+    border-bottom: 0cm;
+    padding: 10px;
+    
+    font-family: RobotoBold;
+    color: white;
+    text-transform: uppercase;
+
+
+}
+
+.content_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ----------------------------------------------------- BUTTONS --------------------------------------------------------- */
+
+#bootstrap_override button {
+    font-family: Roboto;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #F26D1C;
+    color:#F26D1C;
+    display: inline-block;
+    background-color: transparent;
+    margin: 0 5px 10px 0;
+    text-align: center;
+    
+
+}
+
+#submitFile, .viewLastSession {
+    display: block;
+    border: none;
+    border-radius: 15px;
+    margin: 20px auto 0 auto;
+    padding: 2px 10px;
+    cursor: pointer;
+
+    font-family: RobotoBold;
+    color: white;
+    font-size: 18px;
+    text-transform: uppercase;
+
+    background-color: #F26D1C;
+}
+
+
+/* ------------------------------------------------- CLIENTS LIST --------------------------------------------------- */
+
+.clientsList {
+    display: block;
+    margin-bottom: 30px;
+    
+}
+
+#bootstrap_override .clientsList h1 {
+    font-family: Roboto;
+    color: white;
+    font-size: 24px;
+    text-transform: uppercase;
+    text-align: center;
+    color:#0397a2; 
+}
+
+#bootstrap_override .clientsList h1 span {
+    color:#F26D1C; 
+}
+
+
+.clientsList hr {
+    margin-bottom: 10px;
+}
+
+.clientsList p {
+    margin: 0;
+    margin-bottom: 5px;
+    font-family: RobotoBold;
+    text-transform: uppercase;
+    color: #0397A2;
+}
+
+
+.clientsList > P:not(:first-child) {
+    padding: 10px 5px;
+    border: 1px solid black;
+    margin: 0;
+}
+
+.people{
+    margin-bottom: 1em;
+    border-bottom: 0.1em solid #0397a2;
+}
+
+.people img{
+    width: 100px;
+    height: 100px;
+}
+
+.imageDiv{
+    display: flex;
+    justify-content: center;
+}
+
+/*---Loading icon----*/
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 8px solid #0397a2;
+    border-radius: 50%;
+    border-top: 8px solid #f25b15;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    display: none;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
