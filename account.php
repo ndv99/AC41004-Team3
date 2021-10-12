@@ -141,6 +141,100 @@ if (isset($_POST['submitDetails'])) {
             </div>
         </div>
 
+
+        <?php if ($_SESSION['role'] != "athlete") :?>
+            <?php 
+                $username = "";
+                $username_err = "";
+
+                // when the user wants to make a new account, run a query that adds them to the database as a researcher
+                if (isset($_POST['submitAccount'])) {
+                    $query = "SELECT user_id FROM user WHERE user.`username` = :username;";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+                    $username = $_POST['inputUsername'];
+                    $stmt->execute();
+                    // if the username is already found in the database, tell the user that this account already exists in the database
+                    if ($stmt->rowCount() == 1) {
+                        $username_err = "This username is already taken";
+                    } else {
+                        $username = $_POST['inputUsername'];
+                    }
+
+                    if (empty($username_err))   // insert the account into the database
+                    {
+                        $query = "INSERT INTO user (`firstName`,`username`,`password`,`role`, `surname`) VALUES (:name,:username,'Password123','athlete',:lastname)";
+
+                        $stmt = $pdo->prepare($query);
+
+                        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
+                        $stmt->bindParam(":lastname", $lastname, PDO::PARAM_STR);
+                        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+
+                        $name = $_POST['inputName'];
+                        $username = $_POST['inputUsername'];
+                        $lastname = $_POST['inputSurname'];
+
+                        $stmt->execute();
+                        unset($stmt);
+
+                        echo "<div class='alert alert-success' role='alert' style='margin-bottom: 0px;padding-bottom: 5px;padding-top: 5px;'>";
+                        echo "<p>Account Created!</p>";
+                        echo "<p>username: $username</p>";
+                        echo "<p>password: Password123</p>";
+                        echo "</div>";
+
+                        //Now that the account has been created need to create link in physio_athlete table
+                        $query = "SELECT user_id FROM user WHERE user.`username` = :username;";
+                        $stmt = $pdo->prepare($query);
+                        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+                        $stmt->execute();
+                        $result = $stmt->fetch();
+
+                        $newAccountID = $result["user_id"];
+                        unset($stmt);
+
+                        $query = "INSERT INTO `physio_athlete`(`client_id`, `staff_id`) VALUES (:clientID, :staffID)";
+                        $stmt = $pdo->prepare($query);
+                        $stmt->bindParam(":clientID", $newAccountID, PDO::PARAM_STR);
+                        $stmt->bindParam(":staffID", $_SESSION['UserID'], PDO::PARAM_STR);
+
+                        $stmt->execute();
+                        unset($stmt);
+
+                    }
+                }
+
+            ?>
+            <div class="row">
+                <div class="col-12">
+                    <h1>Create an account for a client:</h1>
+                    <form method="POST">
+                        <div class="row align-items-center g-3">
+                            <div class="col-auto">
+                                <label for="inputName">Forename</label>
+                                <input type="text" class="form-control" id="inputName" name="inputName" placeholder="forename">
+                            </div>
+                            <div class="col-auto">
+                                <label for="inputSurname">Surname</label>
+                                <input type="text" class="form-control" id="inputSurname" name="inputSurname" placeholder="surname">
+                            </div>
+
+                            <div class="col-auto">
+                                <label for="inputUsername">username</label>
+                                <input type="text" class="form-control" name="inputUsername" id="inputUsername" placeholder="username">
+                                <span class="help-block"><?php echo $username_err; ?></span>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary" name="submitAccount">Create Account</button>
+                            </div>
+                        </div>
+                    </form>                                   
+                </div>
+            </div>
+
+        <?php endif; ?>
+
     </div>
 
     <script type="text/javascript">
