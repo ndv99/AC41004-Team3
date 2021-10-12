@@ -12,15 +12,15 @@
 
         if ($current_colour=="green") {
           if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FEFB01";
+            $hex_val = "00ED01";
           } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "CEFB02";
+            $hex_val = "3AF901";
           } else if ($percent>=0.41 && $percent<=0.6) {
             $hex_val = "87FA00";
           } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "3AF901";
+            $hex_val = "CEFB02";
           } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "00ED01";
+            $hex_val = "FEFB01";
           }
         } else if ($current_colour=="yellow") {
           if ($percent>=0 && $percent<=0.2) {
