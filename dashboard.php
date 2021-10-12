@@ -83,7 +83,19 @@
 					$row3 = $stmt2->fetch();
 					?>
 					<div class="row people">
-						<div class="col-4" id="">
+						<div class="col-2 imageDiv">
+							<?php
+								$imagepath = null; 
+								if(is_null($row3['imagePath'])){
+									$imagepath = 'img/profile.png';
+								}
+								else{
+									$imagepath = $row3["imagePath"];
+								}
+							?>
+							<img src="<?php echo($imagepath) ?>">
+						</div>
+						<div class="col-2">
 							<p class="peoplesName"> <?php echo $row3["firstName"]." ". $row3["surname"]?></p>
 						</div>
 						<div class="col-4">
