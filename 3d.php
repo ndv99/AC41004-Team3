@@ -28,15 +28,15 @@
           } else if ($percent>=0.21 && $percent<=0.4) {
             $hex_val = "FFCF07";
           } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "FA80F";
+            $hex_val = "FFA80F";
           } else if ($percent>=0.61 && $percent<=0.8) {
             $hex_val = "FE8116";
           } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "FE5A1D";
+            $hex_val = "FA6F01";
           }
         } else if ($current_colour=="orange") {
           if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FA6F01";
+            $hex_val = "FE5A1D";
           } else if ($percent>=0.21 && $percent<=0.4) {
             $hex_val = "F55301";
           } else if ($percent>=0.41 && $percent<=0.6) {
@@ -48,7 +48,7 @@
           }
         } else if ($current_colour=="red") {
           if ($percent>=0 && $percent<=0.25) {
-            $hex_val = "FF0000";
+            $hex_val = "D30001";
           } else if ($percent>=0.26 && $percent<=0.5) {
             $hex_val = "BF0000";
           } else if ($percent>=0.51 && $percent<=0.75) {
