@@ -8,54 +8,31 @@
 	// 	exit;
 	// }
 
-	function colour_hex_val_gen ($current_colour, $percent) {
+	function colour_hex_val_gen ($percent, $value) {
 
-        if ($current_colour=="green") {
-          if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "00ED01";
-          } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "3AF901";
-          } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "87FA00";
-          } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "CEFB02";
-          } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "FEFB01";
-          }
-        } else if ($current_colour=="yellow") {
-          if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FFF600";
-          } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "FFCF07";
-          } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "FFA80F";
-          } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "FE8116";
-          } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "FA6F01";
-          }
-        } else if ($current_colour=="orange") {
-          if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FE5A1D";
-          } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "F55301";
-          } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "F03801";
-          } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "EB1C01";
-          } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "E60001";
-          }
-        } else if ($current_colour=="red") {
-          if ($percent>=0 && $percent<=0.25) {
-            $hex_val = "D30001";
-          } else if ($percent>=0.26 && $percent<=0.5) {
-            $hex_val = "BF0000";
-          } else if ($percent>=0.51 && $percent<=0.75) {
-            $hex_val = "800000";
-          } else if ($percent>=0.76 && $percent<=1) {
-            $hex_val = "400000";
-          }
+        // this handles the green transitioning to yellow
+        if ($percent >= 0 && $percent < 0.25) {
+            $r_val = round(round($value/256,2)*255,2);
+
+            $hex_val = sprintf("%02x%02x%02x", $r_val, 255, 0);
+
+            // this handles the yellow transitioning to orange
+        } else if ($percent >= 0.25 && $percent < 0.5) {
+            $g_val = round(round((512-$value)/256,2)*128,2);
+
+            $hex_val = sprintf("%02x%02x%02x", 255, 255-$g_val, 0);
+
+            // this handles the orange transitioning to red
+        } else if ($percent >= 0.5 && $percent < 0.75) {
+            $g_val = round(round((768-$value)/256,2)*127,2);
+
+            $hex_val = sprintf("%02x%02x%02x", 255, 127-$g_val, 0);
+
+        // this handles the red transitioning to dark-red
+        } else if ($percent >= 0.75 && $percent <= 1.0) {
+            $r_val = round(round((1025-$value)/256,2)*125,2);
+
+            $hex_val = sprintf("%02x%02x%02x", 255-$r_val, 0, 0);
         }
 
         return $hex_val;
@@ -67,46 +44,12 @@
 
 	function determine_colour ($value) {
 		$colour_hex_values = "0x";
-		$colour_code= "Colour code: ";
+    
+    $min_value=0;
+    $max_value=1025;
 
-		if ($value >=0 && $value <= 256) {
-			$colour_percent= round($value/256, 2);
-			$colour="green";
-
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
-
-
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		} else if ($value >= 257 && $value <= 512) {
-			$colour_percent= round((512-$value)/256, 2);
-			$colour="yellow";
-
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
-
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		} else if ($value >= 513 && $value <= 768) {
-			$colour_percent = round((768-$value)/256, 2);
-			$colour="orange";
-
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
-
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		} else if ($value >= 769 && $value <= 1025) {
-			$colour_percent = round((1025 - $value)/256, 2);
-			$colour="red";
-
-			// the generated hex value for the colours
-			$colour_hex_values .= colour_hex_val_gen($colour, $colour_percent);
-
-		//   echo "$colour <br />\n";
-		//   echo "$colour_code $colour_hex_values <br />\n";
-		}
+    $colour_percent= round($value/$max_value,2);
+    $colour_hex_values .= colour_hex_val_gen($colour_percent, $value);
 		return $colour_hex_values;
 
 	}
@@ -117,7 +60,7 @@
 		$hexvals3 = array();
 		$hexvals4 = array();
 		$times = array();
-		
+
 		foreach ($rowx as $result){
 			$value = $result["value"];
 			$time = $result["time"];
@@ -180,7 +123,7 @@
 		}else{
 			$query = "SELECT * FROM `sensor_data` WHERE `user_id` = ".$userid." AND `session_id` = ".($session_id - 1).";";
 		}
-		
+
 		$stmt = $pdo->prepare($query);
 		$stmt->execute();
 		$row2 = $stmt->fetchAll();
@@ -191,12 +134,12 @@
 
 //
 
-	
+
 ?>
 
 
 
-<!-- 
+<!--
 Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 -->
 
@@ -212,7 +155,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 
 		<link rel="stylesheet" type="text/css" href="./css/3d.css">
 	</head>
@@ -223,7 +166,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 		<script type="module">
 
-            import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial, 
+            import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial,
 					MeshNormalMaterial, MeshLambertMaterial, PointLight, Color, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from './js/threejs/build/three.module.js';
             import { MTLLoader } from './js/threejs/examples/jsm/loaders/MTLLoader.js';
             import { OBJLoader } from './js/threejs/examples/jsm/loaders/OBJLoader.js';
@@ -235,7 +178,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			init();
 			//render(); // remove when using next line for animation loop (requestAnimationFrame)
 			animate();
-			
+
 
 			function init() {
 
@@ -358,8 +301,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					loadObjectWithMaterial("current_text_centered", "shapes/current_text_centered/current_text_centered.obj", "shapes/current_text_centered/current_text_centered.mtl");
 					// load object 3
 				}
-				
-                
+
+
 				// lights
 
 				// let light, light2, light3, light4;
@@ -437,7 +380,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				renderer.render( scene, camera );
 
 			}
-			
+
 			const session1_values = <?php echo json_encode($session1_values);?>;
 			const hex_array1 = session1_values[0];
 			const hex_array2 = session1_values[1];
@@ -468,7 +411,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
             }
 
 			function do_timeout(i){
-				setTimeout(function() {	
+				setTimeout(function() {
 					if(are_there_two_sessions){
 						changeObjectColour( "body2_left_hamstring", parseInt(hex_array1[i], 16));
 						changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
@@ -531,7 +474,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
 			}
-			
+
 
 		</script>
 
