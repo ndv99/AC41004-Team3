@@ -12,15 +12,15 @@
 
         if ($current_colour=="green") {
           if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FEFB01";
+            $hex_val = "00ED01";
           } else if ($percent>=0.21 && $percent<=0.4) {
-            $hex_val = "CEFB02";
+            $hex_val = "3AF901";
           } else if ($percent>=0.41 && $percent<=0.6) {
             $hex_val = "87FA00";
           } else if ($percent>=0.61 && $percent<=0.8) {
-            $hex_val = "3AF901";
+            $hex_val = "CEFB02";
           } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "00ED01";
+            $hex_val = "FEFB01";
           }
         } else if ($current_colour=="yellow") {
           if ($percent>=0 && $percent<=0.2) {
@@ -28,15 +28,15 @@
           } else if ($percent>=0.21 && $percent<=0.4) {
             $hex_val = "FFCF07";
           } else if ($percent>=0.41 && $percent<=0.6) {
-            $hex_val = "FA80F";
+            $hex_val = "FFA80F";
           } else if ($percent>=0.61 && $percent<=0.8) {
             $hex_val = "FE8116";
           } else if ($percent>=0.81 && $percent<=1) {
-            $hex_val = "FE5A1D";
+            $hex_val = "FA6F01";
           }
         } else if ($current_colour=="orange") {
           if ($percent>=0 && $percent<=0.2) {
-            $hex_val = "FA6F01";
+            $hex_val = "FE5A1D";
           } else if ($percent>=0.21 && $percent<=0.4) {
             $hex_val = "F55301";
           } else if ($percent>=0.41 && $percent<=0.6) {
@@ -48,7 +48,7 @@
           }
         } else if ($current_colour=="red") {
           if ($percent>=0 && $percent<=0.25) {
-            $hex_val = "FF0000";
+            $hex_val = "D30001";
           } else if ($percent>=0.26 && $percent<=0.5) {
             $hex_val = "BF0000";
           } else if ($percent>=0.51 && $percent<=0.75) {
@@ -206,11 +206,20 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<title>three.js webgl - orbit controls</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link rel="stylesheet" href="css/main.css">
-		</head>
+		<!-- <link rel="stylesheet" href="css/main.css"> -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> 
+
+		<link rel="stylesheet" type="text/css" href="./css/3d.css">
+	</head>
 
 	<body>
 		<!-- <h1 id="time">TIME</h1> -->
+		<a class="nav-link" href="dashboard.php" >Back</a>
 
 		<script type="module">
 
