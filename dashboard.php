@@ -31,9 +31,12 @@
 
 	<nav class="navbar navbar-dark">
 	  <div class="container-fluid">
-    	<ul class="navbar-nav ms-auto">
+    	<ul class="nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link" href="logout.php" >Log Out</a>
+            	<a class="nav-link" href="account.php">Account</a>
+            </li>
+            <li class="nav-item">
+            	<a class="nav-link" href="logout.php" >Log Out</a>
             </li>
         </ul>
 	  </div>
