@@ -169,6 +169,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<div class="chart-container">
 			<!--style="background-color: rgb(119, 119, 119);" -->
 			<canvas id="myChart" height="400" width="1200" ></canvas>
+			<!-- Gradient vertical image to be sized and placed next to the graph -->
+			<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli">
+		</div>
+		<div class="chart-container">
 			<canvas id="myChart2" height="400" width="1200" ></canvas>
 		</div>
 
@@ -497,6 +501,11 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				}
 			}
 
+			const r_f1 = hex_array1.map(x => x/16320)
+			const r_f2 = hex_array2.map(x => x/16320)
+			const s_t1 = hex_array3.map(x => x/16320)
+			const s_t2 = hex_array4.map(x => x/16320)
+
 			let myChart = document.getElementById('myChart').getContext('2d');
 			let myChart2 = document.getElementById('myChart2').getContext('2d');
 
@@ -520,7 +529,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverBackground: "rgba(75,192,192,1)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
-						data: hex_array1
+						data: r_f1
 					},
 					{
 						label:'Semitendinosus',
@@ -538,7 +547,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverBackground: "rgb(255,20,147)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
-						data: hex_array3
+						data: s_t1
 					}
 				
 				]
@@ -548,7 +557,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					
 					plugins:{
 						legend:{
-						position: 'right'
+						position: 'top'
 					},
 					title:{
 						display: true,
@@ -580,7 +589,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverBackground: "rgba(75,192,192,1)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
-						data: hex_array2
+						data: r_f2
 					},
 					{
 						label:'Semitendinosus',
@@ -598,7 +607,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverBackground: "rgb(255,20,147)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
-						data: hex_array4
+						data: s_t2
 					}
 				
 				]
@@ -608,7 +617,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					
 					plugins:{
 						legend:{
-						position: 'right'
+						position: 'top'
 					},
 					title:{
 						display: true,
