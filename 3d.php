@@ -625,7 +625,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 		</script>
 
-		<div class="container" id="charts">
+		<div class="container" id="charts" style="display: none">
 			<div class="row">
 				<div class="col-10">
 					<canvas id="myChart" height="400" width="1200" ></canvas>
@@ -643,7 +643,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		</div>
 
 		<script>
-			let show = false;
+			let show = true;
 			document.getElementById("showhide").addEventListener('click', () => {
 				show = !show;
 				if (show){
