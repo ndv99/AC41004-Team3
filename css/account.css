@@ -1,0 +1,130 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
+  }
+
+@font-face {
+    font-family: RobotoThin;
+    src: url(../Style/Fonts/Roboto/Roboto-Thin.ttf);
+}
+
+@font-face {
+    font-family: RobotoBold;
+    src: url(../Style/Fonts/Roboto/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Zapf;
+    src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
+}
+
+nav {
+    width: 70%;
+    margin: auto;
+}
+
+nav a{
+    color: #f25f15 !important; 
+    margin-right: 1em;
+
+}
+
+#nav .nav-link {
+    font-family: RobotoBold;
+    text-transform: uppercase;
+}
+
+.container {
+    display: block;
+    width: 70%;
+    font-family: Roboto;
+    margin: auto;
+    padding: 0;
+}
+
+body {
+    background-color: #fff;
+}
+
+#bootstrap_override hr, #body hr {
+    opacity: 1;
+    padding: 0;
+    margin: 0 0 30px 0;
+    border: 0;
+    height: 3px;
+    background: #fff;
+    background-image: linear-gradient(to right, #fff, #0397a2, #fff); 
+}
+
+#body > hr {
+    background: #fff;
+    background-image: linear-gradient(to right, rgb(20,17,17), #F26D1C, rgb(20,17,17)); 
+}
+
+header {
+    padding: 30px 15%;
+    overflow: hidden;
+    background-image: url(../Style/Images/test.png);
+    background-size: cover;
+    
+}
+
+#logo {
+    display: block;
+    width: 300px;
+    float: right;
+}
+
+#your_account {
+    font-weight: 600;
+    font-family: RobotoThin;
+    text-transform: uppercase;
+    color: rgb(3,151,162);
+    margin: 0 0 30px 0;
+}
+
+#your_account span {
+    color: #F26D1C;
+
+}
+
+.container th {
+    color: #F26D1C;
+}
+
+.container td {
+    color: rgb(3,151,162);
+}
+
+#body button {
+    font-family: Roboto;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #F26D1C;
+    color:#F26D1C;
+    background-color: transparent;
+}
+
+#edit_button {
+    margin-bottom: 30px;
+}
+
+.create_account h1 {
+    font-weight: 600;
+    font-family: RobotoThin;
+    text-transform: uppercase;
+    color: rgb(3,151,162);
+    margin: 0 0 30px 0;
+}
+
+#create_account_form {
+    color: rgb(3,151,162);
+}
+
+#create_account_form label {
+    font-family:Roboto;
+}
+
+#button_submit {
+    margin-bottom: 20px;
+}

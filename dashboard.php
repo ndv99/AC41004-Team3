@@ -31,7 +31,7 @@
 
 	<nav id="nav" class="navbar navbar-dark">
 	  <div class="container-fluid">
-    	<ul class="nav ms-auto">
+    	<ul class="nav mr-auto">
             <li class="nav-item">
             	<a class="nav-link" href="account.php">Account</a>
             </li>

@@ -41,12 +41,6 @@ input:focus {
     margin-bottom: 20px;
 }
 
-input:active {
-    border: none;
-    border-bottom: 1px solid white;
-    background: transparent;
-    margin-bottom: 20px;
-}
 
 form {
     display: block;

@@ -48,12 +48,16 @@ if (isset($_POST['submitDetails'])) {
     <title>Account Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="./css/account.css">
 
 </head>
-<body>
-    <nav class="navbar navbar-dark">
+
+<body id="body">
+
+    <nav id="nav" class="navbar navbar-dark">
+
       <div class="container-fluid">
-        <ul class="nav ms-auto">
+        <ul class="nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="dashboard.php">Dashboard</a>
             </li>
@@ -65,11 +69,17 @@ if (isset($_POST['submitDetails'])) {
 
     </nav>
 
+    <header>
+		<img id="logo" src="./Style/Images/whiteLogo.png" alt="" width="" height="">
+	</header>
+
+	<hr style="clear: both;">
+
     <div class="container">
         
         <div class="row">
             <div class="col-12">
-                <h1>Your Account:</h1>
+                <h1 id="your_account">Your <span>Account </span>:</h1>
             </div>
         </div>
 
@@ -96,8 +106,8 @@ if (isset($_POST['submitDetails'])) {
 
         <div class="row justify-content-end">
             <!-- Button trigger modal -->
-            <div class="button-holder" style="justify-content:flex-end;display:flex;">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">
+            <div id="edit_button" class="button-holder" style="justify-content:flex-end;display:flex;">
+                <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">
                     Edit
                 </button>
             </div>
@@ -207,26 +217,26 @@ if (isset($_POST['submitDetails'])) {
 
             ?>
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 create_account">
                     <h1>Create an account for a client:</h1>
-                    <form method="POST">
+                    <form id="create_account_form" method="POST">
                         <div class="row align-items-center g-3">
-                            <div class="col-auto">
+                            <div class="col-lg-4 col-md-4 col-sm-12">
                                 <label for="inputName">Forename</label>
-                                <input type="text" class="form-control" id="inputName" name="inputName" placeholder="forename">
+                                <input type="text" class="form-control" id="inputName" name="inputName" placeholder="Forename">
                             </div>
-                            <div class="col-auto">
+                            <div class="col-lg-4 col-md-4 col-sm-12">
                                 <label for="inputSurname">Surname</label>
-                                <input type="text" class="form-control" id="inputSurname" name="inputSurname" placeholder="surname">
+                                <input type="text" class="form-control" id="inputSurname" name="inputSurname" placeholder="Surname">
                             </div>
 
-                            <div class="col-auto">
-                                <label for="inputUsername">username</label>
-                                <input type="text" class="form-control" name="inputUsername" id="inputUsername" placeholder="username">
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <label for="inputUsername">Username</label>
+                                <input type="text" class="form-control" name="inputUsername" id="inputUsername" placeholder="Username">
                                 <span class="help-block"><?php echo $username_err; ?></span>
                             </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-primary" name="submitAccount">Create Account</button>
+                            <div class="col-12">
+                                <button id="button_submit" type="submit" class="btn btn-primary" name="submitAccount">Create Account</button>
                             </div>
                         </div>
                     </form>                                   

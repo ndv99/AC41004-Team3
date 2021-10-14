@@ -18,6 +18,11 @@
     src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
 }
 
+nav {
+    width: 70%;
+    margin: auto;
+}
+
 nav a{
     color: #f25f15 !important; 
     margin-right: 1em;
@@ -80,6 +85,7 @@ header {
 }
 
 /* --------------------------------------------------- NAVIGATION ----------------------------------------------*/
+
 
 #nav .nav-link {
     font-family: RobotoBold;
