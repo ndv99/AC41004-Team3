@@ -78,8 +78,6 @@ if (isset($_POST['signIn'])) {
         <span class="help-block"><?php echo $password_err; ?></span> </br>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="signIn">Sign In</button> </br>
-
-        <p>Don't have an account? <a href="register.php">Register Here</a>.</p>
     </form>
     
 </div>

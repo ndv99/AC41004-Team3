@@ -210,8 +210,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				controls.screenSpacePanning = false;
 
-				controls.minDistance = 100;
-				controls.maxDistance = 300;
+				controls.minDistance = 150;
+				controls.maxDistance = 250;
 
 				controls.maxPolarAngle = Math.PI / 2;
 

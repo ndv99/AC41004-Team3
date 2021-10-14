@@ -193,6 +193,10 @@ header {
     justify-content: center;
 }
 
+.modal-title{
+    color: black;
+}
+
 /*---Loading icon----*/
 #loader {
     position: absolute;
