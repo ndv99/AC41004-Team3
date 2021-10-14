@@ -65,6 +65,7 @@
 		<?php
 			if ($_SESSION['role'] != "athlete") :?>
 				<p>Your clients are:</p>
+				<input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names..">
 				<hr>
 				<?php
 				$query = "SELECT `client_id` FROM `physio_athlete` WHERE `staff_id` = ".$_SESSION["UserID"].";";
@@ -81,13 +82,29 @@
 					$stmt2->execute();
 					$row3 = $stmt2->fetch();
 					?>
-
-					<p> <?php echo $row3["firstName"]." ". $row3["surname"]?></p>
-					<p>Last Login: <?php echo $row3["lastLogin"] ?></p>
-
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession<?php echo $target ?>" data-bs-whatever="@getbootstrap">View Previous Readings</button>
-
-
+					<div class="row people">
+						<div class="col-2 imageDiv">
+							<?php
+								$imagepath = null; 
+								if(is_null($row3['imagePath'])){
+									$imagepath = 'img/profile.png';
+								}
+								else{
+									$imagepath = $row3["imagePath"];
+								}
+							?>
+							<img src="<?php echo($imagepath) ?>">
+						</div>
+						<div class="col-2">
+							<p class="peoplesName"> <?php echo $row3["firstName"]." ". $row3["surname"]?></p>
+						</div>
+						<div class="col-4">
+							<p>Last Session Uploaded: <?php echo $row3["lastLogin"] ?></p>
+						</div>
+						<div class="col-4">
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession<?php echo $target ?>" data-bs-whatever="@getbootstrap">View Previous Readings</button>
+						</div>
+					</div>
 
 					<div class="modal fade" id="customsession<?php echo $target ?>" tabindex="-1" aria-labelledby="customsessionmodal" aria-hidden="true">
 					  <div class="modal-dialog">
@@ -333,6 +350,27 @@ function showLoader() {
   document.getElementById("loader").style.display = "block";
   document.getElementById("content").style.display = "none";
   document.querySelector("#body > div.modal-backdrop.fade.show").remove();
+}
+
+//https://www.w3schools.com/howto/howto_js_filter_lists.asp Followed and edited this tutorial to get this to work. Has been changed but bones are similiar still
+function searchFunction() {
+  // Declare variables
+  var input, filter, row, p, txtValue;
+
+  input = document.getElementById('myInput');
+  filter = input.value.toUpperCase();
+  row = document.getElementsByClassName("people");
+
+  for (var i = 0; i < row.length; i++) {
+  	p = row[i].getElementsByClassName("peoplesName");
+  	txtValue = p[0].innerText;
+  	console.log(txtValue);
+  	if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      row[i].style.display = "";
+    } else {
+      row[i].style.display = "none";
+    }
+  }
 }
 </script>			
 </body>
