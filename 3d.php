@@ -163,9 +163,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 	<body>
 		<!-- <h1 id="time">TIME</h1> -->
 		<a class="nav-link" href="dashboard.php" >Back</a>
+		<button id="showhide">Show/Hide Graphs</button>
 
-		
-		<div class="row">
 		<script type="module">
 
             import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial,
@@ -190,7 +189,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				renderer = new WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
+
+				document.body.appendChild(renderer.domElement);
 
 				camera = new PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.set( 400, 200, 0 );
@@ -624,26 +624,35 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			})
 
 		</script>
-		</div>
-		<div class="container">
-		<div class="row">
-			<div class="col-10">
-				<canvas id="myChart" height="400" width="1200" ></canvas>
-			</div>
+
+		<div class="container" id="charts">
+			<div class="row">
+				<div class="col-10">
+					<canvas id="myChart" height="400" width="1200" ></canvas>
+				</div>
 			<div class="col" style="padding-top: 50px;"> 
-			<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" >
+				<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" >
 			</div>
-		</div>
-			
-			
-		<div class="container">
-		<div class="row">
-			<div class="col-10">
-				<canvas id="myChart2" height="400" width="1200" ></canvas>
-			</div>
+			<div class="row">
+				<div class="col-10">
+					<canvas id="myChart2" height="400" width="1200" ></canvas>
+				</div>
 			<div class="col" style="padding-top: 50px;">
-			<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" style="padding-top: 100px;">
+				<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" style="padding-top: 100px;">
 			</div>
 		</div>
+
+		<script>
+			let show = false;
+			document.getElementById("showhide").addEventListener('click', () => {
+				show = !show;
+				if (show){
+					document.getElementById("charts").style.display="none";
+				} else {
+					document.getElementById("charts").style.display="flex";
+				}
+			})
+		</script>
+
 	</body>
 </html>
