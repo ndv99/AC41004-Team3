@@ -625,20 +625,26 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 		</script>
 
-		<div class="container" id="charts" style="display: none">
+		<div class="container" id="charts" style="display: none; flex-direction: column;">
 			<div class="row">
-				<div class="col-10">
+				<div class="col-11">
 					<canvas id="myChart" height="400" width="1200" ></canvas>
 				</div>
-			<div class="col" style="padding-top: 50px;"> 
-				<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" >
+
+				<div class="col" style="padding-top: 50px;"> 
+					<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px; content:center;" >
+				</div>
 			</div>
+
 			<div class="row">
-				<div class="col-10">
+				<div class="col-11">
 					<canvas id="myChart2" height="400" width="1200" ></canvas>
 				</div>
-			<div class="col" style="padding-top: 50px;">
-				<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" style="padding-top: 100px;">
+			
+				<div class="col" style="padding-top: 50px;">
+					<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" style="padding-top: 100px;">
+				</div>
+			
 			</div>
 		</div>
 
