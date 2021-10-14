@@ -156,13 +156,14 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-
 		<link rel="stylesheet" type="text/css" href="./css/3d.css">
-	</head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+		</head>
 
 	<body>
 		<!-- <h1 id="time">TIME</h1> -->
 		<a class="nav-link" href="dashboard.php" >Back</a>
+		<button id="showhide">Show/Hide Graphs</button>
 
 		<script type="module">
 
@@ -183,12 +184,13 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			function init() {
 
 				scene = new Scene();
-				scene.background = new Color( 0x777777 );
+				scene.background = new Color( 0xFFFFFF );
 
 				renderer = new WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
+
+				document.body.appendChild(renderer.domElement);
 
 				camera = new PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.set( 400, 200, 0 );
@@ -386,6 +388,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			const hex_array2 = session1_values[1];
 			const hex_array3 = session1_values[2];
 			const hex_array4 = session1_values[3];
+			const time_stamps = session1_values[4];
+			
 
 			var hex_array5 = [];
 			var hex_array6 = [];
@@ -471,11 +475,183 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			const time_array = session1_values[4];
 
+			//console.log(typeof hex_array1[(hex_array1.length)/2]);
+
+			// if x == undefined
+
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
 			}
 
+			for(var i=0; i<time_stamps.length; i++){
+				if(hex_array1[i] == undefined){
+					hex_array1.splice(i, 1);
+					time_stamps.splice(i, 1);
+					i--;
+				}
+			}
 
+			const r_f1 = hex_array1.map(x => x/16320)
+			const r_f2 = hex_array2.map(x => x/16320)
+			const s_t1 = hex_array3.map(x => x/16320)
+			const s_t2 = hex_array4.map(x => x/16320)
+
+			let myChart = document.getElementById('myChart').getContext('2d');
+			let myChart2 = document.getElementById('myChart2').getContext('2d');
+
+			let lineChart = new Chart(myChart, {
+				type:'line',
+				data:{
+					labels:time_stamps,
+					datasets:[{
+						label:'Rectus Femoris',
+						fill:false,
+						lineTension: 0.3,
+						borderColor: "rgba(75,192,192,1)",
+						backgroundCOlor:"rgba(75,192,192,1)",
+						borderCapStyle: 'but',
+						borderDash: [],
+						borderDashOffset: 0.0,
+						borderJoinStyle: 'miter',
+						pointBorderColor: "rgba(75,192,192,1)",
+						pointBackgroundColor: "rgba(75,192,192,1)",
+						pointBorderWidth: 1,
+						pointHoverRadius:5 ,
+						pointHoverBackground: "rgba(75,192,192,1)",
+						pointHoverBorderColor: "rgba(220,220,220,1)",
+
+						data: r_f1
+					},
+					{
+						label:'Semitendinosus',
+						fill:false,
+						lineTension: 0.3,
+						borderColor: "rgb(255,20,147)",
+						backgroundCOlor:"rgb(255,20,147)",
+						borderCapStyle: 'but',
+						borderDash: [],
+						borderDashOffset: 0.0,
+						borderJoinStyle: 'miter',
+						pointBorderColor: "rgb(255,20,147)",
+						pointBackgroundColor: "rgb(255,20,147)",
+						pointBorderWidth: 1,
+						pointHoverRadius:5 ,
+						pointHoverBackground: "rgb(255,20,147)",
+						pointHoverBorderColor: "rgba(220,220,220,1)",
+
+						data: s_t1
+					}
+				
+				]
+					
+				},
+				options:{
+					
+					plugins:{
+						legend:{
+						position: 'top'
+					},
+					title:{
+						display: true,
+						text: "Right Leg",
+						fontSize: 50
+					}
+					}
+					
+				}
+			})
+
+			let lineChart2 = new Chart(myChart2, {
+				type:'line',
+				data:{
+					labels:time_stamps,
+					datasets:[{
+						label:'Rectus Femoris',
+						fill:false,
+						lineTension: 0.3,
+						borderColor: "rgba(75,192,192,1)",
+						backgroundCOlor:"rgba(75,192,192,1)",
+						borderCapStyle: 'but',
+						borderDash: [],
+						borderDashOffset: 0.0,
+						borderJoinStyle: 'miter',
+						pointBorderColor: "rgba(75,192,192,1)",
+						pointBackgroundColor: "rgba(75,192,192,1)",
+						pointBorderWidth: 1,
+						pointHoverRadius:5 ,
+						pointHoverBackground: "rgba(75,192,192,1)",
+						pointHoverBorderColor: "rgba(220,220,220,1)",
+
+						data: r_f2
+					},
+					{
+						label:'Semitendinosus',
+						fill:false,
+						lineTension: 0.3,
+						borderColor: "rgb(255,20,147)",
+						backgroundCOlor:"rgb(255,20,147)",
+						borderCapStyle: 'but',
+						borderDash: [],
+						borderDashOffset: 0.0,
+						borderJoinStyle: 'miter',
+						pointBorderColor: "rgb(255,20,147)",
+						pointBackgroundColor: "rgb(255,20,147)",
+						pointBorderWidth: 1,
+						pointHoverRadius:5 ,
+						pointHoverBackground: "rgb(255,20,147)",
+						pointHoverBorderColor: "rgba(220,220,220,1)",
+
+						data: s_t2
+					}
+				
+				]
+					
+				},
+				options:{
+					
+					plugins:{
+						legend:{
+						position: 'top'
+					},
+					title:{
+						display: true,
+						text: "Left Leg",
+						fontSize: 50
+					}
+					}
+					
+				}
+			})
+
+		</script>
+
+		<div class="container" id="charts">
+			<div class="row">
+				<div class="col-10">
+					<canvas id="myChart" height="400" width="1200" ></canvas>
+				</div>
+			<div class="col" style="padding-top: 50px;"> 
+				<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" >
+			</div>
+			<div class="row">
+				<div class="col-10">
+					<canvas id="myChart2" height="400" width="1200" ></canvas>
+				</div>
+			<div class="col" style="padding-top: 50px;">
+				<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" style="padding-top: 100px;">
+			</div>
+		</div>
+
+		<script>
+			let show = false;
+			document.getElementById("showhide").addEventListener('click', () => {
+				show = !show;
+				if (show){
+					document.getElementById("charts").style.display="none";
+				} else {
+					document.getElementById("charts").style.display="flex";
+				}
+			})
 		</script>
 
 	</body>
