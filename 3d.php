@@ -158,24 +158,14 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="./css/3d.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	</head>
+		</head>
 
 	<body>
 		<!-- <h1 id="time">TIME</h1> -->
 		<a class="nav-link" href="dashboard.php" >Back</a>
 
-		<div class="chart-container">
-			<!--style="background-color: rgb(119, 119, 119);" -->
-			<canvas id="myChart" height="400" width="1200" ></canvas>
-			<!-- Gradient vertical image to be sized and placed next to the graph -->
-			<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli">
-		</div>
-		<div class="chart-container">
-			<canvas id="myChart2" height="400" width="1200" ></canvas>
-		</div>
-
+		
+		<div class="row">
 		<script type="module">
 
             import { Scene, WebGLRenderer, PerspectiveCamera, CylinderGeometry,  MeshPhongMaterial, Mesh, MeshBasicMaterial,
@@ -195,7 +185,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			function init() {
 
 				scene = new Scene();
-				scene.background = new Color( 0x777777 );
+				scene.background = new Color( 0xFFFFFF );
 
 				renderer = new WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -634,6 +624,26 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			})
 
 		</script>
-
+		</div>
+		<div class="container">
+		<div class="row">
+			<div class="col-10">
+				<canvas id="myChart" height="400" width="1200" ></canvas>
+			</div>
+			<div class="col" style="padding-top: 50px;"> 
+			<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" >
+			</div>
+		</div>
+			
+			
+		<div class="container">
+		<div class="row">
+			<div class="col-10">
+				<canvas id="myChart2" height="400" width="1200" ></canvas>
+			</div>
+			<div class="col" style="padding-top: 50px;">
+			<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" style="padding-top: 100px;">
+			</div>
+		</div>
 	</body>
 </html>
