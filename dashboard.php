@@ -110,13 +110,13 @@
 					  <div class="modal-dialog">
 						<div class="modal-content">
 						  <div class="modal-header">
-							<h5 class="modal-title" id="customsessionmodal">View Previous Readings</h5>
+							<h5 class="modal-title" id="customsessionmodal" style="color: black">View Previous Readings</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						  </div>
 						  <div class="modal-body">
 							<form class="row g-3" enctype="multipart/form-data" action="3d.php" method="post">
 								<div class="col-12">
-								<label for="file" class="form-label" >Select Session: </label>
+								<label for="file" class="form-label" style="color: black">Select Session: </label>
 								<select name="custom_session">
 									<?php 
 									
@@ -171,7 +171,7 @@
 				  <div class="modal-dialog">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="uploadmodal">Upload sensor data</h5>
+				        <h5 class="modal-title" id="uploadmodal"  style="color: black">Upload sensor data</h5>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div>
 				      <div class="modal-body">
@@ -252,7 +252,7 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="comparesessionmodal">Compare Session Readings</h5>
+								<h5 class="modal-title" id="comparesessionmodal" style="color: black">Compare Session Readings</h5>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
@@ -331,7 +331,7 @@
 				?>
 
 				<form method="post" action ="3d.php">
-					<button value='<?php echo $result ?>' type="submit" name="single_session" class="btn btn-primary col-12">View your last session</button>
+					<!-- <button value='<?php echo $result ?>' type="submit" name="single_session" class="btn btn-primary">View your last session</button> -->
 				</form>
 						
 
