@@ -22,16 +22,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> 
 
-	<link rel="stylesheet" type="text/css" href="./css/dashboard.css">
+	<link rel="stylesheet" type="text/css" href="./css/dashboardLightMode.css">
 
 </head>
 
 <body id="body">
 	<div id="content">
 
-	<nav class="navbar navbar-dark">
+	<nav id="nav" class="navbar navbar-dark">
 	  <div class="container-fluid">
-    	<ul class="nav ms-auto">
+    	<ul class="nav mr-auto">
             <li class="nav-item">
             	<a class="nav-link" href="account.php">Account</a>
             </li>
@@ -44,7 +44,7 @@
 	</nav>
 
 	<header>
-		<img id="logo" src="./Style/Images/darkerBlueLogo.png" alt="" width="" height="">
+		<img id="logo" src="./Style/Images/whiteLogo.png" alt="" width="" height="">
 	</header>
 
 	<hr style="clear: both;">
@@ -65,8 +65,8 @@
 		<?php
 			if ($_SESSION['role'] != "athlete") :?>
 				<p>Your clients are:</p>
-				<input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names..">
-				<hr>
+				<input type="text" id="myInput" tabindex="1" onkeyup="searchFunction()" placeholder="Search for names..">
+				<!-- <hr> -->
 				<?php
 				$query = "SELECT `client_id` FROM `physio_athlete` WHERE `staff_id` = ".$_SESSION["UserID"].";";
 				$stmt = $pdo->prepare($query);
@@ -83,7 +83,7 @@
 					$row3 = $stmt2->fetch();
 					?>
 					<div class="row people">
-						<div class="col-2 imageDiv">
+						<div class="col-lg-2 col-md-2 col-sm-12 imageDiv">
 							<?php
 								$imagepath = null; 
 								if(is_null($row3['imagePath'])){
@@ -95,13 +95,13 @@
 							?>
 							<img src="<?php echo($imagepath) ?>">
 						</div>
-						<div class="col-2">
+						<div class="col-lg-2 col-md-2 col-sm-12">
 							<p class="peoplesName"> <?php echo $row3["firstName"]." ". $row3["surname"]?></p>
 						</div>
-						<div class="col-4">
+						<div class="col-lg-4 col-md-4 col-sm-12">
 							<p>Last Session Uploaded: <?php echo $row3["lastLogin"] ?></p>
 						</div>
-						<div class="col-4">
+						<div class="col-lg-4 col-md-4 col-sm-12">
 							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession<?php echo $target ?>" data-bs-whatever="@getbootstrap">View Previous Readings</button>
 						</div>
 					</div>
@@ -165,7 +165,7 @@
 			<!-- test form for importing csv using php -->
 			<div title="form run on php" class="php_form">
 
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal" data-bs-whatever="@getbootstrap">Upload new sensor readings</button>
+				<button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#Modal" data-bs-whatever="@getbootstrap">Upload new sensor readings</button>
 
 				<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="uploadmodal" aria-hidden="true">
 				  <div class="modal-dialog">
@@ -198,7 +198,7 @@
 				</div>
 
 
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession" data-bs-whatever="@getbootstrap">View Previous Readings</button>
+				<button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#customsession" data-bs-whatever="@getbootstrap">View Previous Readings</button>
 
 				<div class="modal fade" id="customsession" tabindex="-1" aria-labelledby="customsessionmodal" aria-hidden="true">
 					<div class="modal-dialog">
@@ -246,7 +246,7 @@
 
 
 
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comparesession" data-bs-whatever="@getbootstrap">Compare Session Readings</button>
+				<button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#comparesession" data-bs-whatever="@getbootstrap">Compare Session Readings</button>
 
 				<div class="modal fade" id="comparesession" tabindex="-1" aria-labelledby="comparesessionmodal" aria-hidden="true">
 					<div class="modal-dialog">
