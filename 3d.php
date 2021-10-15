@@ -160,10 +160,23 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
 		</head>
 
-	<body>
-		<!-- <h1 id="time">TIME</h1> -->
-		<a class="nav-link" href="dashboard.php" >Back</a>
-		<button id="showhide">Show/Hide Graphs</button>
+	<body id="body">
+
+		<nav id="nav" class="navbar navbar-dark">
+			<div class="container-fluid">
+				<ul class="nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="dashboard.php" >Back</a>
+					</li>
+					<li class="nav-item">
+						<button id="showhide">Show/Hide Graphs</button>
+					</li>
+				</ul>
+			</div>
+
+		</nav>
+
+		<hr style="clear: both;">
 
 		<script type="module">
 
@@ -507,17 +520,17 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						label:'Rectus Femoris',
 						fill:false,
 						lineTension: 0.3,
-						borderColor: "rgba(75,192,192,1)",
-						backgroundCOlor:"rgba(75,192,192,1)",
+						borderColor: "rgba(3,151,162,1)",
+						backgroundCOlor:"rgba(3,151,162,1)",
 						borderCapStyle: 'but',
 						borderDash: [],
 						borderDashOffset: 0.0,
 						borderJoinStyle: 'miter',
-						pointBorderColor: "rgba(75,192,192,1)",
-						pointBackgroundColor: "rgba(75,192,192,1)",
+						pointBorderColor: "rgba(3,151,162,1)",
+						pointBackgroundColor: "rgba(3,151,162,1)",
 						pointBorderWidth: 1,
 						pointHoverRadius:5 ,
-						pointHoverBackground: "rgba(75,192,192,1)",
+						pointHoverBackground: "rgba(3,151,162,1)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
 						data: r_f1
@@ -526,17 +539,17 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						label:'Semitendinosus',
 						fill:false,
 						lineTension: 0.3,
-						borderColor: "rgb(255,20,147)",
-						backgroundCOlor:"rgb(255,20,147)",
+						borderColor: "rgb(242,109,28)",
+						backgroundCOlor:"rgb(242,109,28)",
 						borderCapStyle: 'but',
 						borderDash: [],
 						borderDashOffset: 0.0,
 						borderJoinStyle: 'miter',
-						pointBorderColor: "rgb(255,20,147)",
-						pointBackgroundColor: "rgb(255,20,147)",
+						pointBorderColor: "rgb(242,109,28)",
+						pointBackgroundColor: "rgb(242,109,28)",
 						pointBorderWidth: 1,
 						pointHoverRadius:5 ,
-						pointHoverBackground: "rgb(255,20,147)",
+						pointHoverBackground: "rgb(242,109,28)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
 						data: s_t1
@@ -550,12 +563,12 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					plugins:{
 						legend:{
 						position: 'top'
-					},
-					title:{
-						display: true,
-						text: "Right Leg",
-						fontSize: 50
-					}
+						},
+						title:{
+							display: true,
+							text: "Right Leg",
+							fontSize: 50
+						}
 					}
 					
 				}
@@ -569,17 +582,17 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						label:'Rectus Femoris',
 						fill:false,
 						lineTension: 0.3,
-						borderColor: "rgba(75,192,192,1)",
-						backgroundCOlor:"rgba(75,192,192,1)",
+						borderColor: "rgba(3,151,162,1)",
+						backgroundCOlor:"rgba(3,151,162,1)",
 						borderCapStyle: 'but',
 						borderDash: [],
 						borderDashOffset: 0.0,
 						borderJoinStyle: 'miter',
-						pointBorderColor: "rgba(75,192,192,1)",
-						pointBackgroundColor: "rgba(75,192,192,1)",
+						pointBorderColor: "rgba(3,151,162,1)",
+						pointBackgroundColor: "rgba(3,151,162,1)",
 						pointBorderWidth: 1,
 						pointHoverRadius:5 ,
-						pointHoverBackground: "rgba(75,192,192,1)",
+						pointHoverBackground: "rgba(3,151,162,1)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
 						data: r_f2
@@ -588,17 +601,17 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						label:'Semitendinosus',
 						fill:false,
 						lineTension: 0.3,
-						borderColor: "rgb(255,20,147)",
-						backgroundCOlor:"rgb(255,20,147)",
+						borderColor: "rgb(242,109,28)",
+						backgroundCOlor:"rgb(242,109,28)",
 						borderCapStyle: 'but',
 						borderDash: [],
 						borderDashOffset: 0.0,
 						borderJoinStyle: 'miter',
-						pointBorderColor: "rgb(255,20,147)",
-						pointBackgroundColor: "rgb(255,20,147)",
+						pointBorderColor: "rgb(242,109,28)",
+						pointBackgroundColor: "rgb(242,109,28)",
 						pointBorderWidth: 1,
 						pointHoverRadius:5 ,
-						pointHoverBackground: "rgb(255,20,147)",
+						pointHoverBackground: "rgb(242,109,28)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
 						data: s_t2
@@ -630,21 +643,18 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				<div class="col-11">
 					<canvas id="myChart" height="400" width="1200" ></canvas>
 				</div>
-
-				<div class="col" style="padding-top: 50px;"> 
-					<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px; content:center;" >
+				<div class="col-1"> 
+					<img  src="./Style/Images/gradient_ss.png" alt="Italian Trulli" />
 				</div>
 			</div>
-
+			<br>
 			<div class="row">
 				<div class="col-11">
 					<canvas id="myChart2" height="400" width="1200" ></canvas>
 				</div>
-			
-				<div class="col" style="padding-top: 50px;">
-					<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli" style="height:250px;" style="padding-top: 100px;">
+				<div class="col-1">
+					<img src="./Style/Images/gradient_ss.png" alt="Italian Trulli"/>
 				</div>
-			
 			</div>
 		</div>
 
