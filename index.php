@@ -59,7 +59,7 @@ if (isset($_POST['signIn'])) {
     <link rel="stylesheet" type="text/css" href="./css/login.css" />
 
     <title>Log In</title>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico"/>
+    <!-- <link rel="icon" type="image/x-icon" href="./images/favicon.ico"/> -->
 </head>
 
 <body class="text-center" id="background">
