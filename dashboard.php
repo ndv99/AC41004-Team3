@@ -165,7 +165,7 @@
 			<!-- test form for importing csv using php -->
 			<div title="form run on php" class="php_form">
 
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal" data-bs-whatever="@getbootstrap">Upload new sensor readings</button>
+				<button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#Modal" data-bs-whatever="@getbootstrap">Upload new sensor readings</button>
 
 				<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="uploadmodal" aria-hidden="true">
 				  <div class="modal-dialog">
@@ -198,7 +198,7 @@
 				</div>
 
 
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customsession" data-bs-whatever="@getbootstrap">View Previous Readings</button>
+				<button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#customsession" data-bs-whatever="@getbootstrap">View Previous Readings</button>
 
 				<div class="modal fade" id="customsession" tabindex="-1" aria-labelledby="customsessionmodal" aria-hidden="true">
 					<div class="modal-dialog">
@@ -246,7 +246,7 @@
 
 
 
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comparesession" data-bs-whatever="@getbootstrap">Compare Session Readings</button>
+				<button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" data-bs-target="#comparesession" data-bs-whatever="@getbootstrap">Compare Session Readings</button>
 
 				<div class="modal fade" id="comparesession" tabindex="-1" aria-labelledby="comparesessionmodal" aria-hidden="true">
 					<div class="modal-dialog">
@@ -331,7 +331,7 @@
 				?>
 
 				<form method="post" action ="3d.php">
-					<button value='<?php echo $result ?>' type="submit" name="single_session" class="btn btn-primary">View your last session</button>
+					<button value='<?php echo $result ?>' type="submit" name="single_session" class="btn btn-primary col-12">View your last session</button>
 				</form>
 						
 

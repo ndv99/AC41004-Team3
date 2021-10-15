@@ -102,10 +102,13 @@ header {
     border: 1px solid #F26D1C;
     border-bottom: 0cm;
     padding: 10px;
+    padding-top: 15px;
     
     font-family: RobotoBold;
     color: white;
     text-transform: uppercase;
+
+
 
 
 }
@@ -176,13 +179,13 @@ header {
 }
 
 #bootstrap_override .clientsList input {
-    border: 2px solid red;
+    border: 1px solid #f25b15;
     border-radius: 5px;
     margin-bottom: 10px;
 }
 
 input#myInput:focus {
-    border: 2px solid red;
+    border: 1px solid #f25b15;
     color: purple;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -255,4 +258,32 @@ input#myInput:focus {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* ------------------------------------------------------------------- MODAL DIALOG --------------------------------------------------------------- */
+
+.modal-content {
+    color: #0397a2;
+}
+
+.modal-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.modal-title {
+    font-family: Roboto;
+    font-size: 30px;
+}
+
+.modal-body label {
+    font-family: RobotoThin;
+    font-weight: bold;
+    
+}
+
+.modal-body input {
+    border-color: #f25b15;
+}
+
+
 
