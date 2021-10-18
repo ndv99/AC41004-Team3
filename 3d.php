@@ -322,11 +322,9 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				// make sure everything keeps working when the window is resized
 				window.addEventListener( 'resize', onWindowResize );
 
-                // const dirLightHelper = new DirectionalLightHelper( dirLight, 10 );
-                // scene.add( dirLightHelper );
-
 			}
 
+			// make sure everything keeps working when the window is resized
 			function onWindowResize() {
 
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -336,6 +334,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			}
 
+			// begin the animation
 			function animate() {
 
 				requestAnimationFrame( animate );
@@ -346,12 +345,14 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			}
 
+			// render the scene
 			function render() {
 
 				renderer.render( scene, camera );
 
 			}
 
+			// get the hex values for the first session
 			const session1_values = <?php echo json_encode($session1_values);?>;
 			const hex_array1 = session1_values[0];
 			const hex_array2 = session1_values[1];
@@ -359,12 +360,13 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			const hex_array4 = session1_values[3];
 			const time_stamps = session1_values[4];
 			
-
+			// empty arrays in case there's another session
 			var hex_array5 = [];
 			var hex_array6 = [];
 			var hex_array7 = [];
 			var hex_array8 = [];
 
+			// fetch hex values for second session if there is a second session
 			if (are_there_two_sessions){
 				const session2_values = <?php echo json_encode($session2_values);?>;
 				console.log(session2_values);
@@ -374,6 +376,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				hex_array8 = session2_values[3];
 			}
 
+			// change the object colour in real time
 			function changeObjectColour( objName, objColor ){
                 var obj = scene.getObjectByName( objName );
                 obj.traverse( function( child ) {
@@ -383,6 +386,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                 } );
             }
 
+			// this is the method that animates everything nicely
 			function do_timeout(i){
 				setTimeout(function() {
 					if(are_there_two_sessions){
@@ -390,7 +394,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
 						changeObjectColour( "body2_left_quad", parseInt(hex_array3[i], 16))
 						changeObjectColour( "body2_right_quad", parseInt(hex_array4[i], 16));
-						// document.getElementById("time").innerHTML = time_array[i];
+
 						changeObjectColour( "body1_left_hamstring", parseInt(hex_array5[i], 16));
 						changeObjectColour( "body1_right_hamstring", parseInt(hex_array6[i], 16));
 						changeObjectColour( "body1_left_quad", parseInt(hex_array7[i], 16))
@@ -401,9 +405,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						changeObjectColour( "body3_left_quad", parseInt(hex_array3[i], 16))
 						changeObjectColour( "body3_right_quad", parseInt(hex_array4[i], 16));
 					}
-				}, i*500)
+				}, i*500) // animates in 2x real time but shhhhhh it looks better and works fine
 			}
 
+			// finds the shortest hex array so none of the muscles run out of colours
 			var shortest_array = function(){
 				const length1 = hex_array1.length;
 				const length2 = hex_array2.length;
@@ -442,11 +447,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				}
 			}
 
+			// times
 			const time_array = session1_values[4];
-
-			//console.log(typeof hex_array1[(hex_array1.length)/2]);
-
-			// if x == undefined
 
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
@@ -614,6 +616,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			</div>
 		</div>
 
+		<!-- wee script to make sure that the "show/hide charts" button works -->
 		<script>
 			let show = true;
 			document.getElementById("showhide").addEventListener('click', () => {
