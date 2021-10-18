@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <?php
+		//create session and connect to database
     session_start();
     require('db_connect.php');
 
+    //check if logged in if not redirect to index
     if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
 
     header("location: index.php");
@@ -62,7 +64,7 @@
 
 
 		<div class="clientsList">
-		<?php
+		<?php //If a physiotherapist then show them their version of dashboard (client list)
 			if ($_SESSION['role'] != "athlete") :?>
 				<p>Your clients are:</p>
 				<input type="text" id="myInput" tabindex="1" onkeyup="searchFunction()" placeholder="Search for names..">
@@ -152,7 +154,7 @@
 
 
 				<?php } ?>
-			<?php else : ?>
+			<?php else : //else if not a physio then show page for athlete?>
 
 	 <div class="page_heading">
       <h1>Your <span>recovery</span> tracker</h1>
@@ -347,12 +349,15 @@
 
 <script>
 function showLoader() {
+	//This makes the loader on the page visible whilst the user is uploading data
   document.getElementById("loader").style.display = "block";
   document.getElementById("content").style.display = "none";
   document.querySelector("#body > div.modal-backdrop.fade.show").remove();
 }
 
 //https://www.w3schools.com/howto/howto_js_filter_lists.asp Followed and edited this tutorial to get this to work. Has been changed but bones are similiar still
+//function which hides or shows different clients depending on search criteria 
+//works by changing style of a div to display non if the text within that div doesnt match the search criteria
 function searchFunction() {
   // Declare variables
   var input, filter, row, p, txtValue;
