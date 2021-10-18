@@ -447,13 +447,17 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				}
 			}
 
-			// times
+			// timestamps
 			const time_array = session1_values[4];
 
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
 			}
 
+			// Since sessions are split into 3 sub sessions, the hex arrays are approximately 1/3rd of the size 
+			// of the timestamps. To avoid accessing undefined values from the hex_array when displaying the array, 
+			// we remove all values of the timestamps after the index corresponding to the last value on the hex_array.
+			// This way having as many timestamps as there are sensor readings for each graph
 			for(var i=0; i<time_stamps.length; i++){
 				if(hex_array1[i] == undefined){
 					hex_array1.splice(i, 1);
@@ -462,14 +466,17 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				}
 			}
 
+			// scale hex_array values so that they correspond to the same ones from the CSV files
 			const r_f1 = hex_array1.map(x => x/16320)
 			const r_f2 = hex_array2.map(x => x/16320)
 			const s_t1 = hex_array3.map(x => x/16320)
 			const s_t2 = hex_array4.map(x => x/16320)
 
+			// creat graphs
 			let myChart = document.getElementById('myChart').getContext('2d');
 			let myChart2 = document.getElementById('myChart2').getContext('2d');
 
+			//set up line graphs
 			let lineChart = new Chart(myChart, {
 				type:'line',
 				data:{
@@ -490,7 +497,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverRadius:5 ,
 						pointHoverBackground: "rgba(3,151,162,1)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
-
+						
+						// use sensor readings from the rectus femoris of right leg
 						data: r_f1
 					},
 					{
@@ -509,7 +517,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverRadius:5 ,
 						pointHoverBackground: "rgb(242,109,28)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
-
+						
+						// use sensor readings from the semitendinosus of right leg
 						data: s_t1
 					}
 				
@@ -524,6 +533,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						},
 						title:{
 							display: true,
+							// label graph
 							text: "Right Leg",
 							fontSize: 50
 						}
@@ -553,6 +563,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverBackground: "rgba(3,151,162,1)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
+						// use sensor readings from the rectus femoris of left leg
 						data: r_f2
 					},
 					{
@@ -572,6 +583,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						pointHoverBackground: "rgb(242,109,28)",
 						pointHoverBorderColor: "rgba(220,220,220,1)",
 
+						// use sensor readings from the semitendinosus of left leg
 						data: s_t2
 					}
 				
@@ -596,6 +608,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 		</script>
 
+		<!-- style the containers which hold graphs and gradient bar image -->
 		<div class="container" id="charts" style="display: none; flex-direction: column;">
 			<div class="row">
 				<div class="col-11">
