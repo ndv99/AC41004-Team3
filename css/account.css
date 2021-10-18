@@ -1,3 +1,6 @@
+
+/* ---------------------------------------------------------------- FONT FACE -------------------------------------------------------*/
+
 @font-face {
     font-family: Roboto;
     src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
@@ -18,6 +21,8 @@
     src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
 }
 
+/* --------------------------------------------------------------- NAVIGATION  -----------------------------------------------------*/ 
+
 nav {
     width: 70%;
     margin: auto;
@@ -33,6 +38,26 @@ nav a{
     font-family: RobotoBold;
     text-transform: uppercase;
 }
+
+/* ------------------------------------------------------------------ HEADER -------------------------------------------------------*/
+
+header {
+    padding: 30px 15%;
+    overflow: hidden;
+    background-image: url(../Style/Images/test.png);
+    /* Image taken from: https://www.freepik.com/free-vector/moire-pattern-background_3781780.htm#page=1&query=moire%20wave&position=3&from_view=keyword 
+    and eddited in a photo editing and manipulation software */
+    background-size: cover;
+    
+}
+
+#logo {
+    display: block;
+    width: 300px;
+    float: right;
+}
+
+/* ------------------------------------------------------------------ BODY STYLING -------------------------------------------------------*/
 
 .container {
     display: block;
@@ -61,19 +86,6 @@ body {
     background-image: linear-gradient(to right, rgb(20,17,17), #F26D1C, rgb(20,17,17)); 
 }
 
-header {
-    padding: 30px 15%;
-    overflow: hidden;
-    background-image: url(../Style/Images/test.png);
-    background-size: cover;
-    
-}
-
-#logo {
-    display: block;
-    width: 300px;
-    float: right;
-}
 
 #your_account {
     font-weight: 600;
