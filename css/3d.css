@@ -1,3 +1,5 @@
+/* ---------------------------------------------------------------- FONT FACE -------------------------------------------------------*/
+
 @font-face {
     font-family: Roboto;
     src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
@@ -18,22 +20,8 @@
     src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
 }
 
-.nav-link{
-    color: #f25f15 !important; 
-    margin-right: 1em;
 
-}
-
-#body hr {
-    padding: 0;
-    margin: 0;
-    opacity: 1;
-    border: 2px;
-    height: 3px;
-    background: #fff;
-    background-image: linear-gradient(to right, #fff, #f25f15, #fff); 
-    margin-bottom: 30px; 
-}
+/* --------------------------------------------------------------- NAVIGATION  -------------------------------------------------------*/ 
 
 nav {
     width: 70%;
@@ -45,6 +33,11 @@ nav {
     text-transform: uppercase;
 }
 
+.nav-link{
+    color: #f25f15 !important; 
+    margin-right: 1em;
+
+}
 
 
 button {
@@ -72,4 +65,15 @@ a{
 #charts img {
     padding-top: 70px;
     height: 340px;
+}
+
+#body hr {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    border: 2px;
+    height: 3px;
+    background: #fff;
+    background-image: linear-gradient(to right, #fff, #f25f15, #fff); 
+    margin-bottom: 30px; 
 }

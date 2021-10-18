@@ -1,3 +1,5 @@
+/* ---------------------------------------------------------------- FONT FACE -------------------------------------------------------*/
+
 @font-face {
     font-family: Roboto;
     src: url(../Style/Fonts/Roboto/Roboto-Regular.ttf);
@@ -18,6 +20,8 @@
     src: url(../Style/Fonts/Zapf/zapf-calligraphic-8019c26d.ttf);
 }
 
+/* --------------------------------------------------------------- NAVIGATION  -----------------------------------------------------*/ 
+
 nav {
     width: 70%;
     margin: auto;
@@ -28,6 +32,13 @@ nav a{
     margin-right: 1em;
 
 }
+
+#nav .nav-link {
+    font-family: RobotoBold;
+    text-transform: uppercase;
+}
+
+
 .container {
     display: block;
     width: 70%;
@@ -59,6 +70,8 @@ header {
     padding: 30px 15%;
     overflow: hidden;
     background-image: url(../Style/Images/test.png);
+     /* Image taken from: https://www.freepik.com/free-vector/moire-pattern-background_3781780.htm#page=1&query=moire%20wave&position=3&from_view=keyword 
+    and eddited in a photo editing and manipulation software */
     background-size: cover;
     
 }
@@ -82,14 +95,6 @@ header {
     font-family: Zapf;
     text-transform: capitalize;
     color: #F26D1C;
-}
-
-/* --------------------------------------------------- NAVIGATION ----------------------------------------------*/
-
-
-#nav .nav-link {
-    font-family: RobotoBold;
-    text-transform: uppercase;
 }
 
 /* ------------------------------------------------ RECOVERY TRACKER ----------------------------------------------*/
