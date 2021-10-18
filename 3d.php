@@ -2,12 +2,6 @@
     session_start();
     require('db_connect.php');
 
-	// if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
-
-	// 	header("location: index.php");
-	// 	exit;
-	// }
-
 	function colour_hex_val_gen ($percent, $value) {
 
         // this handles the green transitioning to yellow
@@ -67,7 +61,6 @@
 			$sensor = $result["sensor_no"];
 
 			array_push($times, $time);
-			// echo(determine_colour($value)."<br>");
 			if ($sensor == 1) {
 				array_push($hexvals1, determine_colour($value));
 			} else if ($sensor == 2) {
@@ -113,7 +106,6 @@
 	$row = $stmt->fetchAll();
 
 	$session1_values = create_arrays($row);
-	// var_dump($session1_values);
 	$session2_values = array();
 
 	if (($session_id > 1 && !isset($_POST['custom_session'])) || isset($_POST['compare_session_2'])){
@@ -131,10 +123,6 @@
 		$session2_values = create_arrays($row2);
 	}
 
-
-//
-
-
 ?>
 
 
@@ -149,7 +137,6 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		<title>three.js webgl - orbit controls</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<!-- <link rel="stylesheet" href="css/main.css"> -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -190,7 +177,6 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			const are_there_two_sessions = <?php echo (isset($session2_values) && $session2_values) ? json_encode($session2_values) : 'false'; ?>;
 
 			init();
-			//render(); // remove when using next line for animation loop (requestAnimationFrame)
 			animate();
 
 
@@ -207,7 +193,6 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 				camera = new PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.set( 400, 200, 0 );
-				// camera.up.set(0, 0, 1);
 				camera.lookAt(0, 0, 0);
 
 				// controls
@@ -215,8 +200,6 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				controls = new OrbitControls( camera, renderer.domElement );
 				controls.target.set(0, 100);
 				controls.listenToKeyEvents( window ); // optional
-
-				//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 
 				controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 				controls.dampingFactor = 0.05;
@@ -229,25 +212,11 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				controls.maxPolarAngle = Math.PI / 2;
 
 				// very important pls don't delete xoxoxo
+				// basically this just disables panning so the user can't lost the 3D model, and it just stays centered.
 				controls.enablePan = false;
 
-				// spikes
 
-				// const geometry = new CylinderGeometry( 0, 10, 30, 4, 1 );
-				// const material = new MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
-
-				// for ( let i = 0; i < 500; i ++ ) {
-
-				// 	const mesh = new Mesh( geometry, material );
-				// 	mesh.position.x = Math.random() * 1600 - 800;
-				// 	mesh.position.y = 0;
-				// 	mesh.position.z = Math.random() * 1600 - 800;
-				// 	mesh.updateMatrix();
-				// 	mesh.matrixAutoUpdate = false;
-				// 	scene.add( mesh );
-
-				// }
-
+				// nice little method to load objects in and give them a name and colour
                 function loadObject ( obj_name, obj_path, obj_color ){
                     var material = new MeshLambertMaterial( { color: obj_color , transparent : true, opacity : 1} );
                     var loader = new OBJLoader();
@@ -255,11 +224,11 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                         function( obj ){
                             obj.traverse( function( child ) {
                                 if ( child instanceof Mesh ) {
-                                    child.material = material;
+                                    child.material = material; // assign new material to object
                                 }
                             } );
                             obj.name = obj_name;
-                            obj.scale.set(10, 10, 10);
+                            obj.scale.set(10, 10, 10); // 10x scale works nicely for our model
 							obj.position.z = 0;
 							obj.position.x = 0;
                             scene.add( obj );
@@ -273,6 +242,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                     );
                 }
 
+
+				// another function to load objects, however this is for objects with premade materials e.g. the text above the bodies
 				function loadObjectWithMaterial( obj_name, obj_path, mtl_path ) {
 					var mtlLoader = new MTLLoader();
 					mtlLoader.load(mtl_path, function (materials) {
@@ -292,6 +263,9 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						});
 					});
 				}
+
+				// makes sure the correct models are loaded in depending on if it's one or two sessions
+				// we know having all these separate models is space-inefficient but it works
 
 				if (are_there_two_sessions){
 					loadObject("body1_right_quad", "shapes/body1_right_quad/body1_right_quad.obj", 0xB66B3E);
@@ -314,36 +288,15 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 					loadObject("body3_left_hamstring", "shapes/body3_left_hamstring/body3_left_hamstring.obj", 0xB66B3E);
 					loadObject("body3", "shapes/body3/body3.obj", 0xB66B3E);
 					loadObjectWithMaterial("current_text_centered", "shapes/current_text_centered/current_text_centered.obj", "shapes/current_text_centered/current_text_centered.mtl");
-					// load object 3
 				}
 
 
 				// lights
-
-				// let light, light2, light3, light4;
-                // light = new PointLight(0xc4c4c4,1);
-                // light.position.set(0,300,500);
-                // scene.add(light);
-                // light2 = new PointLight(0xc4c4c4,1);
-                // light2.position.set(500,100,0);
-                // scene.add(light2);
-                // light3 = new PointLight(0xc4c4c4,1);
-                // light3.position.set(0,100,-500);
-                // scene.add(light3);
-                // light4 = new PointLight(0xc4c4c4,1);
-                // light4.position.set(-500,300,500);
-                // scene.add(light4);
-
 				const hemiLight = new HemisphereLight( 0xffffff, 0xffffff, 0.6 );
                 hemiLight.color.setHSL( 0.6, 0, 1 );
                 hemiLight.groundColor.setHSL( 0.6, 0, 0.75 );
                 hemiLight.position.set( -100, 100, 0 );
                 scene.add( hemiLight );
-
-                // const hemiLightHelper = new HemisphereLightHelper( hemiLight, 10 );
-                // scene.add( hemiLightHelper );
-
-				window.addEventListener( 'resize', onWindowResize );
 
 				const dirLight = new DirectionalLight( 0xffffff, 1 );
                 dirLight.color.setHSL( 0.1, 1, 0.95 );
@@ -366,11 +319,12 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                 dirLight.shadow.camera.far = 3500;
                 dirLight.shadow.bias = - 0.0001;
 
-                // const dirLightHelper = new DirectionalLightHelper( dirLight, 10 );
-                // scene.add( dirLightHelper );
+				// make sure everything keeps working when the window is resized
+				window.addEventListener( 'resize', onWindowResize );
 
 			}
 
+			// make sure everything keeps working when the window is resized
 			function onWindowResize() {
 
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -380,6 +334,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			}
 
+			// begin the animation
 			function animate() {
 
 				requestAnimationFrame( animate );
@@ -390,12 +345,14 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 
 			}
 
+			// render the scene
 			function render() {
 
 				renderer.render( scene, camera );
 
 			}
 
+			// get the hex values for the first session
 			const session1_values = <?php echo json_encode($session1_values);?>;
 			const hex_array1 = session1_values[0];
 			const hex_array2 = session1_values[1];
@@ -403,12 +360,13 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			const hex_array4 = session1_values[3];
 			const time_stamps = session1_values[4];
 			
-
+			// empty arrays in case there's another session
 			var hex_array5 = [];
 			var hex_array6 = [];
 			var hex_array7 = [];
 			var hex_array8 = [];
 
+			// fetch hex values for second session if there is a second session
 			if (are_there_two_sessions){
 				const session2_values = <?php echo json_encode($session2_values);?>;
 				console.log(session2_values);
@@ -418,6 +376,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				hex_array8 = session2_values[3];
 			}
 
+			// change the object colour in real time
 			function changeObjectColour( objName, objColor ){
                 var obj = scene.getObjectByName( objName );
                 obj.traverse( function( child ) {
@@ -427,6 +386,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
                 } );
             }
 
+			// this is the method that animates everything nicely
 			function do_timeout(i){
 				setTimeout(function() {
 					if(are_there_two_sessions){
@@ -434,7 +394,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						changeObjectColour( "body2_right_hamstring", parseInt(hex_array2[i], 16));
 						changeObjectColour( "body2_left_quad", parseInt(hex_array3[i], 16))
 						changeObjectColour( "body2_right_quad", parseInt(hex_array4[i], 16));
-						// document.getElementById("time").innerHTML = time_array[i];
+
 						changeObjectColour( "body1_left_hamstring", parseInt(hex_array5[i], 16));
 						changeObjectColour( "body1_right_hamstring", parseInt(hex_array6[i], 16));
 						changeObjectColour( "body1_left_quad", parseInt(hex_array7[i], 16))
@@ -445,9 +405,10 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 						changeObjectColour( "body3_left_quad", parseInt(hex_array3[i], 16))
 						changeObjectColour( "body3_right_quad", parseInt(hex_array4[i], 16));
 					}
-				}, i*500)
+				}, i*500) // animates in 2x real time but shhhhhh it looks better and works fine
 			}
 
+			// finds the shortest hex array so none of the muscles run out of colours
 			var shortest_array = function(){
 				const length1 = hex_array1.length;
 				const length2 = hex_array2.length;
@@ -486,11 +447,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 				}
 			}
 
+			// times
 			const time_array = session1_values[4];
-
-			//console.log(typeof hex_array1[(hex_array1.length)/2]);
-
-			// if x == undefined
 
 			for(var i=0; i<shortest_array().length; i++){
 				do_timeout(i);
@@ -658,6 +616,8 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 			</div>
 		</div>
 
+		<!-- wee script to make sure that the "show/hide charts" button works -->
+		
 		<script>
 			let show = true;
 			document.getElementById("showhide").addEventListener('click', () => {
