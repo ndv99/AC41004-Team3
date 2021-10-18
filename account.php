@@ -1,13 +1,17 @@
 <?php
+    
+    //start session and connect to database
     session_start();
     require('db_connect.php');
 
+    //if not logged in redirect to log in page!
     if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
 
     header("location: index.php");
     exit;
 }
 
+//if form is submitted then attempt to change password
 if (isset($_POST['submitDetails'])) {
     $id = $_SESSION['UserID'];
     $query = "SELECT * FROM user WHERE `user_id` = $id";
@@ -18,7 +22,6 @@ if (isset($_POST['submitDetails'])) {
 
 
     $oldpassword = $_POST['oldpassword'];
-    //$oldpassword = hash('sha256', $oldpassword);
 
 // Compare old password typed in
     if ($oldpassword == $result["password"]) {
@@ -151,7 +154,7 @@ if (isset($_POST['submitDetails'])) {
             </div>
         </div>
 
-
+        <!--If role is anything other then athlete then show part for adding users -->
         <?php if ($_SESSION['role'] != "athlete") :?>
             <?php 
                 $username = "";
@@ -249,6 +252,7 @@ if (isset($_POST['submitDetails'])) {
 
     <script type="text/javascript">
     var check = function() {
+        //Javascript for making sure new password and confirm password have same text. 
       if (document.getElementById('inputnewpass').value ==
           document.getElementById('inputnewpass2').value) {
           document.getElementById('submitButton').disabled = false;
