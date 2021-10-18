@@ -23,7 +23,6 @@ if (isset($_POST['signIn'])) {
         $id = $row['user_id'];
         $username = $row['username'];
         $password = $row['password'];
-        //$hashedpassword = hash('sha256', $_POST['inpassword']);
         $role = $row['role'];
         $name = $row['firstName'];
 

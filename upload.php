@@ -1,13 +1,11 @@
 <?php
-// $target_dir = "uploads/";
-// $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-// $uploadOk = 1;
-// $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+//start session and connect to database
 session_start();
 require('db_connect.php');
 ?>
 
 <?php
+//get the latest session number, so can add new sessions following on from this number.
 $query = "SELECT MAX(session_id) FROM sensor_data WHERE user_id =". $_SESSION['UserID']. ";";
 $stmt = $pdo->prepare($query);
 $stmt->execute();
@@ -18,12 +16,12 @@ $session = $result+1;
 
 $prev_time = 0;
 
-//echo $session;
 
 if (isset($_POST["import"])) {
+  //for loop iterates 4 times as we are uploading 4 files
   for ($i=0; $i < 4; $i++) { 
     $fileName = $_FILES["csv_file"]["tmp_name"][$i];
-    //echo $fileName;
+
     $sensor = $i + 1;
     $session = $result+1; 
 
@@ -52,47 +50,24 @@ if (isset($_POST["import"])) {
               $time= substr($field_data[1],0,strpos($field_data[1],"Z"));
 
               $current_time = (int)substr(substr($field_data[1],0,strpos($field_data[1],"Z")),3,2);
-              //echo $current_time." = curr time ";
 
               if($row == 2){
                 $prev_time = $current_time;
               }
-              //echo $prev_time." = prev time ";
-
-              
-              //$current_time = substr(substr($field_data[1],0,strpos($field_data[1],"Z")),3,2);
-              
-
-              // upload content into server here
-
-             // echo "Date: $date Time: $time <br />\n";
-
-              // sensor value
-             // echo "Sensor value: $csv_data[1] <br />\n";
-
-              // sensor value's corresponding colour
-             // determine_colour($csv_data[1]);
-              //echo "<br />\n";
-              //echo (int)$prev_time;
-
-
 
               if((int)$current_time == 0){
-                //echo "reached";
                 if(((((int)$current_time + 59) - (int)$prev_time)) >=1 ){
                     $session++;
                   }
 
               }
               else if(  ((int)$current_time - (int)$prev_time) >= 2 ){
-                  //echo "reached";
                   $session++;
               }
 
               
               $stmt = $pdo->prepare("INSERT INTO `sensor_data`(`user_id`, `date`, `time`, `value`, `sensor_no`, `session_id`) VALUES ('".$_SESSION['UserID']."','". $date ."','" . $time ."','". $csv_data[1] ."','". $sensor."','". $session."')");
               $stmt->execute();
-              //echo (int)$current_time;
               $prev_time = $current_time;
               
             }
@@ -102,9 +77,12 @@ if (isset($_POST["import"])) {
     }
   }
 
+  //sets the timezone for last upload
   date_default_timezone_set("Europe/London");
+  //get current time
   $currentTime = date_create()->format('Y-m-d H:i:s');
 
+  //query which updates the database with the time that the user uploaded their sessions at
   $query = "UPDATE user SET lastLogin=:currenttime WHERE user_id = :userid;";
   $stmt = $pdo->prepare($query);
   $stmt->bindParam(":currenttime", $currentTime, PDO::PARAM_STR);
@@ -118,18 +96,4 @@ if (isset($_POST["import"])) {
 
 header("location: index.php");
 exit;
-
-
-
-// Check if image file is a actual image or fake image
-// if(isset($_POST["submit"])) {
-//   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-//   if($check !== false) {
-//     echo "File is an image - " . $check["mime"] . ".";
-//     $uploadOk = 1;
-//   } else {
-//     echo "File is not an image.";
-//     $uploadOk = 0;
-//   }
-// }
 ?>
