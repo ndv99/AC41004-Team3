@@ -617,6 +617,7 @@ Code based on https://threejs.org/examples/?q=orb#misc_controls_orbit
 		</div>
 
 		<!-- wee script to make sure that the "show/hide charts" button works -->
+		
 		<script>
 			let show = true;
 			document.getElementById("showhide").addEventListener('click', () => {
